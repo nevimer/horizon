@@ -82,7 +82,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	var/facial_hair_color = "000" //Facial hair color
 	var/skin_tone = "caucasian1" //Skin color
 	var/eye_color = "000" //Eye color
-	var/datum/species/pref_species = new /datum/species/human() //Mutant race
+	var/datum/species/pref_species
 	//Has to include all information that extra organs from mutant bodyparts would need.
 	var/list/features = MANDATORY_FEATURE_LIST
 	var/phobia = "spiders"
@@ -227,6 +227,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 		if(load_character())
 			return
 	//we couldn't load character data so just randomize the character appearance + name
+	set_new_species(/datum/species/human)
 	random_character() //let's create a random character then - rather than a fat, bald and naked man.
 	key_bindings = deepCopyList(GLOB.hotkey_keybinding_list_by_key) // give them default keybinds and update their movement keys
 	C?.set_macros()
@@ -396,7 +397,8 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					dat += "<table width='100%'><tr><td width='17%' valign='top'>"
 					dat += "<b>Species:</b><BR><a href='?_src_=prefs;preference=species;task=input'>[pref_species.name]</a><BR>"
 					dat += "<b>Species Naming:</b><BR><a href='?_src_=prefs;preference=custom_species;task=input'>[(features["custom_species"]) ? features["custom_species"] : "Default"]</a><BR>"
-					dat += "<b>Sprite body size:</b><BR><a href='?_src_=prefs;preference=body_size;task=input'>[(features["body_size"] * 100)]%</a> <a href='?_src_=prefs;preference=show_body_size;task=input'>[show_body_size ? "Hide preview" : "Show preview"]</a><BR>"
+					if(!pref_species.body_size_restricted)
+						dat += "<b>Sprite body size:</b><BR><a href='?_src_=prefs;preference=body_size;task=input'>[(features["body_size"] * 100)]%</a> <a href='?_src_=prefs;preference=show_body_size;task=input'>[show_body_size ? "Hide preview" : "Show preview"]</a><BR>"
 					dat += "<h2>Flavor Text</h2>"
 					// Carbon flavor text
 					dat += "<a href='?_src_=prefs;preference=flavor_text;task=input'><b>Set Examine Text</b></a><br>"
@@ -569,7 +571,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 
 						if(mutant_bodyparts["taur"])
 							var/datum/sprite_accessory/taur/TSP = GLOB.sprite_accessories["taur"][mutant_bodyparts["taur"][MUTANT_INDEX_NAME]]
-							if(TSP.factual && !(TSP.taur_mode & STYLE_TAUR_SNAKE))
+							if(TSP.factual && !(TSP.taur_mode & BODYTYPE_TAUR_SNAKE))
 								var/text_string = (features["penis_taur_mode"]) ? "Yes" : "No"
 								dat += "<br><b>Taur Mode: </b> <a href='?_src_=prefs;key=["penis"];preference=penis_taur_mode;task=change_genitals'>[text_string]</a>"
 						dat += "</td>"
@@ -1271,7 +1273,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 		var/datum/job/lastJob
 		var/datum/job/overflow_role = SSjob.GetJobType(SSjob.overflow_role)
 
-		for(var/datum/job/job as anything in sortList(SSjob.joinable_occupations, /proc/cmp_job_display_asc))
+		for(var/datum/job/job as anything in SSjob.joinable_occupations)
 
 			index += 1
 			if(index >= limit)
@@ -1309,7 +1311,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			if((job_preferences[overflow_role.title] == JP_LOW) && (rank != overflow_role.title) && !is_banned_from(user.ckey, overflow_role.title))
 				HTML += "<font color=orange>[rank]</font></td><td></td></tr>"
 				continue
-			if((rank in GLOB.command_positions) || (rank == "AI"))//Bold head jobs
+			if(job.job_flags & JOB_BOLD_SELECT_TEXT)//Bold head jobs
 				HTML += "<b><span class='dark'>[rank]</span></b>"
 			else
 				HTML += "<span class='dark'>[rank]</span>"
@@ -2192,6 +2194,8 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					show_body_size = !show_body_size
 
 				if("body_size")
+					if(pref_species.body_size_restricted)
+						return
 					needs_update = TRUE
 					var/new_body_size = input(user, "Choose your desired sprite size:\n([BODY_SIZE_MIN*100]%-[BODY_SIZE_MAX*100]%), Warning: May make your character look distorted", "Character Preference", features["body_size"]*100) as num|null
 					if(new_body_size)

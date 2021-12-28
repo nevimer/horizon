@@ -115,7 +115,7 @@
 
 	var/turf/dest = get_turf(src)
 
-	if(dest && is_centcom_level(dest.z))
+	if(dest && is_centcom_level(dest))
 		to_chat(user, SPAN_WARNING("ERROR: Launchpad not operative. Heavy area shielding makes teleporting impossible."))
 		return
 
@@ -233,7 +233,9 @@
 	briefcase = _briefcase
 
 /obj/machinery/launchpad/briefcase/Destroy()
-	QDEL_NULL(briefcase)
+	if(!QDELETED(briefcase))
+		qdel(briefcase)
+	briefcase = null
 	return ..()
 
 /obj/machinery/launchpad/briefcase/isAvailable()
@@ -273,7 +275,8 @@
 
 /obj/item/storage/briefcase/launchpad/Destroy()
 	if(!QDELETED(pad))
-		QDEL_NULL(pad)
+		qdel(pad)
+	pad = null
 	return ..()
 
 /obj/item/storage/briefcase/launchpad/PopulateContents()

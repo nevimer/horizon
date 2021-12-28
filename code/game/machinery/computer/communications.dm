@@ -162,7 +162,7 @@
 				return
 			LAZYREMOVE(messages, LAZYACCESS(messages, message_index))
 		if ("emergency_meeting")
-			if(!(SSevents.holidays && SSevents.holidays[APRIL_FOOLS]))
+			if(!(SSgamemode.holidays && SSgamemode.holidays[APRIL_FOOLS]))
 				return
 			if (!authenticated_as_silicon_or_captain(usr))
 				return
@@ -211,7 +211,7 @@
 			if (bank_account.account_balance < shuttle.credit_cost)
 				return
 			SSshuttle.shuttle_purchased = SHUTTLEPURCHASE_PURCHASED
-			for(var/datum/round_event_control/shuttle_insurance/insurance_event in SSevents.control)
+			for(var/datum/round_event_control/shuttle_insurance/insurance_event in SSgamemode.control)
 				insurance_event.weight *= 20
 			SSshuttle.unload_preview()
 			SSshuttle.existing_shuttle = SSshuttle.emergency
@@ -409,7 +409,7 @@
 				data["importantActionReady"] = COOLDOWN_FINISHED(src, important_action_cooldown)
 				data["shuttleCalled"] = FALSE
 				data["shuttleLastCalled"] = FALSE
-				data["aprilFools"] = SSevents.holidays && SSevents.holidays[APRIL_FOOLS]
+				data["aprilFools"] = SSgamemode.holidays && SSgamemode.holidays[APRIL_FOOLS]
 				data["alertLevel"] = get_security_level()
 				data["authorizeName"] = authorize_name
 				data["canLogOut"] = !issilicon(user)
@@ -515,8 +515,7 @@
 /// Returns whether or not the communications console can communicate with the station
 /obj/machinery/computer/communications/proc/has_communication()
 	var/turf/current_turf = get_turf(src)
-	var/z_level = current_turf.z
-	return is_station_level(z_level) || is_centcom_level(z_level)
+	return is_station_level(current_turf) || is_centcom_level(current_turf)
 
 /obj/machinery/computer/communications/proc/set_state(mob/user, new_state)
 	if (issilicon(user))

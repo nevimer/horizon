@@ -11,7 +11,7 @@
 	min_cold_protection_temperature = FIRE_SUIT_MIN_TEMP_PROTECT
 	allowed = list()
 	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 10, RAD = 0, FIRE = 0, ACID = 0)
-	mutant_variants = NONE
+	fitted_bodytypes = NONE
 
 /obj/item/clothing/suit/hooded/wintercoat/Initialize()
 	. = ..()
@@ -38,7 +38,7 @@
 	min_cold_protection_temperature = FIRE_SUIT_MIN_TEMP_PROTECT
 	flags_inv = HIDEHAIR|HIDEEARS
 	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 10, RAD = 0, FIRE = 0, ACID = 0)
-	mutant_variants = NONE
+	fitted_bodytypes = BODYTYPE_VOX
 
 // CentCom
 /obj/item/clothing/suit/hooded/wintercoat/centcom
@@ -125,7 +125,7 @@
 		/obj/item/key/janitor,
 		/obj/item/lightreplacer,
 		/obj/item/melee/flyswatter,
-		/obj/item/paint/paint_remover,
+		/obj/item/paint_remover,
 		/obj/item/reagent_containers/glass/beaker,
 		/obj/item/reagent_containers/glass/bottle,
 		/obj/item/reagent_containers/glass/bucket,

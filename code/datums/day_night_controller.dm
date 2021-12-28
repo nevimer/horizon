@@ -32,18 +32,15 @@
 	/// Lookup table for the light values
 	var/list/light_lookup_table = list()
 
-	/// The z levels we are controlling
-	var/list/z_levels
-	/// Quick lookup for the area checking
-	var/list/z_level_lookup = list()
-	/// The linked overmap object of our controller
-	var/datum/overmap_object/linked_overmap_object
+	/// The linked map zone of our controller
+	var/datum/map_zone/mapzone
 	/// All the areas that are affected by day/night
 	var/list/affected_areas = list()
 	/// Whether we have applied luminosity to the areas
 	var/has_applied_luminosity = FALSE
 	var/last_color = "#FFFFFF"
 	var/last_alpha = 1
+	var/mutable_appearance/area_appearance
 	var/list/subscribed_blend_areas = list()
 
 /datum/day_night_controller/proc/subscribe_blend_area(area/area_to_sub)
@@ -79,8 +76,8 @@
 	var/target_color = color_lookup_table["[time]"]
 	var/target_light = light_lookup_table["[time]"]
 
-	if(linked_overmap_object && linked_overmap_object.weather_controller)
-		target_light *= (1-linked_overmap_object.weather_controller.skyblock)
+	if(mapzone && mapzone.weather_controller)
+		target_light *= (1-mapzone.weather_controller.skyblock)
 		if(target_light < 0)
 			target_light = 0
 
@@ -89,20 +86,21 @@
 	if(target_color == last_color && target_light == last_alpha)
 		return
 
-	var/mutable_appearance/appearance_to_add = mutable_appearance('icons/effects/daynight_blend.dmi', "white")
-	appearance_to_add.plane = LIGHTING_PLANE
-	appearance_to_add.layer = DAY_NIGHT_LIGHTING_LAYER
-	appearance_to_add.color = last_color
-	appearance_to_add.alpha = last_alpha
-	for(var/i in affected_areas)
-		var/area/my_area = i
-		my_area.underlays -= appearance_to_add
+	if(area_appearance)
+		for(var/i in affected_areas)
+			var/area/my_area = i
+			my_area.underlays -= area_appearance
 
+	
 	last_color = target_color
 	last_alpha = target_light
 
+	var/mutable_appearance/appearance_to_add = mutable_appearance('icons/effects/daynight_blend.dmi', "white")
+	appearance_to_add.plane = LIGHTING_PLANE
+	appearance_to_add.layer = DAY_NIGHT_LIGHTING_LAYER
 	appearance_to_add.color = target_color
 	appearance_to_add.alpha = target_light
+	area_appearance = appearance_to_add
 	var/do_luminosity = (target_light > MINIMUM_LIGHT_FOR_LUMINOSITY) ? TRUE : FALSE
 
 	for(var/i in affected_areas)
@@ -112,7 +110,7 @@
 				my_area.luminosity++
 			else
 				my_area.luminosity--
-		my_area.underlays += appearance_to_add
+		my_area.underlays += area_appearance
 	has_applied_luminosity = do_luminosity
 
 	for(var/i in subscribed_blend_areas)
@@ -124,7 +122,7 @@
 	var/list/possible_blending_areas = list()
 	for(var/i in get_areas(/area))
 		var/area/my_area = i
-		if(!z_level_lookup["[my_area.z]"])
+		if(!mapzone.is_in_bounds(my_area))
 			continue
 		if(!my_area.outdoors)
 			possible_blending_areas += my_area
@@ -136,13 +134,10 @@
 		var/area/my_area = i
 		my_area.UpdateDayNightTurfs(TRUE, src)
 
-/datum/day_night_controller/New(list/space_level)
+/datum/day_night_controller/New(datum/map_zone/passed_mapzone)
 	. = ..()
-	z_levels = space_level
-	for(var/i in z_levels)
-		var/datum/space_level/level = i
-		z_level_lookup["[level.z_value]"] = TRUE
-		level.day_night_controller = src
+	mapzone = passed_mapzone
+	mapzone.day_night_controller = src
 	SSday_night.day_night_controllers += src
 
 	//Compile the lookup tables
@@ -166,22 +161,9 @@
 		color_lookup_table["[my_index]"] = next_color
 		light_lookup_table["[my_index]"] = next_light
 
-/datum/day_night_controller/proc/UnlinkOvermapObject()
-	linked_overmap_object.day_night_controller = null
-	linked_overmap_object = null
-
-/datum/day_night_controller/proc/LinkOvermapObject(datum/overmap_object/passed)
-	if(linked_overmap_object)
-		UnlinkOvermapObject()
-	linked_overmap_object = passed
-	linked_overmap_object.day_night_controller = src
-
 /// In theory this should never be destroyed, unless you plan to dynamically change existing z levels
 /datum/day_night_controller/Destroy()
-	if(linked_overmap_object)
-		UnlinkOvermapObject()
-	for(var/i in z_levels)
-		var/datum/space_level/level = i
-		level.day_night_controller = null
+	mapzone.day_night_controller = null
+	mapzone = null
 	SSday_night.day_night_controllers -= src
 	return ..()

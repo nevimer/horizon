@@ -15,13 +15,13 @@
 	range = _range
 	scanner_range = range * 3
 	//Add to the level list
-	var/datum/space_level/level = SSmapping.z_list[z_coord]
-	level.ore_nodes += src
+	var/datum/sub_map_zone/subzone = SSmapping.get_sub_zone(locate(x,y,z))
+	subzone.ore_nodes += src
 
 /datum/ore_node/Destroy()
 	//Remove from the level list
-	var/datum/space_level/level = SSmapping.z_list[z_coord]
-	level.ore_nodes -= src
+	var/datum/sub_map_zone/subzone = SSmapping.get_sub_zone(locate(x_coord,y_coord,z_coord))
+	subzone.ore_nodes -= src
 	return ..()
 
 /datum/ore_node/proc/GetRemainingOreAmount()
@@ -132,20 +132,20 @@
 	return ore_to_return
 
 /proc/GetNearbyOreNode(turf/T)
-	var/datum/space_level/level = SSmapping.z_list[T.z]
-	if(!length(level.ore_nodes))
+	var/datum/sub_map_zone/subzone = SSmapping.get_sub_zone(T)
+	if(!length(subzone.ore_nodes))
 		return
-	var/list/iterated = level.ore_nodes
+	var/list/iterated = subzone.ore_nodes
 	for(var/i in iterated)
 		var/datum/ore_node/ON = i
 		if(T.x < (ON.x_coord + ON.range) && T.x > (ON.x_coord - ON.range) && T.y < (ON.y_coord + ON.range) && T.y > (ON.y_coord - ON.range))
 			return ON
 
 /proc/GetOreNodeInScanRange(turf/T)
-	var/datum/space_level/level = SSmapping.z_list[T.z]
-	if(!length(level.ore_nodes))
+	var/datum/sub_map_zone/subzone = SSmapping.get_sub_zone(T)
+	if(!length(subzone.ore_nodes))
 		return
-	var/list/iterated = level.ore_nodes
+	var/list/iterated = subzone.ore_nodes
 	for(var/i in iterated)
 		var/datum/ore_node/ON = i
 		if(T.x < (ON.x_coord + ON.scanner_range) && T.x > (ON.x_coord - ON.scanner_range) && T.y < (ON.y_coord + ON.scanner_range) && T.y > (ON.y_coord - ON.scanner_range))
@@ -188,16 +188,17 @@
 	SeedVariables()
 	SeedDeviation()
 	if(!length(possible_ore_weight))
-		qdel(src)
-		return
+		return INITIALIZE_HINT_QDEL
 	var/compiled_list = list()
 	for(var/i in 1 to ore_variety)
+		if(!possible_ore_weight.len)
+			break
 		var/ore_type = pick(possible_ore_weight)
 		var/ore_amount = possible_ore_weight[ore_type]
 		possible_ore_weight -= ore_type
 		compiled_list[ore_type] = round(ore_amount * ore_density)
 	new /datum/ore_node(x, y, z, compiled_list, rand(5,8))
-	qdel(src)
+	return INITIALIZE_HINT_QDEL
 
 /datum/ore_node_seeder
 	var/list/spawners_weight = list(/obj/effect/ore_node_spawner = 100)

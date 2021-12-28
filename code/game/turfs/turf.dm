@@ -35,9 +35,6 @@ GLOBAL_LIST_EMPTY(station_turfs)
 
 	var/tiled_dirt = FALSE // use smooth tiled dirt decal
 
-	///Icon-smoothing variable to map a diagonal wall corner with a fixed underlay.
-	var/list/fixed_underlay = null
-
 	///Lumcount added by sources other than lighting datum objects, such as the overlay lighting component.
 	var/dynamic_lumcount = 0
 
@@ -71,6 +68,8 @@ GLOBAL_LIST_EMPTY(station_turfs)
 	var/area/underlying_area
 	/// If this turf is a part of a shuttle, this is a reference to its roof.
 	var/obj/effect/abstract/shuttle_roof/shuttle_roof
+	/// List of all the ambiences coming from other atoms on the turf
+	var/list/ambience_list
 
 /turf/vv_edit_var(var_name, new_value)
 	var/static/list/banned_edits = list("x", "y", "z")
@@ -89,9 +88,6 @@ GLOBAL_LIST_EMPTY(station_turfs)
 	if(flags_1 & INITIALIZED_1)
 		stack_trace("Warning: [src]([type]) initialized multiple times!")
 	flags_1 |= INITIALIZED_1
-
-	// by default, vis_contents is inherited from the turf that was here before
-	vis_contents.Cut()
 
 	assemble_baseturfs()
 
@@ -656,10 +652,10 @@ GLOBAL_LIST_EMPTY(station_turfs)
 /turf/proc/IgniteTurf(power)
 	return
 
-/turf/proc/PolluteTurf(pollution_type, amount, cap)
+/turf/proc/pollute_turf(pollution_type, amount, cap)
 	return
 
-/turf/proc/PolluteListTurf(list/pollutions, cap)
+/turf/proc/pollute_list_turf(list/pollutions, cap)
 	return
 
 /turf/proc/IsTransparent()

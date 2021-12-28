@@ -198,10 +198,14 @@
 	GLOB.ai_list -= src
 	GLOB.shuttle_caller_list -= src
 	SSshuttle.autoEvac()
-	QDEL_NULL(eyeobj) // No AI, no Eye
-	QDEL_NULL(spark_system)
-	QDEL_NULL(malf_picker)
-	QDEL_NULL(doomsday_device)
+	if(eyeobj)
+		QDEL_NULL(eyeobj) // No AI, no Eye
+	if(spark_system)
+		QDEL_NULL(spark_system)
+	if(malf_picker)
+		QDEL_NULL(malf_picker)
+	if(doomsday_device)
+		QDEL_NULL(doomsday_device)
 	QDEL_NULL(robot_control)
 	QDEL_NULL(aiMulti)
 	malfhack = null
@@ -350,7 +354,7 @@
 	if(!target)
 		return
 
-	if ((ai.z != target.z) && !is_station_level(ai.z))
+	if ((ai.z != target.z) && !is_station_level(ai))
 		return FALSE
 
 	if (istype(loc, /obj/item/aicard))
@@ -486,7 +490,7 @@
 		view_core()
 		return
 	// ok, we're alive, camera is good and in our network...
-	eyeobj.setLoc(get_turf(C))
+	eyeobj.setLoc(get_turf(C), TRUE)
 	return TRUE
 
 /mob/living/silicon/ai/proc/botcall()
@@ -611,7 +615,7 @@
 
 	for (var/obj/machinery/camera/C in GLOB.cameranet.cameras)
 		var/list/tempnetwork = C.network
-		if(!(is_station_level(C.z) || is_mining_level(C.z) || ("ss13" in tempnetwork)))
+		if(!(is_station_level(C) || is_mining_level(C) || ("ss13" in tempnetwork)))
 			continue
 		if(!C.can_use())
 			continue
@@ -634,7 +638,7 @@
 			if(!C.can_use())
 				continue
 			if(network in C.network)
-				U.eyeobj.setLoc(get_turf(C))
+				U.eyeobj.setLoc(get_turf(C), TRUE)
 				break
 	to_chat(src, SPAN_NOTICE("Switched to the \"[uppertext(network)]\" camera network."))
 //End of code by Mord_Sith
@@ -1017,9 +1021,9 @@
 	return
 
 /mob/living/silicon/ai/spawned/Initialize(mapload, datum/ai_laws/L, mob/target_ai)
-	. = ..()
 	if(!target_ai)
 		target_ai = src //cheat! just give... ourselves as the spawned AI, because that's technically correct
+	. = ..()
 
 /mob/living/silicon/ai/proc/camera_visibility(mob/camera/ai_eye/moved_eye)
 	GLOB.cameranet.visibility(moved_eye, client, all_eyes, TRUE)

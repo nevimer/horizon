@@ -163,19 +163,14 @@ GLOBAL_LIST_INIT(summoned_magic_objectives, list(
 		CRASH("Bad summon_type given: [summon_type]")
 
 /proc/summonevents()
-	if(!SSevents.wizardmode)
-		SSevents.frequency_lower = 600 //1 minute lower bound
-		SSevents.frequency_upper = 3000 //5 minutes upper bound
-		SSevents.toggleWizardmode()
-		SSevents.reschedule()
+	if(!SSgamemode.wizardmode)
+		SSgamemode.event_frequency_multiplier = 2 //Two times as fast
+		SSgamemode.toggleWizardmode()
 
 	else //Speed it up
-		SSevents.frequency_upper -= 600 //The upper bound falls a minute each time, making the AVERAGE time between events lessen
-		if(SSevents.frequency_upper < SSevents.frequency_lower) //Sanity
-			SSevents.frequency_upper = SSevents.frequency_lower
+		SSgamemode.event_frequency_multiplier += 1
 
-		SSevents.reschedule()
-		message_admins("Summon Events intensifies, events will now occur every [SSevents.frequency_lower / 600] to [SSevents.frequency_upper / 600] minutes.")
+		message_admins("Summon Events intensifies, events will now occur [SSgamemode.event_frequency_multiplier] times as fast.")
 		log_game("Summon Events was increased!")
 
 #undef SPECIALIST_MAGIC_PROB
@@ -195,7 +190,7 @@ GLOBAL_LIST_INIT(summoned_magic_objectives, list(
 
 	for(var/mob/living/carbon/human/unarmed_human in GLOB.player_list)
 		var/turf/turf_check = get_turf(unarmed_human)
-		if(turf_check && is_away_level(turf_check.z))
+		if(turf_check && is_away_level(turf_check))
 			continue
 		give_magic(unarmed_human)
 
@@ -223,7 +218,7 @@ GLOBAL_LIST_INIT(summoned_magic_objectives, list(
 
 	for(var/mob/living/carbon/human/unarmed_human in GLOB.player_list)
 		var/turf/turf_check = get_turf(unarmed_human)
-		if(turf_check && is_away_level(turf_check.z))
+		if(turf_check && is_away_level(turf_check))
 			continue
 		give_guns(unarmed_human)
 

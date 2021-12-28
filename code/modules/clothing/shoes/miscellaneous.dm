@@ -55,6 +55,7 @@
 	permeability_coefficient = 0.9
 	can_be_tied = FALSE
 	resistance_flags = FIRE_PROOF |  ACID_PROOF
+	fitted_bodytypes = BODYTYPE_DIGITIGRADE
 
 /obj/item/clothing/shoes/sandal/magic
 	name = "magical sandals"
@@ -75,6 +76,7 @@
 	can_be_bloody = FALSE
 	custom_price = PAYCHECK_EASY * 3
 	can_be_tied = FALSE
+	worn_template_greyscale_color = "#FFF700"
 
 /obj/item/clothing/shoes/galoshes/dry
 	name = "absorbent galoshes"
@@ -152,6 +154,7 @@
 	permeability_coefficient = 0.05 //Thick soles, and covers the ankle
 	pocket_storage_component_path = /datum/component/storage/concrete/pockets/shoes
 	can_be_tied = FALSE
+	worn_template_greyscale_color = "#1D1D1D"
 
 /obj/item/clothing/shoes/jackboots/fast
 	slowdown = -1
@@ -168,6 +171,7 @@
 	max_heat_protection_temperature = SHOES_MAX_TEMP_PROTECT
 	pocket_storage_component_path = /datum/component/storage/concrete/pockets/shoes
 	lace_time = 8 SECONDS
+	worn_template_greyscale_color = "#574736"
 
 /obj/item/clothing/shoes/winterboots/ice_boots
 	name = "ice hiking boots"
@@ -189,6 +193,7 @@
 	pocket_storage_component_path = /datum/component/storage/concrete/pockets/shoes
 	lace_time = 8 SECONDS
 	species_exception = list(/datum/species/golem/uranium)
+	worn_template_greyscale_color = "#BD903D"
 
 /obj/item/clothing/shoes/workboots/mining
 	name = "mining boots"
@@ -627,7 +632,7 @@
 
 /obj/item/clothing/shoes/wraps
 	icon = 'icons/horizon/obj/clothing/shoes.dmi'
-	worn_icon = 'icons/horizon/mob/clothing/feet.dmi'
+	worn_icon = 'icons/mob/clothing/feet/wraps.dmi'
 	name = "gilded leg wraps"
 	desc = "Ankle coverings. These ones have a golden design."
 	icon_state = "gildedcuffs"
@@ -648,21 +653,9 @@
 	desc = "Ankle coverings. Hang ten, brother."
 	icon_state = "bluecuffs"
 
-/obj/item/clothing/shoes/cowboyboots
-	icon = 'icons/horizon/obj/clothing/shoes.dmi'
-	worn_icon = 'icons/horizon/mob/clothing/feet.dmi'
-	name = "cowboy boots"
-	desc = "A standard pair of brown cowboy boots."
-	icon_state = "cowboyboots"
-
-/obj/item/clothing/shoes/cowboyboots/black
-	name = "black cowboy boots"
-	desc = "A pair of black cowboy boots, pretty easy to scuff up."
-	icon_state = "cowboyboots_black"
-
 /obj/item/clothing/shoes/high_heels
 	icon = 'icons/horizon/obj/clothing/shoes.dmi'
-	worn_icon = 'icons/horizon/mob/clothing/feet.dmi'
+	worn_icon = 'icons/mob/clothing/feet/heels.dmi'
 	name = "high heels"
 	desc = "A fancy pair of high heels. Won't compensate for your below average height that much."
 	icon_state = "heels"

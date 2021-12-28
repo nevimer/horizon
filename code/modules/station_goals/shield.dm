@@ -31,7 +31,7 @@
 /datum/station_goal/proc/get_coverage()
 	var/list/coverage = list()
 	for(var/obj/machinery/satellite/meteor_shield/A in GLOB.machines)
-		if(!A.active || !is_station_level(A.z))
+		if(!A.active || !is_station_level(A))
 			continue
 		coverage |= view(A.kill_range,A)
 	return coverage.len
@@ -174,7 +174,7 @@
 
 /obj/machinery/satellite/meteor_shield/proc/change_meteor_chance(mod)
 	// Update the weight of all meteor events
-	for(var/datum/round_event_control/meteor_wave/meteors in SSevents.control)
+	for(var/datum/round_event_control/meteor_wave/meteors in SSgamemode.control)
 		meteors.weight *= mod
 
 /obj/machinery/satellite/meteor_shield/Destroy()

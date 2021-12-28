@@ -20,21 +20,17 @@ GLOBAL_LIST_INIT(blacklisted_automated_baseturfs, typecacheof(list(
 
 /turf/proc/copyTurf(turf/T)
 	if(T.type != type)
-		var/obj/O
-		if(underlays.len) //we have underlays, which implies some sort of transparency, so we want to a snapshot of the previous turf as an underlay
-			O = new()
-			O.underlays += T
 		T.ChangeTurf(type)
-		if(underlays.len)
-			T.underlays.Cut()
-			T.underlays += O.underlays
 	if(T.icon_state != icon_state)
 		T.icon_state = icon_state
 	if(T.icon != icon)
 		T.icon = icon
 	if(color)
-		T.atom_colours = atom_colours.Copy()
-		T.update_atom_colour()
+		if(atom_colours) //Because, we may very well not use atom_colours while we use color, to optimize memory
+			T.atom_colours = atom_colours.Copy()
+			T.update_atom_colour()
+		else
+			T.color = color
 	if(T.dir != dir)
 		T.setDir(dir)
 	return T
@@ -61,11 +57,11 @@ GLOBAL_LIST_INIT(blacklisted_automated_baseturfs, typecacheof(list(
 		if(null)
 			return
 		if(/turf/baseturf_bottom)
-			path = SSmapping.level_trait(z, ZTRAIT_BASETURF) || /turf/open/space
+			path = SSmapping.sub_zone_trait(src, ZTRAIT_BASETURF) || /turf/open/space
 			if (!ispath(path))
 				path = text2path(path)
 				if (!ispath(path))
-					warning("Z-level [z] has invalid baseturf '[SSmapping.level_trait(z, ZTRAIT_BASETURF)]'")
+					warning("Z-level [z] has invalid baseturf '[SSmapping.sub_zone_trait(src, ZTRAIT_BASETURF)]'")
 					path = /turf/open/space
 		if(/turf/open/space/basic)
 			// basic doesn't initialize and this will cause issues
@@ -94,6 +90,8 @@ GLOBAL_LIST_INIT(blacklisted_automated_baseturfs, typecacheof(list(
 
 	var/list/old_baseturfs = baseturfs
 	var/old_type = type
+
+	var/list/old_ambience_list = ambience_list
 
 	var/list/post_change_callbacks = list()
 	SEND_SIGNAL(src, COMSIG_TURF_CHANGE, path, new_baseturfs, flags, post_change_callbacks)
@@ -125,6 +123,8 @@ GLOBAL_LIST_INIT(blacklisted_automated_baseturfs, typecacheof(list(
 	lighting_corner_NW = old_lighting_corner_NW
 
 	dynamic_lumcount = old_dynamic_lumcount
+
+	ambience_list = old_ambience_list
 
 	if(SSlighting.initialized)
 		lighting_object = old_lighting_object
@@ -168,7 +168,7 @@ GLOBAL_LIST_INIT(blacklisted_automated_baseturfs, typecacheof(list(
 		var/turf/open/newTurf = .
 		if(stashed_pollution)
 			newTurf.pollution = stashed_pollution
-			stashed_pollution.HandleOverlay()
+			stashed_pollution.handle_overlay()
 		newTurf.turf_fire = turf_fire_ref
 		newTurf.air.copy_from(stashed_air)
 		QDEL_NULL(stashed_air)

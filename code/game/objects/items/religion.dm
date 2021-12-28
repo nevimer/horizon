@@ -12,8 +12,10 @@
 	var/inspiration_available = TRUE //If this banner can be used to inspire crew
 	var/morale_time = 0
 	var/morale_cooldown = 600 //How many deciseconds between uses
-	var/list/job_loyalties //Mobs with any of these assigned roles will be inspired
-	var/list/role_loyalties //Mobs with any of these special roles will be inspired
+	/// Mobs with assigned roles whose department bitflags match these will be inspired.
+	var/job_loyalties = NONE
+	/// Mobs with any of these special roles will be inspired
+	var/list/role_loyalties
 	var/warcry
 
 /obj/item/banner/examine(mob/user)
@@ -38,14 +40,14 @@
 	morale_time = world.time + morale_cooldown
 
 	var/list/inspired = list()
-	var/has_job_loyalties = LAZYLEN(job_loyalties)
+	var/has_job_loyalties = job_loyalties != NONE
 	var/has_role_loyalties = LAZYLEN(role_loyalties)
 	inspired += user //The user is always inspired, regardless of loyalties
 	for(var/mob/living/carbon/human/H in range(4, get_turf(src)))
 		if(H.stat == DEAD || H == user)
 			continue
 		if(H.mind && (has_job_loyalties || has_role_loyalties))
-			if(has_job_loyalties && (H.mind.assigned_role.title in job_loyalties))
+			if(has_job_loyalties && (H.mind.assigned_role.departments_bitflags & job_loyalties))
 				inspired += H
 			else if(has_role_loyalties && (H.mind.special_role in role_loyalties))
 				inspired += H
@@ -86,7 +88,7 @@
 
 /obj/item/banner/security/Initialize()
 	. = ..()
-	job_loyalties = GLOB.security_positions
+	job_loyalties = DEPARTMENT_BITFLAG_SECURITY
 
 /obj/item/banner/security/mundane
 	inspiration_available = FALSE
@@ -110,7 +112,7 @@
 
 /obj/item/banner/medical/Initialize()
 	. = ..()
-	job_loyalties = GLOB.medical_positions
+	job_loyalties = DEPARTMENT_BITFLAG_MEDICAL
 
 /obj/item/banner/medical/mundane
 	inspiration_available = FALSE
@@ -142,7 +144,7 @@
 
 /obj/item/banner/science/Initialize()
 	. = ..()
-	job_loyalties = GLOB.science_positions
+	job_loyalties = DEPARTMENT_BITFLAG_SCIENCE
 
 /obj/item/banner/science/mundane
 	inspiration_available = FALSE
@@ -169,7 +171,7 @@
 
 /obj/item/banner/cargo/Initialize()
 	. = ..()
-	job_loyalties = GLOB.supply_positions
+	job_loyalties = DEPARTMENT_BITFLAG_CARGO
 
 /obj/item/banner/cargo/mundane
 	inspiration_available = FALSE
@@ -193,7 +195,7 @@
 
 /obj/item/banner/engineering/Initialize()
 	. = ..()
-	job_loyalties = GLOB.engineering_positions
+	job_loyalties = DEPARTMENT_BITFLAG_ENGINEERING
 
 /obj/item/banner/engineering/mundane
 	inspiration_available = FALSE
@@ -217,7 +219,7 @@
 
 /obj/item/banner/command/Initialize()
 	. = ..()
-	job_loyalties = GLOB.command_positions
+	job_loyalties = DEPARTMENT_BITFLAG_COMMAND
 
 /obj/item/banner/command/mundane
 	inspiration_available = FALSE
@@ -266,6 +268,9 @@
 	icon_state = "bannerpack-blue"
 
 //this is all part of one item set
+/obj/item/clothing/suit/armor/plate
+	fitted_bodytypes = NONE
+
 /obj/item/clothing/suit/armor/plate/crusader
 	name = "Crusader's Armour"
 	desc = "Armour that's comprised of metal and cloth."
@@ -273,6 +278,7 @@
 	w_class = WEIGHT_CLASS_BULKY
 	slowdown = 2.0 //gotta pretend we're balanced.
 	body_parts_covered = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
+	fitted_bodytypes = BODYTYPE_DIGITIGRADE
 	armor = list(MELEE = 50, BULLET = 50, LASER = 50, ENERGY = 50, BOMB = 60, BIO = 0, RAD = 0, FIRE = 60, ACID = 60)
 
 /obj/item/clothing/suit/armor/plate/crusader/red
@@ -284,11 +290,10 @@
 /obj/item/clothing/head/helmet/plate/crusader
 	name = "Crusader's Hood"
 	desc = "A brownish hood."
-	icon_state = "crusader"
+	icon_state = "crusader-blue"
 	w_class = WEIGHT_CLASS_NORMAL
 	flags_inv = HIDEHAIR|HIDEEARS|HIDEFACE
 	armor = list(MELEE = 50, BULLET = 50, LASER = 50, ENERGY = 50, BOMB = 60, BIO = 0, RAD = 0, FIRE = 60, ACID = 60)
-	mutant_variants = NONE
 
 /obj/item/clothing/head/helmet/plate/crusader/blue
 	icon_state = "crusader-blue"
@@ -307,9 +312,11 @@
 
 /obj/item/clothing/head/helmet/plate/crusader/prophet/red
 	icon_state = "prophet-red"
+	fitted_bodytypes = NONE
 
 /obj/item/clothing/head/helmet/plate/crusader/prophet/blue
 	icon_state = "prophet-blue"
+	fitted_bodytypes = NONE
 
 //Structure conversion staff
 /obj/item/godstaff

@@ -10,7 +10,7 @@
 	max_integrity = 250
 	resistance_flags = NONE
 	armor = list(MELEE = 35, BULLET = 30, LASER = 30, ENERGY = 40, BOMB = 25, BIO = 0, RAD = 0, FIRE = 50, ACID = 50, WOUND = 10)
-	mutant_variants = NONE
+	fitted_bodytypes = NONE
 
 /obj/item/clothing/suit/armor/Initialize()
 	. = ..()
@@ -24,6 +24,9 @@
 	inhand_icon_state = "armoralt"
 	blood_overlay_type = "armor"
 	dog_fashion = /datum/dog_fashion/back
+	worn_template_bodytypes = BODYTYPE_TESHARI
+	greyscale_config_worn_template = /datum/greyscale_config/worn_template_vest
+	worn_template_greyscale_color = "#444444"
 
 /obj/item/clothing/suit/armor/vest/alt
 	desc = "A Type I armored vest that provides decent protection against most types of damage."
@@ -80,6 +83,7 @@
 	strip_delay = 70
 	resistance_flags = FLAMMABLE
 	dog_fashion = null
+	fitted_bodytypes = BODYTYPE_DIGITIGRADE
 
 /obj/item/clothing/suit/armor/vest/warden/alt
 	name = "warden's armored jacket"
@@ -95,6 +99,7 @@
 	cold_protection = CHEST|GROIN|LEGS|ARMS
 	heat_protection = CHEST|GROIN|LEGS|ARMS
 	dog_fashion = null
+	fitted_bodytypes = BODYTYPE_DIGITIGRADE
 
 /obj/item/clothing/suit/armor/vest/capcarapace
 	name = "captain's carapace"
@@ -110,12 +115,14 @@
 	name = "syndicate captain's vest"
 	desc = "A sinister looking vest of advanced armor worn over a black and red fireproof jacket. The gold collar and shoulders denote that this belongs to a high ranking syndicate officer."
 	icon_state = "syndievest"
+	fitted_bodytypes = BODYTYPE_DIGITIGRADE
 
 /obj/item/clothing/suit/armor/vest/capcarapace/alt
 	name = "captain's parade jacket"
 	desc = "For when an armoured vest isn't fashionable enough."
 	icon_state = "capformal"
 	inhand_icon_state = "capspacesuit"
+	fitted_bodytypes = BODYTYPE_DIGITIGRADE
 
 /obj/item/clothing/suit/armor/riot
 	name = "riot suit"
@@ -129,6 +136,7 @@
 	clothing_flags = BLOCKS_SHOVE_KNOCKDOWN
 	strip_delay = 80
 	equip_delay_other = 60
+	fitted_bodytypes = BODYTYPE_DIGITIGRADE
 
 /obj/item/clothing/suit/armor/bone
 	name = "bone armor"
@@ -138,6 +146,7 @@
 	blood_overlay_type = "armor"
 	armor = list(MELEE = 35, BULLET = 25, LASER = 25, ENERGY = 35, BOMB = 25, BIO = 0, RAD = 0, FIRE = 50, ACID = 50, WOUND = 10)
 	body_parts_covered = CHEST|GROIN|LEGS|FEET|ARMS
+	fitted_bodytypes = BODYTYPE_DIGITIGRADE
 
 /obj/item/clothing/suit/armor/bulletproof
 	name = "bulletproof armor"
@@ -204,6 +213,7 @@
 	min_cold_protection_temperature = SPACE_SUIT_MIN_TEMP_PROTECT
 	heat_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
 	max_heat_protection_temperature = SPACE_SUIT_MAX_TEMP_PROTECT
+	fitted_bodytypes = BODYTYPE_DIGITIGRADE
 	armor = list(MELEE = 80, BULLET = 80, LASER = 50, ENERGY = 50, BOMB = 100, BIO = 100, RAD = 100, FIRE = 90, ACID = 90)
 
 /obj/item/clothing/suit/armor/heavy
@@ -218,6 +228,7 @@
 	slowdown = 3
 	flags_inv = HIDEGLOVES|HIDESHOES|HIDEJUMPSUIT
 	armor = list(MELEE = 80, BULLET = 80, LASER = 50, ENERGY = 50, BOMB = 100, BIO = 100, RAD = 100, FIRE = 90, ACID = 90)
+	fitted_bodytypes = BODYTYPE_DIGITIGRADE
 
 /obj/item/clothing/suit/armor/tdome
 	body_parts_covered = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
@@ -226,6 +237,7 @@
 	cold_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
 	heat_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
 	armor = list(MELEE = 80, BULLET = 80, LASER = 50, ENERGY = 50, BOMB = 100, BIO = 100, RAD = 100, FIRE = 90, ACID = 90)
+	fitted_bodytypes = BODYTYPE_DIGITIGRADE
 
 /obj/item/clothing/suit/armor/tdome/red
 	name = "thunderdome suit"
@@ -309,6 +321,7 @@
 	cold_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
 	min_cold_protection_temperature = SPACE_SUIT_MIN_TEMP_PROTECT
 	armor = list(MELEE = 25, BULLET = 20, LASER = 20, ENERGY = 30, BOMB = 20, BIO = 50, RAD = 20, FIRE = -10, ACID = 50, WOUND = 10)
+	fitted_bodytypes = BODYTYPE_DIGITIGRADE
 
 /obj/item/clothing/suit/armor/elder_atmosian
 	name = "\improper Elder Atmosian Armor"
@@ -320,6 +333,7 @@
 	body_parts_covered = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
 	cold_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
 	heat_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
+	fitted_bodytypes = BODYTYPE_DIGITIGRADE
 
 /obj/item/clothing/suit/armor/vest/centcom_formal
 	name = "\improper CentCom Formal Coat"
@@ -328,12 +342,13 @@
 	inhand_icon_state = "centcom"
 	body_parts_covered = CHEST|GROIN|ARMS
 	armor = list(MELEE = 35, BULLET = 40, LASER = 40, ENERGY = 50, BOMB = 35, BIO = 10, RAD = 10, FIRE = 10, ACID = 60)
+	fitted_bodytypes = BODYTYPE_DIGITIGRADE
 
 /obj/item/clothing/suit/armor/navyblue
 	name = "security officer's jacket"
 	desc = "This jacket is for those special occasions when a security officer isn't required to wear their armor."
 	icon = 'icons/horizon/obj/clothing/suits.dmi'
-	worn_icon = 'icons/horizon/mob/clothing/suit.dmi'
+	worn_icon = 'icons/mob/clothing/suits/bluesecjackets.dmi'
 	icon_state = "officerbluejacket"
 	body_parts_covered = CHEST|ARMS
 
@@ -341,7 +356,7 @@
 	name = "head of security's jacket"
 	desc = "This piece of clothing was specifically designed for asserting superior authority."
 	icon = 'icons/horizon/obj/clothing/suits.dmi'
-	worn_icon = 'icons/horizon/mob/clothing/suit.dmi'
+	worn_icon = 'icons/mob/clothing/suits/bluesecjackets.dmi'
 	icon_state = "hosbluejacket"
 	body_parts_covered = CHEST|ARMS
 	cold_protection = CHEST|ARMS
@@ -351,6 +366,7 @@
 	name = "warden's jacket"
 	desc = "Perfectly suited for the warden that wants to leave an impression of style on those who visit the brig."
 	icon = 'icons/horizon/obj/clothing/suits.dmi'
-	worn_icon = 'icons/horizon/mob/clothing/suit.dmi'
+	worn_icon = 'icons/mob/clothing/suits/bluesecjackets.dmi'
 	icon_state = "wardenbluejacket"
 	body_parts_covered = CHEST|ARMS
+	fitted_bodytypes = NONE

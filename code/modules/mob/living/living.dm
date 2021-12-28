@@ -1103,9 +1103,9 @@
 	var/turf/T = get_turf(src)
 	if(!T)
 		return FALSE
-	if(is_centcom_level(T.z)) //dont detect mobs on centcom
+	if(is_centcom_level(T)) //dont detect mobs on centcom
 		return FALSE
-	if(is_away_level(T.z))
+	if(is_away_level(T))
 		return FALSE
 	if(user != null && src == user)
 		return FALSE
@@ -1910,7 +1910,6 @@
 /// Proc to append behavior to the condition of being floored. Called when the condition starts.
 /mob/living/proc/on_floored_start()
 	if(body_position == STANDING_UP) //force them on the ground
-		set_resting(TRUE, silent = TRUE)
 		set_lying_angle(pick(90, 270))
 		set_body_position(LYING_DOWN)
 		on_fall()
@@ -2006,3 +2005,15 @@
 		else
 			temporary_flavor_text = strip_html_simple(msg, MAX_FLAVOR_LEN, TRUE)
 	return
+
+/mob/living/verb/toggle_hold_onto_things()
+	set category = "IC"
+	set name = "Toggle Holding in No Grav"
+	set desc = "Allows you to stop holding onto things in no gravity."
+
+	if(stat != CONSCIOUS)
+		to_chat(usr, SPAN_WARNING("You can't do that now..."))
+		return
+
+	hold_onto_things = !hold_onto_things
+	to_chat(usr, SPAN_NOTICE("You will [hold_onto_things ? "now" : "no longer"] hold onto things in no gravity."))

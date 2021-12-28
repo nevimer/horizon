@@ -89,8 +89,8 @@
 #define OVERMAP_LAYER_PROJECTILE 3.7
 
 //Helpful getters
-#define STATION_OVERMAP_OBJECT SSmapping.station_overmap_object
-#define STATION_WEATHER_CONTROLLER SSmapping.station_overmap_object.weather_controller
+#define STATION_OVERMAP_OBJECT SSmapping.station_map_zone.related_overmap_object
+#define STATION_WEATHER_CONTROLLER SSmapping.station_map_zone.weather_controller
 
 ///Due to the lack of even knowing where to put it in, I'm putting my helper defines stuff here - Azarak
 #define CHECK_AND_PICK_OR_NULL(some_list) some_list ? pick(some_list) : null
@@ -104,6 +104,11 @@
 					/datum/planet_template/desert_planet = 100, \
 					/datum/planet_template/chlorine_planet = 50, \
 					/datum/planet_template/barren_planet = 50)
+
+/// One planet from this list is guaranteed
+#define HABITABLE_PLANETS list(/datum/planet_template/snow_planet = 100, \
+					/datum/planet_template/lush_planet = 100, \
+					/datum/planet_template/jungle_planet = 100)
 
 //Planetary proprties for ruins to check
 #define PLANET_HABITABLE (1<<0)

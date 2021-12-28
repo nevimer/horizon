@@ -48,10 +48,14 @@
 	/// The job's outfit that will be assigned for plasmamen.
 	var/plasmaman_outfit = null
 
+	/// Minutes of experience-time required to play in this job. The type is determined by [exp_required_type] and [exp_required_type_department] depending on configs.
 	var/exp_requirements = 0
-
-	var/exp_type = ""
-	var/exp_type_department = ""
+	/// Experience required to play this job, if the config is enabled, and `exp_required_type_department` is not enabled with the proper config.
+	var/exp_required_type = ""
+	/// Department experience required to play this job, if the config is enabled.
+	var/exp_required_type_department = ""
+	/// Experience type granted by playing in this job.
+	var/exp_granted_type = ""
 
 	var/paycheck = PAYCHECK_MINIMAL
 	var/paycheck_department = ACCOUNT_CIV
@@ -73,8 +77,10 @@
 	/// If this job's mail goodies compete with generic goodies.
 	var/exclusive_mail_goodies = FALSE
 
-	/// Bitfield of departments this job belongs wit
-	var/departments = NONE
+	/// Bitfield of departments this job belongs to. These get setup when adding the job into the department, on job datum creation.
+	var/departments_bitflags = NONE
+	/// Lazy list with the departments this job belongs to.
+	var/list/departments_list = null
 
 	/// Should this job be allowed to be picked for the bureaucratic error event?
 	var/allow_bureaucratic_error = TRUE
@@ -99,7 +105,7 @@
 	var/list/species_blacklist
 	/// Which languages does the job require, associative to LANGUAGE_UNDERSTOOD or LANGUAGE_SPOKEN
 	var/list/required_languages = list(/datum/language/common = LANGUAGE_SPOKEN)
-	/// All values = (JOB_ANNOUNCE_ARRIVAL | JOB_CREW_MANIFEST | JOB_EQUIP_RANK)
+	/// All values = (JOB_ANNOUNCE_ARRIVAL | JOB_CREW_MANIFEST | JOB_EQUIP_RANK | JOB_CREW_MEMBER | JOB_NEW_PLAYER_JOINABLE | JOB_BOLD_SELECT_TEXT)
 	var/job_flags = NONE
 
 	/// Multiplier for general usage of the voice of god.
@@ -178,30 +184,31 @@
 /mob/living/proc/on_job_equipping(datum/job/equipping, apply_loadout = FALSE)
 	return
 
-/mob/living/carbon/human/on_job_equipping(datum/job/equipping, apply_loadout = FALSE)
+/mob/living/carbon/human/on_job_equipping(datum/job/equipping, apply_loadout = FALSE, player_client)
 	var/datum/bank_account/bank_account = new(real_name, equipping, dna.species.payday_modifier)
 	bank_account.payday(STARTING_PAYCHECKS, TRUE)
 	account_id = bank_account.account_id
 
-	dress_up_as_job(equipping, apply_loadout = apply_loadout)
+	dress_up_as_job(equipping, apply_loadout = apply_loadout, player_client = player_client)
 
 
 /mob/living/proc/dress_up_as_job(datum/job/equipping, visual_only = FALSE, apply_loadout = FALSE)
 	return
 
-/mob/living/carbon/human/dress_up_as_job(datum/job/equipping, visual_only = FALSE, apply_loadout = FALSE)
+/mob/living/carbon/human/dress_up_as_job(datum/job/equipping, visual_only = FALSE, apply_loadout = FALSE, player_client)
 	var/list/packed_items
 	var/loadout_asserted = FALSE
-	if(apply_loadout && equipping.loadout && client)
+	var/client/used_client = player_client || client
+	if(apply_loadout && equipping.loadout && used_client)
 		loadout_asserted = TRUE
 		if(equipping.no_dresscode)
-			packed_items = client.prefs.equip_preference_loadout(src, FALSE, equipping, blacklist = equipping.blacklist_dresscode_slots, initial = TRUE)
+			packed_items = used_client.prefs.equip_preference_loadout(src, FALSE, equipping, blacklist = equipping.blacklist_dresscode_slots, initial = TRUE)
 	dna.species.pre_equip_species_outfit(equipping, src, visual_only)
 	equipOutfit(equipping.outfit, visual_only)
 	if(loadout_asserted && !equipping.no_dresscode)
-		packed_items = client.prefs.equip_preference_loadout(src, FALSE, equipping, blacklist = equipping.blacklist_dresscode_slots, initial = TRUE)
+		packed_items = used_client.prefs.equip_preference_loadout(src, FALSE, equipping, blacklist = equipping.blacklist_dresscode_slots, initial = TRUE)
 	if(packed_items)
-		client.prefs.add_packed_items(src, packed_items)
+		used_client.prefs.add_packed_items(src, packed_items)
 
 
 /datum/job/proc/announce_head(mob/living/carbon/human/H, channels) //tells the given channel that the given mob is the new department head. See communications.dm for valid channels.
@@ -385,13 +392,6 @@
 		return pick(SSjob.latejoin_trackers)
 	return SSjob.get_last_resort_spawn_points()
 
-
-/// Called after a successful latejoin spawn.
-/datum/job/proc/after_latejoin_spawn(mob/living/spawning)
-	SHOULD_CALL_PARENT(TRUE)
-	SEND_GLOBAL_SIGNAL(COMSIG_GLOB_JOB_AFTER_LATEJOIN_SPAWN, src, spawning)
-
-
 /// Spawns the mob to be played as, taking into account preferences and the desired spawn point.
 /datum/job/proc/get_spawn_mob(client/player_client, atom/spawn_point)
 	var/mob/living/spawn_instance
@@ -454,6 +454,24 @@
 	// If this checks fails, then the name will have been handled during initialization.
 	if(!GLOB.current_anonymous_theme && player_client.prefs.custom_names["cyborg"] != DEFAULT_CYBORG_NAME)
 		apply_pref_name("cyborg", player_client)
+
+/**
+ * Called after a successful roundstart spawn.
+ * Client is not yet in the mob.
+ * This happens after after_spawn()
+ */
+/datum/job/proc/after_roundstart_spawn(mob/living/spawning, client/player_client)
+	SHOULD_CALL_PARENT(TRUE)
+
+
+/**
+ * Called after a successful latejoin spawn.
+ * Client is in the mob.
+ * This happens after after_spawn()
+ */
+/datum/job/proc/after_latejoin_spawn(mob/living/spawning)
+	SHOULD_CALL_PARENT(TRUE)
+	SEND_GLOBAL_SIGNAL(COMSIG_GLOB_JOB_AFTER_LATEJOIN_SPAWN, src, spawning)
 
 /datum/job/proc/has_banned_quirk(datum/preferences/pref)
 	if(!pref) //No preferences? We'll let you pass, this time (just a precautionary check,you dont wanna mess up gamemode setting logic)

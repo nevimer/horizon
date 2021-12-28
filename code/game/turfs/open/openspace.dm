@@ -16,8 +16,6 @@ GLOBAL_DATUM_INIT(openspace_backdrop_one_for_all, /atom/movable/openspace_backdr
 	desc = "Watch your step!"
 	icon_state = "invisible"
 	baseturfs = /turf/open/openspace
-	CanAtmosPassVertical = ATMOS_PASS_YES
-	baseturfs = /turf/open/openspace
 	intact = FALSE //this means wires go on top
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
 	can_have_catwalk = TRUE
@@ -162,6 +160,9 @@ GLOBAL_DATUM_INIT(openspace_backdrop_one_for_all, /atom/movable/openspace_backdr
 /turf/open/openspace/icemoon/Initialize()
 	. = ..()
 	var/turf/T = below()
+	//I wonder if I should error here
+	if(!T)
+		return
 	if(T.turf_flags & NO_RUINS && protect_ruin)
 		ChangeTurf(replacement_turf, null, CHANGETURF_IGNORE_AIR)
 		return

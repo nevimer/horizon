@@ -66,6 +66,7 @@
 #define PROJECTILE_HIT_THRESHHOLD_LAYER 2.75 //projectiles won't hit objects at or below this layer if possible
 #define TABLE_LAYER 2.8
 #define GATEWAY_UNDERLAY_LAYER 2.85
+#define LOW_WALL_LAYER 2.86
 #define BELOW_OBJ_LAYER 2.9
 #define LOW_ITEM_LAYER 2.95
 //#define OBJ_LAYER 3 //For easy recordkeeping; this is a byond define
@@ -74,6 +75,7 @@
 #define CLOSED_FIREDOOR_LAYER 3.11
 #define SHUTTER_LAYER 3.12 // HERE BE DRAGONS
 #define ABOVE_OBJ_LAYER 3.2
+#define LOW_WALL_STRIPE_LAYER 3.25
 #define ABOVE_WINDOW_LAYER 3.3
 #define SIGN_LAYER 3.4
 #define CORGI_ASS_PIN_LAYER 3.41
@@ -147,12 +149,6 @@
 #define CAMERA_STATIC_PLANE 200
 #define CAMERA_STATIC_RENDER_TARGET "CAMERA_STATIC_PLANE"
 
-///Popup Chat Messages
-#define RUNECHAT_PLANE 250
-
-/// Plane for balloon text (text that fades up)
-#define BALLOON_CHAT_PLANE 251
-
 ///Debug Atmos Overlays
 #define ATMOS_GROUP_PLANE 450
 
@@ -165,6 +161,13 @@
 #define BLIND_LAYER 4
 #define CRIT_LAYER 5
 #define CURSE_LAYER 6
+#define FOV_EFFECTS_LAYER 10000 //Blindness effects are not layer 4, they lie to you
+
+///Popup Chat Messages
+#define RUNECHAT_PLANE 501
+
+/// Plane for balloon text (text that fades up)
+#define BALLOON_CHAT_PLANE 502
 
 
 //-------------------- HUD ---------------------

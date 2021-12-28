@@ -239,7 +239,7 @@
 	CHECK_TICK
 
 	//Set news report and mode result
-	mode.set_round_result()
+	SSgamemode.set_round_result()
 
 	send2adminchat("Server", "Round just ended.")
 
@@ -343,13 +343,6 @@
 			//ignore this comment, it fixes the broken sytax parsing caused by the " above
 			else
 				parts += "[FOURSPACES]<i>Nobody died this shift!</i>"
-	if(istype(SSticker.mode, /datum/game_mode/dynamic))
-		var/datum/game_mode/dynamic/mode = SSticker.mode
-		parts += "[FOURSPACES]Threat level: [mode.threat_level]"
-		parts += "[FOURSPACES]Threat left: [mode.mid_round_budget]"
-		parts += "[FOURSPACES]Executed rules:"
-		for(var/datum/dynamic_ruleset/rule in mode.executed_rules)
-			parts += "[FOURSPACES][FOURSPACES][rule.ruletype] - <b>[rule.name]</b>: -[rule.cost + rule.scaled_times * rule.scaling_cost] threat"
 	return parts.Join("<br>")
 
 /client/proc/roundend_report_file()
@@ -546,7 +539,7 @@
 		if(!human.client || !human.mind)
 			continue
 		var/datum/job/human_job = human.mind.assigned_role
-		if(!(human_job.departments & DEPARTMENT_SERVICE))
+		if(!(human_job.departments_bitflags & DEPARTMENT_SERVICE))
 			continue
 		human_job.award_service(human.client, award)
 
@@ -689,7 +682,7 @@
 			text += " [SPAN_GREENTEXT("survived")]"
 		if(fleecheck)
 			var/turf/T = get_turf(ply.current)
-			if(!T || !is_station_level(T.z))
+			if(!T || !is_station_level(T))
 				text += " while [SPAN_REDTEXT("fleeing the station")]"
 		if(ply.current.real_name != ply.name)
 			text += " as <b>[ply.current.real_name]</b>"

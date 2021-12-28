@@ -21,7 +21,7 @@
 /datum/antagonist/rev/can_be_owned(datum/mind/new_owner)
 	. = ..()
 	if(.)
-		if(new_owner.assigned_role.departments & DEPARTMENT_COMMAND)
+		if(new_owner.assigned_role.departments_bitflags & DEPARTMENT_BITFLAG_COMMAND)
 			return FALSE
 		if(new_owner.unconvertable)
 			return FALSE
@@ -356,7 +356,7 @@
 /datum/team/revolution/proc/check_heads_victory()
 	for(var/datum/mind/rev_mind in head_revolutionaries())
 		var/turf/rev_turf = get_turf(rev_mind.current)
-		if(!considered_afk(rev_mind) && considered_alive(rev_mind) && is_station_level(rev_turf.z))
+		if(!considered_afk(rev_mind) && considered_alive(rev_mind) && is_station_level(rev_turf))
 			if(ishuman(rev_mind.current))
 				return FALSE
 	return TRUE
@@ -416,7 +416,7 @@
 			if (isnull(mind))
 				continue
 
-			if (!(mind.assigned_role.departments & (DEPARTMENT_SECURITY|DEPARTMENT_COMMAND)))
+			if (!(mind.assigned_role.departments_bitflags & (DEPARTMENT_BITFLAG_SECURITY|DEPARTMENT_BITFLAG_COMMAND)))
 				continue
 
 			if (mind in ex_revs + ex_headrevs)
@@ -434,15 +434,11 @@
 			else
 				mind.announce_objectives()
 
-		for (var/job_name in GLOB.command_positions + GLOB.security_positions)
-			var/datum/job/job = SSjob.GetJob(job_name)
+		for(var/datum/job/job as anything in SSjob.joinable_occupations)
+			if(!(job.departments_bitflags & (DEPARTMENT_BITFLAG_SECURITY|DEPARTMENT_BITFLAG_COMMAND)))
+				continue
 			job.allow_bureaucratic_error = FALSE
 			job.total_positions = 0
-
-		if (revs_win_injection_amount)
-			var/datum/game_mode/dynamic/dynamic = SSticker.mode
-			dynamic.create_threat(revs_win_injection_amount)
-			dynamic.threat_log += "[worldtime2text()]: Revolution victory. Added [revs_win_injection_amount] threat."
 
 		priority_announce("A recent assessment of your station has marked your station as a severe risk area for high ranking Nanotrasen officials. \
 		For the safety of our staff, we have blacklisted your station for new employment of security and command. \

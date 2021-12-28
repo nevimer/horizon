@@ -5,7 +5,10 @@
 	max_occurrences = 1
 	min_players = 10
 	earliest_start = 30 MINUTES
-	dynamic_should_hijack = TRUE
+
+	track = EVENT_TRACK_ROLESET
+	tags = list(TAG_COMBAT, TAG_DESTRUCTIVE)
+	min_sec_crew = 1
 
 #define PIRATES_ROGUES "Rogues"
 #define PIRATES_SILVERSCALES "Silverscales"
@@ -134,7 +137,7 @@
 
 /obj/machinery/shuttle_scrambler/process()
 	if(active)
-		if(is_station_level(z))
+		if(is_station_level(src))
 			var/datum/bank_account/D = SSeconomy.get_dep_account(ACCOUNT_CAR)
 			if(D)
 				var/siphoned = min(D.account_balance,siphon_per_tick)
@@ -210,7 +213,7 @@
 	name = "pirate shuttle navigation computer"
 	desc = "Used to designate a precise transit location for the pirate shuttle."
 	shuttleId = "pirateship"
-	lock_override = CAMERA_LOCK_STATION
+	trait_lock = ZTRAIT_STATION
 	shuttlePortId = "pirateship_custom"
 	x_offset = 9
 	y_offset = 0
@@ -444,7 +447,7 @@
 		return 0
 	else if("pirate" in H.faction) //can't ransom your fellow pirates to CentCom!
 		return 0
-	else if(H.mind.assigned_role.title in GLOB.command_positions)
+	else if(H.mind.assigned_role.departments_bitflags & DEPARTMENT_BITFLAG_COMMAND)
 		return 3000
 	else
 		return 1000
@@ -457,7 +460,7 @@
 /datum/export/pirate/parrot/find_loot()
 	for(var/mob/living/simple_animal/parrot/P in GLOB.alive_mob_list)
 		var/turf/T = get_turf(P)
-		if(T && is_station_level(T.z))
+		if(T && is_station_level(T))
 			return P
 
 /datum/export/pirate/cash

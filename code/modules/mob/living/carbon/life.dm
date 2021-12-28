@@ -6,7 +6,7 @@
 	if(isopenturf(loc))
 		var/turf/open/my_open_turf = loc
 		if(my_open_turf.pollution)
-			my_open_turf.pollution.TouchAct(src)
+			my_open_turf.pollution.touch_act(src)
 
 	if(damageoverlaytemp)
 		damageoverlaytemp = 0
@@ -121,8 +121,8 @@
 				if(istype(open_turf) && open_turf.pollution)
 					if(next_smell <= world.time)
 						next_smell = world.time + SMELL_COOLDOWN
-						open_turf.pollution.SmellAct(src)
-					open_turf.pollution.BreatheAct(src)
+						open_turf.pollution.smell_act(src)
+					open_turf.pollution.breathe_act(src)
 
 				var/breath_moles = 0
 				if(environment)
@@ -564,7 +564,7 @@ All effects don't start immediately, but rather get worse over time; the rate is
 			adjustToxLoss(0.5 * delta_time)
 			adjustOrganLoss(ORGAN_SLOT_BRAIN, 0.2 * delta_time)
 			if(DT_PROB(10, delta_time) && !stat)
-				if(SSshuttle.emergency.mode == SHUTTLE_DOCKED && is_station_level(z)) //QoL mainly
+				if(SSshuttle.emergency.mode == SHUTTLE_DOCKED && is_station_level(src)) //QoL mainly
 					to_chat(src, SPAN_WARNING("You're so tired... but you can't miss that shuttle..."))
 				else
 					to_chat(src, SPAN_WARNING("Just a quick nap..."))

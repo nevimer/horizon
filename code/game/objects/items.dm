@@ -24,9 +24,9 @@ GLOBAL_DATUM_INIT(fire_overlay, /mutable_appearance, mutable_appearance('icons/e
 
 	///Icon file for mob worn overlays.
 	var/icon/worn_icon
-	///Icon file for mob worn overlays, if the user is digi.
-	var/icon/worn_icon_digi
-	///Icon state for mob worn overlays, if null the normal icon_state will be used.
+	///Icon file for bodytypes which require a bigger dimension. Used mainly for taurs (They're pixel shifted by -16 in x dimension)
+	var/icon/large_worn_icon
+	///Icon state >SUFFIX< for mob worn overlays, if null the normal icon_state will be used. The icon state of the overlay is structured: [slot]_[bodytype]_[worn_icon_state]
 	var/worn_icon_state
 	///Icon state for the belt overlay, if null the normal icon_state will be used.
 	var/belt_icon_state
@@ -34,8 +34,6 @@ GLOBAL_DATUM_INIT(fire_overlay, /mutable_appearance, mutable_appearance('icons/e
 	var/alternate_worn_layer
 	///The config type to use for greyscaled worn sprites. Both this and greyscale_colors must be assigned to work.
 	var/greyscale_config_worn
-	///The config type to use for greyscaled worn sprites for digitigrade characters. Both this and greyscale_colors must be assigned to work.
-	var/greyscale_config_worn_digi
 	///The config type to use for greyscaled left inhand sprites. Both this and greyscale_colors must be assigned to work.
 	var/greyscale_config_inhand_left
 	///The config type to use for greyscaled right inhand sprites. Both this and greyscale_colors must be assigned to work.
@@ -91,6 +89,13 @@ GLOBAL_DATUM_INIT(fire_overlay, /mutable_appearance, mutable_appearance('icons/e
 	pass_flags = PASSTABLE
 	pressure_resistance = 4
 	var/obj/item/master = null
+
+	///Price of an item in a vending machine, overriding the base vending machine price. Define in terms of paycheck defines as opposed to raw numbers.
+	var/custom_price
+	///Price of an item in a vending machine, overriding the premium vending machine price. Define in terms of paycheck defines as opposed to raw numbers.
+	var/custom_premium_price
+	///Whether spessmen with an ID with an age below AGE_MINOR (20 by default) can buy this item
+	var/age_restricted = FALSE
 
 	///flags which determine which body parts are protected from heat. [See here][HEAD]
 	var/heat_protection = 0
@@ -202,6 +207,27 @@ GLOBAL_DATUM_INIT(fire_overlay, /mutable_appearance, mutable_appearance('icons/e
 
 	var/canMouseDown = FALSE
 
+	/// Which bodytypes can wear the item.
+	var/allowed_bodytypes = ALL_BODYTYPES
+	/// Which bodytypes have a special worn icon state for the item. Assumes BODYTYPE_HUMANOID is fitted, if it is allowed.
+	var/fitted_bodytypes = NONE
+	/// Which bodytypes default to a template icon when worn.
+	var/worn_template_bodytypes = NONE
+	//Note: Worn icons are structured like this: [slot]_[bodytype]_[worn_icon_state]
+	// - bodytype is either BODYTYPE_HUMANOID or, whatever bodytype is matching and is in `fitted_boytypes`
+	// - check translations of slots and bodytypes in `code/__DEFINES/inventory.dm` and ` code/__DEFINES/customization/inventory.dm`
+
+	/// Icon that is defaulted to when `worn_template_bodytypes` dictates we use a template icon.
+	var/worn_template_icon
+	/// Large worn template icon, for bodytypes requiring larger icons. (taurs)
+	var/large_worn_template_icon
+	/// Greyscale config of the worn template
+	var/greyscale_config_worn_template
+	/// Greyscale config of the large worn template
+	var/greyscale_config_large_worn_template
+	/// Greyscale color fed to the GAGS configs of the worn templates
+	var/worn_template_greyscale_color
+
 /obj/item/Initialize()
 
 	if(attack_verb_continuous)
@@ -279,8 +305,6 @@ GLOBAL_DATUM_INIT(fire_overlay, /mutable_appearance, mutable_appearance('icons/e
 		return
 	if(greyscale_config_worn)
 		worn_icon = SSgreyscale.GetColoredIconByType(greyscale_config_worn, greyscale_colors)
-	if(greyscale_config_worn_digi)
-		worn_icon_digi = SSgreyscale.GetColoredIconByType(greyscale_config_worn_digi, greyscale_colors)
 	if(greyscale_config_inhand_left)
 		lefthand_file = SSgreyscale.GetColoredIconByType(greyscale_config_inhand_left, greyscale_colors)
 	if(greyscale_config_inhand_right)

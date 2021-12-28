@@ -17,7 +17,7 @@
 	body_parts_covered = CHEST|GROIN|ARMS
 	dying_key = DYE_REGISTRY_JUMPSKIRT
 	fitted = FEMALE_UNIFORM_TOP
-	mutant_variants = NONE
+	fitted_bodytypes = NONE
 
 /obj/item/clothing/under/suit/sl
 	desc = "It's a very amish looking suit."
@@ -53,7 +53,7 @@
 	body_parts_covered = CHEST|GROIN|ARMS
 	dying_key = DYE_REGISTRY_JUMPSKIRT
 	fitted = FEMALE_UNIFORM_TOP
-	mutant_variants = NONE
+	fitted_bodytypes = NONE
 
 /obj/item/clothing/under/suit/black_really
 	name = "executive suit"
@@ -69,7 +69,7 @@
 	body_parts_covered = CHEST|GROIN|ARMS
 	dying_key = DYE_REGISTRY_JUMPSKIRT
 	fitted = FEMALE_UNIFORM_TOP
-	mutant_variants = NONE
+	fitted_bodytypes = NONE
 
 /obj/item/clothing/under/suit/black/female
 	name = "executive suit"
@@ -90,6 +90,7 @@
 	desc = "A red suit and blue tie. Somewhat formal."
 	icon_state = "red_suit"
 	inhand_icon_state = "r_suit"
+	fitted_bodytypes = BODYTYPE_DIGITIGRADE|BODYTYPE_TESHARI
 
 /obj/item/clothing/under/suit/charcoal
 	name = "charcoal suit"
@@ -142,6 +143,7 @@
 	inhand_icon_state = "henchmen"
 	body_parts_covered = CHEST|GROIN|LEGS|FEET|ARMS|HANDS|HEAD
 	flags_inv = HIDEGLOVES|HIDESHOES|HIDEEARS|HIDEEYES|HIDEHAIR
+	fitted_bodytypes = NONE
 
 /obj/item/clothing/under/suit/tuxedo
 	name = "tuxedo"

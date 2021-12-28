@@ -39,7 +39,7 @@
 	flags_inv = 0
 	armor = list(MELEE = 0, BULLET = 0, LASER = 0,ENERGY = 0, BOMB = 0, BIO = 0, RAD = 0, FIRE = 0, ACID = 0)
 	dog_fashion = /datum/dog_fashion/head/festive
-	mutant_variants = NONE
+	fitted_bodytypes = BODYTYPE_VOX
 
 /obj/effect/spawner/xmastree
 	name = "christmas tree spawner"
@@ -52,9 +52,9 @@
 
 /obj/effect/spawner/xmastree/Initialize()
 	..()
-	if((CHRISTMAS in SSevents.holidays) && christmas_tree)
+	if((CHRISTMAS in SSgamemode.holidays) && christmas_tree)
 		new christmas_tree(get_turf(src))
-	else if((FESTIVE_SEASON in SSevents.holidays) && festive_tree)
+	else if((FESTIVE_SEASON in SSgamemode.holidays) && festive_tree)
 		new festive_tree(get_turf(src))
 
 	return INITIALIZE_HINT_QDEL

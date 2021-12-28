@@ -12,6 +12,8 @@ In my current plan for it, 'solid' will be defined as anything with density == 1
 	typepath = /datum/round_event/immovable_rod
 	min_players = 15
 	max_occurrences = 5
+	track = EVENT_TRACK_MODERATE
+	tags = list(TAG_DESTRUCTIVE)
 	var/atom/special_target
 	var/force_looping = FALSE
 
@@ -38,7 +40,8 @@ In my current plan for it, 'solid' will be defined as anything with density == 1
 	var/datum/round_event_control/immovable_rod/C = control
 	var/startside = pick(GLOB.cardinals)
 	var/turf/endT = get_edge_target_turf(get_random_station_turf(), turn(startside, 180))
-	var/turf/startT = spaceDebrisStartLoc(startside, endT.z)
+	var/datum/sub_map_zone/subzone = SSmapping.get_sub_zone(endT)
+	var/turf/startT = spaceDebrisStartLoc(startside, subzone)
 	var/atom/rod = new /obj/effect/immovablerod(startT, endT, C.special_target, C.force_looping)
 	C.special_target = null //Cleanup for future event rolls.
 	announce_to_ghosts(rod)

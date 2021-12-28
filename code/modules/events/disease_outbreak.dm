@@ -5,6 +5,10 @@
 	min_players = 10
 	weight = 5
 
+	track = EVENT_TRACK_MAJOR
+	tags = list(TAG_COMMUNAL, TAG_TARGETED)
+	min_med_crew = 1
+
 /datum/round_event/disease_outbreak
 	announceWhen = 15
 
@@ -33,7 +37,7 @@
 		var/turf/T = get_turf(H)
 		if(!T)
 			continue
-		if(!is_station_level(T.z))
+		if(!is_station_level(T))
 			continue
 		if(!H.client)
 			continue

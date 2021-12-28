@@ -46,7 +46,7 @@
 		burnt = TRUE
 	if(mapload && prob(33))
 		MakeDirty()
-	if(is_station_level(z))
+	if(is_station_level(src))
 		GLOB.station_turfs += src
 
 /turf/open/floor/proc/setup_broken_states()
@@ -56,7 +56,7 @@
 	return
 
 /turf/open/floor/Destroy()
-	if(is_station_level(z))
+	if(is_station_level(src))
 		GLOB.station_turfs -= src
 	return ..()
 
@@ -273,7 +273,8 @@
 	switch(passed_mode)
 		if(RCD_FLOORWALL)
 			to_chat(user, SPAN_NOTICE("You build a wall."))
-			PlaceOnTop(/turf/closed/wall)
+			var/turf/closed/wall/placed_wall = PlaceOnTop(/turf/closed/wall)
+			placed_wall.set_wall_information(/datum/material/iron)
 			return TRUE
 		if(RCD_AIRLOCK)
 			for(var/obj/machinery/door/door in src)

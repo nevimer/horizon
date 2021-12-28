@@ -51,9 +51,9 @@
 	/// a very temporary list of overlays to add
 	var/list/add_overlays
 
-	///vis overlays managed by SSvis_overlays to automaticaly turn them like other overlays
+	///vis overlays managed by SSvis_overlays to automaticaly turn them like other overlays.
 	var/list/managed_vis_overlays
-	///overlays managed by [update_overlays][/atom/proc/update_overlays] to prevent removing overlays that weren't added by the same proc
+	///overlays managed by [update_overlays][/atom/proc/update_overlays] to prevent removing overlays that weren't added by the same proc. Single items are stored on their own, not in a list.
 	var/list/managed_overlays
 
 	///Proximity monitor associated with this atom
@@ -64,13 +64,6 @@
 	var/fingerprintslast
 
 	var/list/filter_data //For handling persistent filters
-
-	///Price of an item in a vending machine, overriding the base vending machine price. Define in terms of paycheck defines as opposed to raw numbers.
-	var/custom_price
-	///Price of an item in a vending machine, overriding the premium vending machine price. Define in terms of paycheck defines as opposed to raw numbers.
-	var/custom_premium_price
-	///Whether spessmen with an ID with an age below AGE_MINOR (20 by default) can buy this item
-	var/age_restricted = FALSE
 
 	//List of datums orbiting this atom
 	var/datum/component/orbiter/orbiters
@@ -93,9 +86,6 @@
 
 	var/list/alternate_appearances
 
-
-	/// Last appearance of the atom for demo saving purposes
-	var/image/demo_last_appearance
 
 	///Light systems, both shouldn't be active at the same time.
 	var/light_system = STATIC_LIGHT
@@ -153,6 +143,8 @@
 	var/atom/orbit_target
 	///AI controller that controls this atom. type on init, then turned into an instance during runtime
 	var/datum/ai_controller/ai_controller
+	/// Ambience emitter ID this atom is emitting
+	var/ambience
 
 /**
  * Called when an atom is created in byond (built in engine proc)
@@ -290,7 +282,7 @@
 	orbiters = null // The component is attached to us normaly and will be deleted elsewhere
 
 	LAZYCLEARLIST(overlays)
-	LAZYCLEARLIST(managed_overlays)
+	LAZYNULL(managed_overlays)
 
 	QDEL_NULL(light)
 	QDEL_NULL(ai_controller)
@@ -351,7 +343,7 @@
 	if(!T)
 		return FALSE
 
-	if(is_reserved_level(T.z))
+	if(is_reserved_level(T))
 		for(var/A in SSshuttle.mobile)
 			var/obj/docking_port/mobile/M = A
 			if(M.launch_status == ENDGAME_TRANSIT)
@@ -360,7 +352,7 @@
 					if(T in shuttle_area)
 						return TRUE
 
-	if(!is_centcom_level(T.z))//if not, don't bother
+	if(!is_centcom_level(T))//if not, don't bother
 		return FALSE
 
 	//Check for centcom itself
@@ -388,7 +380,7 @@
 	if(!T)
 		return FALSE
 
-	if(!is_centcom_level(T.z))//if not, don't bother
+	if(!is_centcom_level(T))//if not, don't bother
 		return FALSE
 
 	if(istype(T.loc, /area/shuttle/syndicate) || istype(T.loc, /area/syndicate_mothership) || istype(T.loc, /area/shuttle/assault_pod))
@@ -408,7 +400,7 @@
 	if(!T)
 		return FALSE
 
-	if(is_away_level(T.z))
+	if(is_away_level(T))
 		return TRUE
 
 	return FALSE
@@ -711,7 +703,10 @@
 			cut_overlay(managed_overlays)
 			managed_overlays = null
 		if(length(new_overlays))
-			managed_overlays = new_overlays
+			if (length(new_overlays) == 1)
+				managed_overlays = new_overlays[1]
+			else
+				managed_overlays = new_overlays
 			add_overlay(new_overlays)
 		. |= UPDATE_OVERLAYS
 
@@ -1928,13 +1923,14 @@
 	if(A.has_gravity) // Areas which always has gravity
 		return A.has_gravity
 	else
-		// There's a gravity generator on our z level
-		if(GLOB.gravity_generators["[T.z]"])
+		// See if there's a gravity generator on our map zone
+		var/datum/map_zone/mapzone = SSmapping.get_map_zone(T)
+		if(mapzone.gravity_generators.len)
 			var/max_grav = 0
-			for(var/obj/machinery/gravity_generator/main/G in GLOB.gravity_generators["[T.z]"])
+			for(var/obj/machinery/gravity_generator/main/G as anything in mapzone.gravity_generators)
 				max_grav = max(G.setting,max_grav)
 			return max_grav
-	return SSmapping.level_trait(T.z, ZTRAIT_GRAVITY)
+	return SSmapping.sub_zone_trait(T, ZTRAIT_GRAVITY)
 
 /**
  * Causes effects when the atom gets hit by a rust effect from heretics

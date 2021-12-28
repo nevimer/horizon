@@ -175,10 +175,6 @@ GLOBAL_VAR_INIT(hhMysteryRoomNumber, rand(1, 999999))
 						var/max = world.maxx-TRANSITIONEDGE
 						var/min = 1+TRANSITIONEDGE
 						var/list/possible_transtitons = list()
-						for(var/AZ in SSmapping.z_list)
-							var/datum/space_level/D = AZ
-							if (D.linkage == CROSSLINKED)
-								possible_transtitons += D.z_value
 						var/_z = pick(possible_transtitons)
 						var/_x = rand(min,max)
 						var/_y = rand(min,max)
@@ -193,10 +189,6 @@ GLOBAL_VAR_INIT(hhMysteryRoomNumber, rand(1, 999999))
 				var/max = world.maxx-TRANSITIONEDGE
 				var/min = 1+TRANSITIONEDGE
 				var/list/possible_transtitons = list()
-				for(var/AZ in SSmapping.z_list)
-					var/datum/space_level/D = AZ
-					if (D.linkage == CROSSLINKED)
-						possible_transtitons += D.z_value
 				var/_z = pick(possible_transtitons)
 				var/_x = rand(min,max)
 				var/_y = rand(min,max)
@@ -352,7 +344,6 @@ GLOBAL_VAR_INIT(hhMysteryRoomNumber, rand(1, 999999))
 	has_gravity = TRUE
 	area_flags = NOTELEPORT | HIDDEN_AREA
 	dynamic_lighting = DYNAMIC_LIGHTING_FORCED
-	ambientsounds = list('sound/ambience/servicebell.ogg')
 	var/roomnumber = 0
 	var/obj/item/hilbertshotel/parentSphere
 	var/datum/turf_reservation/reservation

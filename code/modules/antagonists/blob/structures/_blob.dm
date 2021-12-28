@@ -45,7 +45,8 @@
 	if(atmosblock)
 		air_update_turf(TRUE, TRUE)
 	ConsumeTile()
-	AddElement(/datum/element/swabable, CELL_LINE_TABLE_BLOB, CELL_VIRUS_TABLE_GENERIC, 2, 2)
+	if(!QDELETED(src)) //Consuming our tile can in rare cases cause us to del
+		AddElement(/datum/element/swabable, CELL_LINE_TABLE_BLOB, CELL_VIRUS_TABLE_GENERIC, 2, 2)
 
 /obj/structure/blob/proc/creation_action() //When it's created by the overmind, do this.
 	return
@@ -82,7 +83,7 @@
 /obj/structure/blob/BlockSuperconductivity()
 	return atmosblock
 
-/obj/structure/blob/CanAtmosPass(turf/T)
+/obj/structure/blob/CanAtmosPass(turf/T, vertical = FALSE)
 	return !atmosblock
 
 /obj/structure/blob/update_icon() //Updates color based on overmind color if we have an overmind.

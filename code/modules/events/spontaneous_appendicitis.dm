@@ -6,6 +6,10 @@
 	earliest_start = 10 MINUTES
 	min_players = 5 // To make your chance of getting help a bit higher.
 
+	track = EVENT_TRACK_MODERATE
+	tags = list(TAG_TARGETED)
+	min_med_crew = 1
+
 /datum/round_event/spontaneous_appendicitis
 	fakeable = FALSE
 
@@ -19,7 +23,7 @@
 			continue
 		if(!(H.mob_biotypes & MOB_ORGANIC)) //biotype sleeper bugs strike again, once again making appendicitis pick a target that can't take it
 			continue
-		if(H.z in SSmapping.levels_by_trait(ZTRAIT_CENTCOM))//not for admin/ooc stuff
+		if(is_centcom_level(H))//not for admin/ooc stuff
 			continue
 		var/foundAlready = FALSE //don't infect someone that already has appendicitis
 		for(var/datum/disease/appendicitis/A in H.diseases)

@@ -118,9 +118,9 @@
 #define INIT_ORDER_ACHIEVEMENTS 77
 #define INIT_ORDER_RESEARCH 75
 #define INIT_ORDER_STATION 74 //This is high priority because it manipulates a lot of the subsystems that will initialize after it.
-#define INIT_ORDER_EVENTS 70
+#define INIT_ORDER_GAMEMODE 70
 #define INIT_ORDER_IDACCESS 66
-#define INIT_ORDER_JOBS 65
+#define INIT_ORDER_JOBS 65 // Must init before atoms, to set up properly the dynamic job lists.
 #define INIT_ORDER_QUIRKS 60
 #define INIT_ORDER_AI_MOVEMENT 56 //We need the movement setup
 #define INIT_ORDER_AI_CONTROLLERS 55 //So the controller can get the ref

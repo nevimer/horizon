@@ -48,7 +48,7 @@
 
 /area/ruin/space/has_grav/powered/aesthetic
 	name = "Aesthetic"
-	ambientsounds = list('sound/ambience/ambivapor1.ogg')
+	main_ambience = AMBIENCE_VAPORWAVE
 
 
 //Ruin of Hotel
@@ -228,7 +228,7 @@
 /area/ruin/space/has_grav/ancientstation/atmo
 	name = "Beta Station Atmospherics"
 	icon_state = "red"
-	ambience_index = AMBIENCE_ENGI
+	main_ambience = AMBIENCE_ENGI
 	has_gravity = TRUE
 
 /area/ruin/space/has_grav/ancientstation/betacorridor
@@ -238,7 +238,7 @@
 /area/ruin/space/has_grav/ancientstation/engi
 	name = "Charlie Station Engineering"
 	icon_state = "engine"
-	ambience_index = AMBIENCE_ENGI
+	main_ambience = AMBIENCE_ENGI
 
 /area/ruin/space/has_grav/ancientstation/comm
 	name = "Charlie Station Command"
@@ -271,7 +271,7 @@
 /area/ruin/space/has_grav/ancientstation/deltaai
 	name = "Delta Station AI Core"
 	icon_state = "ai"
-	ambientsounds = list('sound/ambience/ambimalf.ogg', 'sound/ambience/ambitech.ogg', 'sound/ambience/ambitech2.ogg', 'sound/ambience/ambiatmos.ogg', 'sound/ambience/ambiatmos2.ogg')
+	main_ambience = AMBIENCE_AI_CORE
 
 /area/ruin/space/has_grav/ancientstation/mining
 	name = "Beta Station Mining Equipment"
@@ -379,7 +379,7 @@
 /area/ruin/space/abandoned_tele
 	name = "Abandoned Teleporter"
 	icon_state = "teleporter"
-	ambientsounds = list('sound/ambience/ambimalf.ogg', 'sound/ambience/signal.ogg')
+	main_ambience = AMBIENCE_ABANDONED_TELEPORTER
 
 //OLD AI SAT
 
@@ -414,3 +414,36 @@
 	name = "Hell Factory Office"
 	icon_state = "red"
 	area_flags = VALID_TERRITORY | BLOBS_ALLOWED | UNIQUE_AREA | NOTELEPORT
+
+// HORIZON RUINS !!!
+
+//Engineering Ruin - _maps/RandomRuins/SpaceRuins/outpost_engineering.dmm
+// Small outpost with a telecomms relay and some engineering equipment with a habitation area.
+
+/area/ruin/space/has_grav/outpost_engineering
+	name = "Service Outpost"
+	icon_state = "storage"
+
+/area/ruin/space/has_grav/outpost_engineering/habitation
+	name = "Service Outpost Habitation"
+	icon_state = "garden"
+
+/area/ruin/space/has_grav/outpost_engineering/roomone
+	name = "Service Outpost Bedroom"
+	icon_state = "crew_quarters"
+
+/area/ruin/space/has_grav/outpost_engineering/roomtwo
+	name = "Service Outpost Bedroom"
+	icon_state = "crew_quarters"
+
+/area/ruin/space/has_grav/outpost_engineering/maint
+	name = "Service Outpost Maintenance"
+	icon_state = "maintcentral"
+
+/area/ruin/space/has_grav/outpost_engineering/hanger
+	name = "Service Outpost Hanger"
+	icon_state = "entry"
+
+/area/ruin/space/has_grav/outpost_engineering/storage
+	name = "Service Outpost Control Room"
+	icon_state = "storage"

@@ -42,6 +42,14 @@ GLOBAL_LIST_INIT(metal_recipes, list ( \
 		new /datum/stack_recipe("sofa (right)", /obj/structure/chair/sofa/corp/right, one_per_turf = TRUE, on_floor = TRUE), \
 		new /datum/stack_recipe("sofa (corner)", /obj/structure/chair/sofa/corp/corner, one_per_turf = TRUE, on_floor = TRUE), \
 		)), \
+	new/datum/stack_recipe_list("makeshift pipes", list( \
+		new /datum/stack_recipe("straight pipe casing", /obj/item/pipe_casing/straight_pipe, on_floor = TRUE), \
+		new /datum/stack_recipe("bent pipe casing", /obj/item/pipe_casing/bent_pipe, on_floor = TRUE), \
+		new /datum/stack_recipe("manifold casing", /obj/item/pipe_casing/manifold, on_floor = TRUE), \
+		new /datum/stack_recipe("4-way manifold casing", /obj/item/pipe_casing/manifold4w, on_floor = TRUE), \
+		new /datum/stack_recipe("portable connector casing", /obj/item/pipe_casing/connector, on_floor = TRUE), \
+		new /datum/stack_recipe("layer adapter casing", /obj/item/pipe_casing/layer_manifold, on_floor = TRUE) \
+		)), \
 	new /datum/stack_recipe_list("chess pieces", list( \
 		new /datum/stack_recipe("White Pawn", /obj/structure/chess/whitepawn, 2, time = 1 SECONDS, one_per_turf = TRUE, on_floor = TRUE), \
 		new /datum/stack_recipe("White Rook", /obj/structure/chess/whiterook, 2, time = 1 SECONDS, one_per_turf = TRUE, on_floor = TRUE), \
@@ -66,6 +74,7 @@ GLOBAL_LIST_INIT(metal_recipes, list ( \
 	new/datum/stack_recipe("iron rod", /obj/item/stack/rods, 1, 2, 60), \
 	null, \
 	new/datum/stack_recipe("wall girders", /obj/structure/girder, 2, time = 40, one_per_turf = TRUE, on_floor = TRUE, trait_booster = TRAIT_QUICK_BUILD, trait_modifier = 0.75), \
+	new/datum/stack_recipe("low wall", /obj/structure/low_wall, 2, time = 40, one_per_turf = TRUE, on_floor = TRUE, trait_booster = TRAIT_QUICK_BUILD, trait_modifier = 0.75), \
 	null, \
 	new/datum/stack_recipe("computer frame", /obj/structure/frame/computer, 5, time = 25, one_per_turf = TRUE, on_floor = TRUE), \
 	new/datum/stack_recipe("modular console", /obj/machinery/modular_computer/console/buildable/, 10, time = 25, one_per_turf = TRUE, on_floor = TRUE), \
@@ -107,12 +116,17 @@ GLOBAL_LIST_INIT(metal_recipes, list ( \
 	new/datum/stack_recipe("button frame", /obj/item/wallframe/button, 1), \
 	new/datum/stack_recipe("lightswitch frame", /obj/item/wallframe/light_switch, 1), \
 	null, \
-	new/datum/stack_recipe("iron door", /obj/structure/mineral_door/iron, 20, one_per_turf = TRUE, on_floor = TRUE), \
+	new/datum/stack_recipe("iron door", /obj/structure/mineral_door/iron, 20, time = 10 SECONDS, one_per_turf = TRUE, on_floor = TRUE), \
 	new/datum/stack_recipe("floodlight frame", /obj/structure/floodlight_frame, 5, one_per_turf = TRUE, on_floor = TRUE), \
 	new/datum/stack_recipe("voting box", /obj/structure/votebox, 15, time = 50), \
 	new/datum/stack_recipe("pestle", /obj/item/pestle, 1, time = 50), \
 	new/datum/stack_recipe("hygienebot assembly", /obj/item/bot_assembly/hygienebot, 2, time = 5 SECONDS), \
-	new/datum/stack_recipe("shower frame", /obj/structure/showerframe, 2, time= 2 SECONDS)
+	new/datum/stack_recipe("shower frame", /obj/structure/showerframe, 2, time= 2 SECONDS), \
+	null, \
+	new/datum/stack_recipe("key ring", /obj/item/storage/key_ring, 1, time = 2 SECONDS), \
+	new/datum/stack_recipe("key assembly", /obj/item/key_assembly, 1, time = 2 SECONDS), \
+	new/datum/stack_recipe("lock assembly", /obj/item/lock_assembly, 2, time = 2 SECONDS), \
+	new/datum/stack_recipe("lockpick", /obj/item/lockpick, 1, time = 2 SECONDS)
 ))
 
 /obj/item/stack/sheet/iron
@@ -227,7 +241,7 @@ GLOBAL_LIST_INIT(wood_recipes, list ( \
 	new/datum/stack_recipe("wooden chair", /obj/structure/chair/wood/, 3, time = 10, one_per_turf = TRUE, on_floor = TRUE), \
 	new/datum/stack_recipe("winged wooden chair", /obj/structure/chair/wood/wings, 3, time = 10, one_per_turf = TRUE, on_floor = TRUE), \
 	new/datum/stack_recipe("wooden barricade", /obj/structure/barricade/wooden, 5, time = 50, one_per_turf = TRUE, on_floor = TRUE), \
-	new/datum/stack_recipe("wooden door", /obj/structure/mineral_door/wood, 10, time = 20, one_per_turf = TRUE, on_floor = TRUE), \
+	new/datum/stack_recipe("wooden door", /obj/structure/mineral_door/wood, 10, time = 10 SECONDS, one_per_turf = TRUE, on_floor = TRUE), \
 	new/datum/stack_recipe("coffin", /obj/structure/closet/crate/coffin, 5, time = 15, one_per_turf = TRUE, on_floor = TRUE), \
 	new/datum/stack_recipe("book case", /obj/structure/bookcase, 4, time = 15, one_per_turf = TRUE, on_floor = TRUE), \
 	new/datum/stack_recipe("drying rack", /obj/machinery/smartfridge/drying_rack, 10, time = 15, one_per_turf = TRUE, on_floor = TRUE), \
@@ -255,6 +269,8 @@ GLOBAL_LIST_INIT(wood_recipes, list ( \
 		new /datum/stack_recipe("pew (left)", /obj/structure/chair/pew/left, 3, one_per_turf = TRUE, on_floor = TRUE),
 		new /datum/stack_recipe("pew (right)", /obj/structure/chair/pew/right, 3, one_per_turf = TRUE, on_floor = TRUE)
 		)),
+	null, \
+	new/datum/stack_recipe("low wall", /obj/structure/low_wall/wood, 2, time = 40, one_per_turf = TRUE, on_floor = TRUE, trait_booster = TRAIT_QUICK_BUILD, trait_modifier = 0.75), \
 	null, \
 	))
 
@@ -554,7 +570,7 @@ GLOBAL_LIST_INIT(runed_metal_recipes, list ( \
 		return
 	var/turf/T = get_turf(user) //we may have moved. adjust as needed...
 	var/area/A = get_area(user)
-	if((!is_station_level(T.z) && !is_mining_level(T.z)) || (A && !(A.area_flags & CULT_PERMITTED)))
+	if((!is_station_level(T) && !is_mining_level(T)) || (A && !(A.area_flags & CULT_PERMITTED)))
 		to_chat(user, SPAN_WARNING("The veil is not weak enough here."))
 		return FALSE
 	return ..()
@@ -704,7 +720,7 @@ GLOBAL_LIST_INIT(plastic_recipes, list(
 
 GLOBAL_LIST_INIT(paperframe_recipes, list(
 new /datum/stack_recipe("paper frame separator", /obj/structure/window/paperframe, 2, one_per_turf = TRUE, on_floor = TRUE, time = 10), \
-new /datum/stack_recipe("paper frame door", /obj/structure/mineral_door/paperframe, 3, one_per_turf = TRUE, on_floor = TRUE, time = 10 )))
+new /datum/stack_recipe("paper frame door", /obj/structure/mineral_door/paperframe, 3, time = 10 SECONDS, one_per_turf = TRUE, on_floor = TRUE, time = 10 )))
 
 /obj/item/stack/sheet/paperframes
 	name = "paper frames"

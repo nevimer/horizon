@@ -54,7 +54,7 @@
 		return TRUE
 	uses_remaining--
 	var/turf/my_turf = get_turf(user)
-	my_turf.PolluteTurf(fragrance_type, 20)
+	my_turf.pollute_turf(fragrance_type, 20)
 	user.visible_message(SPAN_NOTICE("[user] sprays [attacked] with \the [src]."), SPAN_NOTICE("You spray [attacked] with \the [src]."))
 	user.changeNext_move(CLICK_CD_RANGE*2)
 	playsound(my_turf, 'sound/effects/spray2.ogg', 50, TRUE, -6)
@@ -100,3 +100,7 @@
 /obj/item/perfume/amber
 	name = "amber perfume bottle"
 	fragrance_type = /datum/pollutant/fragrance/amber
+
+/obj/item/perfume/nectarine
+	name = "nectarine perfume bottle"
+	fragrance_type = /datum/pollutant/fragrance/nectarine

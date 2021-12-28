@@ -112,18 +112,18 @@ GLOBAL_VAR_INIT(fscpassword, generate_password())
 /area/ruin/space/has_grav/syndicate_forgotten_ship
 	name = "Syndicate Forgotten Ship"
 	icon_state = "syndie-ship"
-	ambientsounds = list('sound/ambience/ambidanger.ogg', 'sound/ambience/ambidanger2.ogg', 'sound/ambience/ambigen9.ogg', 'sound/ambience/ambigen10.ogg')
+	main_ambience = AMBIENCE_FORGOTTEN_SHIP
 
 /area/ruin/space/has_grav/syndicate_forgotten_cargopod
 	name = "Syndicate Forgotten Cargo pod"
 	icon_state = "syndie-ship"
-	ambientsounds = list('sound/ambience/ambigen4.ogg', 'sound/ambience/signal.ogg')
+	main_ambience = AMBIENCE_FORGOTTEN_CARGO
 
 /area/ruin/space/has_grav/powered/syndicate_forgotten_vault
 	name = "Syndicate Forgotten Vault"
 	icon_state = "syndie-ship"
-	ambientsounds = list('sound/ambience/ambitech2.ogg', 'sound/ambience/ambitech3.ogg')
 	area_flags = NOTELEPORT | UNIQUE_AREA
+	main_ambience = AMBIENCE_FORGOTTEN_VAULT
 
 	//Cybersun hardsuit
 
@@ -136,6 +136,7 @@ GLOBAL_VAR_INIT(fscpassword, generate_password())
 	armor = list(MELEE = 30, BULLET = 40, LASER = 55, ENERGY = 55, BOMB = 30, BIO = 100, RAD = 60, FIRE = 60, ACID = 60)
 	strip_delay = 600
 	actions_types = list()
+	fitted_bodytypes = NONE
 
 
 /obj/item/clothing/suit/space/hardsuit/cybersun
@@ -150,6 +151,7 @@ GLOBAL_VAR_INIT(fscpassword, generate_password())
 	actions_types = list(/datum/action/item_action/toggle_helmet, /datum/action/item_action/toggle_spacesuit)
 	jetpack = /obj/item/tank/jetpack/suit
 	hardsuit_tail_colors = list("333", "345", "335")
+	fitted_bodytypes = BODYTYPE_DIGITIGRADE
 
 //Special NT NPCs
 

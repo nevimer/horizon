@@ -5,6 +5,7 @@
 	worn_icon = 'icons/mob/clothing/under/engineering.dmi'
 	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 0, RAD = 10, FIRE = 60, ACID = 20)
 	resistance_flags = NONE
+	fitted_bodytypes = BODYTYPE_DIGITIGRADE|BODYTYPE_TESHARI
 
 /obj/item/clothing/under/rank/engineering/chief_engineer
 	desc = "It's a high visibility jumpsuit given to those engineers insane enough to achieve the rank of \"Chief Engineer\". It has minor radiation shielding."
@@ -21,7 +22,7 @@
 	body_parts_covered = CHEST|GROIN|ARMS
 	dying_key = DYE_REGISTRY_JUMPSKIRT
 	fitted = FEMALE_UNIFORM_TOP
-	mutant_variants = NONE
+	fitted_bodytypes = BODYTYPE_TESHARI
 
 /obj/item/clothing/under/rank/engineering/atmospheric_technician
 	desc = "It's a jumpsuit worn by atmospheric technicians. It has minor protection from fire."
@@ -37,7 +38,7 @@
 	body_parts_covered = CHEST|GROIN|ARMS
 	dying_key = DYE_REGISTRY_JUMPSKIRT
 	fitted = FEMALE_UNIFORM_TOP
-	mutant_variants = NONE
+	fitted_bodytypes = BODYTYPE_TESHARI
 
 /obj/item/clothing/under/rank/engineering/engineer
 	desc = "It's an orange high visibility jumpsuit worn by engineers. It has minor radiation shielding."
@@ -45,7 +46,6 @@
 	icon_state = "engine"
 	inhand_icon_state = "engi_suit"
 	species_exception = list(/datum/species/golem/uranium)
-	mutant_variants = NONE
 
 /obj/item/clothing/under/rank/engineering/engineer/hazard
 	name = "engineer's hazard jumpsuit"
@@ -53,6 +53,7 @@
 	icon_state = "hazard"
 	inhand_icon_state = "suit-orange"
 	alt_covers_chest = TRUE
+	fitted_bodytypes = BODYTYPE_DIGITIGRADE
 
 /obj/item/clothing/under/rank/engineering/engineer/skirt
 	name = "engineer's jumpskirt"
@@ -62,4 +63,4 @@
 	body_parts_covered = CHEST|GROIN|ARMS
 	dying_key = DYE_REGISTRY_JUMPSKIRT
 	fitted = FEMALE_UNIFORM_TOP
-	mutant_variants = NONE
+	fitted_bodytypes = BODYTYPE_TESHARI

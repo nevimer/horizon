@@ -37,6 +37,9 @@
 #define UNIT_TEST_FAILED 1
 #define UNIT_TEST_SKIPPED 2
 
+#define TEST_DEFAULT 1
+#define TEST_DEL_WORLD INFINITY
+
 /// A trait source when adding traits through unit tests
 #define TRAIT_SOURCE_UNIT_TESTS "unit_tests"
 
@@ -46,14 +49,13 @@
 #include "bloody_footprints.dm"
 #include "breath.dm"
 #include "card_mismatch.dm"
-#include "chain_pull_through_space.dm"
 #include "combat.dm"
 #include "component_tests.dm"
 #include "connect_loc.dm"
 #include "confusion.dm"
 #include "crayons.dm"
+#include "create_and_destroy.dm"
 #include "designs.dm"
-#include "dynamic_ruleset_sanity.dm"
 #include "egg_glands.dm"
 #include "emoting.dm"
 #include "food_edibility_check.dm"
@@ -61,7 +63,6 @@
 #include "heretic_knowledge.dm"
 #include "holidays.dm"
 #include "hydroponics_harvest.dm"
-#include "initialize_sanity.dm"
 #include "keybinding_init.dm"
 #include "machine_disassembly.dm"
 #include "medical_wounds.dm"
@@ -94,6 +95,7 @@
 #include "timer_sanity.dm"
 #include "unit_test.dm"
 #include "wizard.dm"
+#include "worn_icons.dm"
 
 #ifdef REFERENCE_TRACKING //Don't try and parse this file if ref tracking isn't turned on. IE: don't parse ref tracking please mr linter
 #include "find_reference_sanity.dm"

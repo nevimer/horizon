@@ -50,7 +50,7 @@
 	///Compatible magazines with the gun
 	var/mag_type = /obj/item/ammo_box/magazine/m10mm //Removes the need for max_ammo and caliber info
 	///Whether the sprite has a visible magazine or not
-	var/mag_display = FALSE
+	var/mag_display = TRUE
 	///Whether the sprite has a visible ammo display or not
 	var/mag_display_ammo = FALSE
 	///Whether the sprite has a visible indicator for being empty or not.
@@ -166,7 +166,7 @@
 		. += "[icon_state]_toy"
 
 
-	if(!magazine || internal_magazine)
+	if(!magazine || internal_magazine || !mag_display)
 		return
 
 	if(special_mags)
@@ -447,7 +447,7 @@
 			CB.bounce_away(FALSE, NONE)
 			num_unloaded++
 			var/turf/T = get_turf(drop_location())
-			if(T && is_station_level(T.z))
+			if(T && is_station_level(T))
 				SSblackbox.record_feedback("tally", "station_mess_created", 1, CB.name)
 		if (num_unloaded)
 			to_chat(user, SPAN_NOTICE("You unload [num_unloaded] [cartridge_wording]\s from [src]."))

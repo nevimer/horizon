@@ -23,6 +23,8 @@
 	var/bounty_text = "I'm looking to acquire a couple of this exotic item."
 	/// The dialogue the trader shows after completing the bounty
 	var/bounty_complete_text = "Thank you very much for getting me those."
+	/// Whether this bounty is a supplies bounty.
+	var/supplies_bounty = FALSE
 
 /datum/trader_bounty/New()
 	. = ..()
@@ -40,7 +42,7 @@
 		reward_item_name = initial(cast.name)
 
 /datum/trader_bounty/proc/Validate(atom/movable/movable_to_valid)
-	if((!check_type || movable_to_valid.type == path) && IsValid(movable_to_valid))
+	if((!check_type || movable_to_valid.type == path) && IsValid(movable_to_valid) && !length(movable_to_valid.client_mobs_in_contents))
 		return GetAmount(movable_to_valid)
 
 /datum/trader_bounty/proc/IsValid(atom/movable/movable_to_valid)
@@ -83,3 +85,31 @@
 	var/datum/reagents/holder = movable_to_valid.reagents
 	var/datum/reagent/reagent = holder.get_reagent(reagent_type)
 	return reagent.volume
+
+/datum/trader_bounty/gas
+	check_type = FALSE
+	var/gas_type
+	var/list/possible_gas_types
+
+/datum/trader_bounty/gas/New()
+	. = ..()
+	if(possible_gas_types)
+		gas_type = pick(possible_gas_types)
+		possible_gas_types = null
+	if(!name)
+		var/datum/gas/gas_cast = gas_type
+		name = "[initial(gas_cast.name)]"
+
+/datum/trader_bounty/gas/IsValid(atom/movable/movable_to_valid)
+	if(!istype(movable_to_valid, /obj/item/tank))
+		return FALSE
+	var/obj/item/tank/holder = movable_to_valid
+	var/datum/gas_mixture/our_mix = holder.return_air()
+	if(!our_mix.gases[gas_type])
+		return FALSE
+	return TRUE
+
+/datum/trader_bounty/gas/GetAmount(atom/movable/movable_to_valid)
+	var/obj/item/tank/holder = movable_to_valid
+	var/datum/gas_mixture/our_mix = holder.return_air()
+	return our_mix.gases[gas_type][MOLES]

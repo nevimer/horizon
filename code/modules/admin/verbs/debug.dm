@@ -351,7 +351,7 @@ But you can call procs that are of type /mob/living/carbon/human/proc/ for that 
 			if (!length(area_turfs))
 				continue
 			var/turf/picked = pick(area_turfs)
-			if(is_station_level(picked.z))
+			if(is_station_level(picked))
 				if(!(A.type in areas_all) && !is_type_in_typecache(A, station_areas_blacklist))
 					areas_all.Add(A.type)
 		else if(!(A.type in areas_all))
@@ -694,7 +694,7 @@ But you can call procs that are of type /mob/living/carbon/human/proc/ for that 
 			return
 
 	var/len = GLOB.ruin_landmarks.len
-	seedRuins(SSmapping.levels_by_trait(data[2]), max(1, template.cost), data[3], list(ruinname = template))
+	seedRuins(SSmapping.sub_zones_by_trait(data[2]), max(1, template.cost), data[3], list(ruinname = template))
 	if (GLOB.ruin_landmarks.len > len)
 		var/obj/effect/landmark/ruin/landmark = GLOB.ruin_landmarks[GLOB.ruin_landmarks.len]
 		log_admin("[key_name(src)] randomly spawned ruin [ruinname] at [COORD(landmark)].")
@@ -741,19 +741,6 @@ But you can call procs that are of type /mob/living/carbon/human/proc/ for that 
 		return
 
 	GLOB.error_cache.show_to(src)
-
-/client/proc/pump_random_event()
-	set category = "Debug"
-	set name = "Pump Random Event"
-	set desc = "Schedules the event subsystem to fire a new random event immediately. Some events may fire without notification."
-	if(!holder)
-		return
-
-	SSevents.scheduled = world.time
-
-	message_admins(SPAN_ADMINNOTICE("[key_name_admin(src)] pumped a random event."))
-	SSblackbox.record_feedback("tally", "admin_verb", 1, "Pump Random Event")
-	log_admin("[key_name(src)] pumped a random event.")
 
 /client/proc/start_line_profiling()
 	set category = "Profile"

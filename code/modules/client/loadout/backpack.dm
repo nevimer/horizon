@@ -45,6 +45,10 @@
 	name = "Amber Perfume"
 	path = /obj/item/perfume/amber
 
+/datum/loadout_item/backpack/fragrance/nectarine
+	name = "Nectarine Perfume"
+	path = /obj/item/perfume/nectarine
+
 //MISC
 /datum/loadout_item/backpack/matches
 	name = "Matchbox"
@@ -145,6 +149,10 @@
 /datum/loadout_item/backpack/toy/dice
 	name = "Dice bag"
 	path = /obj/item/storage/pill_bottle/dice
+
+/datum/loadout_item/backpack/toy/deathroll_dice
+	name = "Deathroll die"
+	path = /obj/item/deathroll_dice
 
 /datum/loadout_item/backpack/toy/eightball
 	name = "Magic eightball"

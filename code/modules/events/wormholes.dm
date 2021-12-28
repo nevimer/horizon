@@ -7,6 +7,9 @@ GLOBAL_LIST_EMPTY(all_wormholes) // So we can pick wormholes to teleport to
 	weight = 2
 	min_players = 2
 
+	track = EVENT_TRACK_MODERATE
+	tags = list(TAG_COMMUNAL)
+
 
 /datum/round_event/wormholes
 	announceWhen = 10
@@ -23,7 +26,7 @@ GLOBAL_LIST_EMPTY(all_wormholes) // So we can pick wormholes to teleport to
 
 /datum/round_event/wormholes/start()
 	for(var/turf/open/floor/T in world)
-		if(is_station_level(T.z))
+		if(is_station_level(T))
 			pick_turfs += T
 
 	for(var/i = 1, i <= number_of_wormholes, i++)

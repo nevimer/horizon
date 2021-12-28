@@ -39,7 +39,7 @@ SUBSYSTEM_DEF(communications)
  * * user - Mob who called the meeting
  */
 /datum/controller/subsystem/communications/proc/can_make_emergency_meeting(mob/living/user)
-	if(!(SSevents.holidays && SSevents.holidays[APRIL_FOOLS]))
+	if(!(SSgamemode.holidays && SSgamemode.holidays[APRIL_FOOLS]))
 		return FALSE
 	else if(COOLDOWN_FINISHED(src, emergency_meeting_cooldown))
 		return TRUE
@@ -64,7 +64,7 @@ SUBSYSTEM_DEF(communications)
 
 /datum/controller/subsystem/communications/proc/send_message(datum/comm_message/sending,print = TRUE,unique = FALSE)
 	for(var/obj/machinery/computer/communications/C in GLOB.machines)
-		if(!(C.machine_stat & (BROKEN|NOPOWER)) && is_station_level(C.z))
+		if(!(C.machine_stat & (BROKEN|NOPOWER)) && is_station_level(C))
 			if(unique)
 				C.add_message(sending)
 			else //We copy the message for each console, answers and deletions won't be shared

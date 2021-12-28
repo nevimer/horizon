@@ -112,6 +112,7 @@
 	var/aiHacking = FALSE
 	var/closeOtherId //Cyclelinking for airlocks that aren't on the same x or y coord as the target.
 	var/obj/machinery/door/airlock/closeOther
+	var/list/obj/machinery/door/airlock/close_others = list()
 	var/obj/item/electronics/airlock/electronics
 	COOLDOWN_DECLARE(shockCooldown)
 	var/obj/item/note //Any papers pinned to the airlock
@@ -148,9 +149,6 @@
 	wires = set_wires()
 	if(frequency)
 		set_frequency(frequency)
-
-	if(closeOtherId != null)
-		addtimer(CALLBACK(.proc/update_other_id), 5)
 	if(glass)
 		airlock_material = "glass"
 	if(security_level > AIRLOCK_SECURITY_IRON)
@@ -181,6 +179,8 @@
 	. = ..()
 	if (cyclelinkeddir)
 		cyclelinkairlock()
+	if(closeOtherId)
+		update_other_id()
 	if(abandoned)
 		var/outcome = rand(1,100)
 		switch(outcome)
@@ -212,10 +212,9 @@
 		id_tag = "[port.id]_[id_tag]"
 
 /obj/machinery/door/airlock/proc/update_other_id()
-	for(var/obj/machinery/door/airlock/A in GLOB.airlocks)
-		if(A.closeOtherId == closeOtherId && A != src)
-			closeOther = A
-			break
+	for(var/obj/machinery/door/airlock/Airlock in GLOB.airlocks)
+		if(Airlock.closeOtherId == closeOtherId && Airlock != src)
+			close_others += Airlock
 
 /obj/machinery/door/airlock/proc/cyclelinkairlock()
 	if (cyclelinkedairlock)
@@ -341,6 +340,11 @@
 		if (cyclelinkedairlock.cyclelinkedairlock == src)
 			cyclelinkedairlock.cyclelinkedairlock = null
 		cyclelinkedairlock = null
+	if(close_others) //remove this airlock from the list of every linked airlock
+		closeOtherId = null
+		for(var/obj/machinery/door/airlock/otherlock as anything in close_others)
+			otherlock.close_others -= src
+		close_others.Cut()
 	if(id_tag)
 		for(var/obj/machinery/door_buttons/D in GLOB.machines)
 			D.removeMe(src)
@@ -367,8 +371,15 @@
 			if(!C.wearing_shock_proof_gloves())
 				new /datum/hallucination/shock(C)
 				return
-	if (cyclelinkedairlock)
-		if (!shuttledocked && !emergency && !cyclelinkedairlock.shuttledocked && !cyclelinkedairlock.emergency && allowed(user))
+	if(close_others)
+		for(var/obj/machinery/door/airlock/otherlock as anything in close_others)
+			if(!shuttledocked && !emergency && !otherlock.shuttledocked && !otherlock.emergency && allowed(user))
+				if(otherlock.operating)
+					otherlock.delayed_close_requested = TRUE
+				else
+					addtimer(CALLBACK(otherlock, .proc/close), 2)
+	if(cyclelinkedairlock)
+		if(!shuttledocked && !emergency && !cyclelinkedairlock.shuttledocked && !cyclelinkedairlock.emergency && allowed(user))
 			if(cyclelinkedairlock.operating)
 				cyclelinkedairlock.delayed_close_requested = TRUE
 			else
@@ -1077,6 +1088,7 @@
 
 	if(!density)
 		return TRUE
+	play_blind_effect(src, 5, "door_open", dir)
 	SEND_SIGNAL(src, COMSIG_AIRLOCK_OPEN, forced)
 	operating = TRUE
 	update_icon(ALL, AIRLOCK_OPENING, TRUE)
@@ -1124,6 +1136,7 @@
 	var/obj/structure/window/killthis = (locate(/obj/structure/window) in get_turf(src))
 	if(killthis)
 		SSexplosions.med_mov_atom += killthis
+	play_blind_effect(src, 5, "door_close", dir)
 	SEND_SIGNAL(src, COMSIG_AIRLOCK_CLOSE, forced)
 	operating = TRUE
 	update_icon(ALL, AIRLOCK_CLOSING, 1)

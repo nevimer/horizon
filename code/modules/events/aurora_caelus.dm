@@ -5,6 +5,9 @@
 	weight = 1
 	earliest_start = 5 MINUTES
 
+	track = EVENT_TRACK_MUNDANE
+	tags = list(TAG_COMMUNAL, TAG_POSITIVE, TAG_SPACE)
+
 /datum/round_event_control/aurora_caelus/canSpawnEvent(players)
 	if(!CONFIG_GET(flag/starlight))
 		return FALSE
@@ -23,7 +26,7 @@
 	sender_override = "Nanotrasen Meteorology Division")
 	for(var/V in GLOB.player_list)
 		var/mob/M = V
-		if((M.client.prefs.toggles & SOUND_MIDI) && is_station_level(M.z))
+		if((M.client.prefs.toggles & SOUND_MIDI) && is_station_level(M))
 			M.playsound_local(M, 'sound/ambience/aurora_caelus.ogg', 20, FALSE, pressure_affected = FALSE)
 
 /datum/round_event/aurora_caelus/start()
