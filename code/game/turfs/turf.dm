@@ -68,6 +68,10 @@ GLOBAL_LIST_EMPTY(station_turfs)
 	var/area/underlying_area
 	/// If this turf is a part of a shuttle, this is a reference to its roof.
 	var/obj/effect/abstract/shuttle_roof/shuttle_roof
+	/// ID of the virtual level we're in
+	var/virtual_z = 0
+	/// Translation of the virtual z to a virtual level
+	var/static/list/virtual_z_translation
 	/// List of all the ambiences coming from other atoms on the turf
 	var/list/ambience_list
 
@@ -82,8 +86,10 @@ GLOBAL_LIST_EMPTY(station_turfs)
  *
  * Doesn't call parent, see [/atom/proc/Initialize]
  */
-/turf/Initialize(mapload)
+/turf/Initialize(mapload, inherited_virtual_z)
 	SHOULD_CALL_PARENT(FALSE)
+	if(inherited_virtual_z)
+		virtual_z = inherited_virtual_z
 	HandleInitialGasString()
 	if(flags_1 & INITIALIZED_1)
 		stack_trace("Warning: [src]([type]) initialized multiple times!")
@@ -92,6 +98,9 @@ GLOBAL_LIST_EMPTY(station_turfs)
 	assemble_baseturfs()
 
 	levelupdate()
+
+	if(!virtual_z_translation)
+		virtual_z_translation = SSmapping.virtual_z_translation
 
 	if (length(smoothing_groups))
 		sortTim(smoothing_groups) //In case it's not properly ordered, let's avoid duplicate entries with the same values.
@@ -119,10 +128,10 @@ GLOBAL_LIST_EMPTY(station_turfs)
 	if (light_power && light_range)
 		update_light()
 
-	var/turf/T = SSmapping.get_turf_above(src)
+	var/turf/T = above()
 	if(T)
 		T.multiz_turf_new(src, DOWN)
-	T = SSmapping.get_turf_below(src)
+	T = below()
 	if(T)
 		T.multiz_turf_new(src, UP)
 
@@ -144,10 +153,10 @@ GLOBAL_LIST_EMPTY(station_turfs)
 	if(!changing_turf)
 		stack_trace("Incorrect turf deletion")
 	changing_turf = FALSE
-	var/turf/T = SSmapping.get_turf_above(src)
+	var/turf/T = above()
 	if(T)
 		T.multiz_turf_del(src, DOWN)
-	T = SSmapping.get_turf_below(src)
+	T = below()
 	if(T)
 		T.multiz_turf_del(src, UP)
 	if(force)

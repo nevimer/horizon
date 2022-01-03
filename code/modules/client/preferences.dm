@@ -208,6 +208,8 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	var/faction_more_info = FALSE
 	//Associative list, keyed by language typepath, pointing to LANGUAGE_UNDERSTOOD, or LANGUAGE_SPOKEN, for whether we understand or speak the language
 	var/list/languages = list()
+	/// Whether this client has gotten their interview accepted at any point in time.
+	var/interview_accepted = FALSE
 
 /datum/preferences/New(client/C)
 	parent = C
@@ -2711,6 +2713,8 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 						if(PIXEL_SCALING_1_2X)
 							pixel_size = PIXEL_SCALING_2X
 						if(PIXEL_SCALING_2X)
+							pixel_size = PIXEL_SCALING_2_2X
+						if(PIXEL_SCALING_2_2X)
 							pixel_size = PIXEL_SCALING_3X
 						if(PIXEL_SCALING_3X)
 							pixel_size = PIXEL_SCALING_AUTO
