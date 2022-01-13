@@ -436,7 +436,7 @@
 		return ..()
 	icon_state = "[base_icon_state][user.resting ? 0 : null]"
 	return ..()
-
+#define storage_ui_default "LEFT+7,BOTTOM+7 to LEFT+10,BOTTOM+8"
 /atom/movable/screen/storage
 	name = "storage"
 	icon_state = "block"
@@ -593,7 +593,7 @@
 	name = "flash"
 	icon_state = "blank"
 	blend_mode = BLEND_ADD
-	screen_loc = "WEST,SOUTH to EAST,NORTH"
+	screen_loc = "LEFT,BOTTOM to RIGHT,TOP"
 	layer = FLASH_LAYER
 	plane = FULLSCREEN_PLANE
 
@@ -669,7 +669,7 @@
 /atom/movable/screen/splash
 	icon = 'icons/blank_title.png'
 	icon_state = ""
-	screen_loc = "1,1"
+	screen_loc = "CENTER-7,CENTER-7"
 	plane = SPLASHSCREEN_PLANE
 	var/client/holder
 
