@@ -75,11 +75,8 @@
 	update_client_colour()
 	update_mouse_pointer()
 	if(client)
-		if(client.view_size)
-			client.view_size.resetToDefault() // Resets the client.view in case it was changed.
-		else
-			client.change_view(getScreenSize(client.prefs.widescreenpref))
-
+		client.change_view(getScreenSize(client.prefs.widescreenpref)) //This is kept around as a hack to fix strange darkness issues when swapping mobs. Yeah, you can notice this when aghosting. Also done on /client/new
+		client.SetWindowIconSize(client.prefs.icon_size)
 		if(client.player_details.player_actions.len)
 			for(var/datum/action/A in client.player_details.player_actions)
 				A.Grant(src)

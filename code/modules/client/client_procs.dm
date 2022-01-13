@@ -403,8 +403,6 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 
 	send_resources()
 
-	generate_clickcatcher()
-	apply_clickcatcher()
 
 	if(prefs.lastchangelog != GLOB.changelog_hash) //bolds the changelog button on the interface so we know there are updates.
 		to_chat(src, SPAN_INFO("You have unread updates in the changelog."))
@@ -433,11 +431,9 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 
 	if (!interviewee)
 		initialize_menus()
-
-	view_size = new(src, getScreenSize(prefs.widescreenpref))
-	view_size.resetFormat()
-	view_size.setZoomMode()
-	fit_viewport()
+	change_view(getScreenSize(prefs.widescreenpref)) // Danger! Ugly hack to avoid a bug!
+	SetWindowIconSize(prefs.icon_size)
+	apply_clickcatcher() // No idea why this was ran twice before, since it only needs to run at the end.
 	Master.UpdateTickRate()
 
 //////////////
@@ -984,8 +980,6 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 	if (isliving(mob))
 		var/mob/living/M = mob
 		M.update_damage_hud()
-	if (prefs.auto_fit_viewport)
-		addtimer(CALLBACK(src,.verb/fit_viewport,10)) //Delayed to avoid wingets from Login calls.
 
 /client/proc/generate_clickcatcher()
 	if(!void)

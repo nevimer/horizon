@@ -212,7 +212,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	READ_FILE(S["pda_style"], pda_style)
 	READ_FILE(S["pda_color"], pda_color)
 	READ_FILE(S["interview_accepted"], interview_accepted)
-
+	READ_FILE(S["icon_size"], icon_size)
 	// Custom hotkeys
 	READ_FILE(S["key_bindings"], key_bindings)
 	check_keybindings()
@@ -364,6 +364,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["key_bindings"], key_bindings)
 	WRITE_FILE(S["hearted_until"], (hearted_until > world.realtime ? hearted_until : null))
 	WRITE_FILE(S["favorite_outfits"], favorite_outfits)
+	WRITE_FILE(S["icon_size"], icon_size)
 	return TRUE
 
 /datum/preferences/proc/load_character(slot)
