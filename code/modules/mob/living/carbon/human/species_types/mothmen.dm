@@ -34,7 +34,7 @@
 		"Mothra",
 	)
 	has_innate_wings = TRUE
-	payday_modifier = 0.75
+	payday_modifier = 1
 	family_heirlooms = list(/obj/item/flashlight/lantern/heirloom_moth)
 	limbs_icon = 'icons/mob/species/moth_parts_greyscale.dmi'
 	scream_sounds = list(
