@@ -1355,7 +1355,7 @@
 		"tele_shield",
 	)
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 10000)
-	required_experiments = list(/datum/experiment/explosion/calibration)
+//	required_experiments = list(/datum/experiment/explosion/calibration) // Shouldn't need it.
 
 /datum/techweb_node/adv_weaponry
 	id = "adv_weaponry"
@@ -1366,7 +1366,7 @@
 		"pin_loyalty",
 	)
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 10000)
-	required_experiments = list(/datum/experiment/explosion/medium)
+//	required_experiments = list(/datum/experiment/explosion/medium) // Nope
 
 /datum/techweb_node/electric_weapons
 	id = "electronic_weapons"
@@ -1421,7 +1421,7 @@
 		"pyro_Grenade",
 	)
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
-	required_experiments = list(/datum/experiment/explosion/maxcap)
+//	required_experiments = list(/datum/experiment/explosion/maxcap) // Fuck no.
 
 /datum/techweb_node/ballistic_weapons
 	id = "ballistic_weapons"
