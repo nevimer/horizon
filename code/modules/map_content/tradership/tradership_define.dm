@@ -1,6 +1,6 @@
 /datum/map_config/tradership
 	map_name = "FTV Bearcat"
-	map_path = "map_files/tradership"
+	map_path = "map_files/tradership_home"
 	map_file = list("tradership1.dmm",
 					"tradership2.dmm",
 					"tradership3.dmm",
@@ -29,7 +29,7 @@
 
 	overmap_object_type = /datum/overmap_object/shuttle/ship/bearcat
 
-	amount_of_planets_spawned = 2
+	amount_of_planets_spawned = 6
 
 /datum/map_config/tradership/get_map_info()
 	return "You're aboard the <b>[map_name],</b> a survey and mercantile vessel affiliated with the Free Trade Union. \

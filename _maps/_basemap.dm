@@ -12,7 +12,7 @@
 		#include "map_files\MetaStation\MetaStation.dmm"
 		#include "map_files\IceBoxStation\IceBoxStation.dmm"
 		#include "map_files\tramstation\tramstation.dmm"
-		#include "map_files\tradership\tradership1.dmm"
+		#include "map_files\tradership_home\tradership1.dmm" // EDIT
 
 		#ifdef CIBUILDING
 			#include "templates.dm"

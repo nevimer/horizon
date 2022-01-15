@@ -262,7 +262,16 @@
 		new /datum/chatmessage(raw_message, speaker, src, message_language, list("emote"))
 	else
 		new /datum/chatmessage(lang_treat(speaker, message_language, raw_message, spans, null, TRUE), speaker, src, message_language, spans)
+	funnysound(raw_message, speaker)
 
+/mob/proc/funnysound(raw_message, speaker)
+	var/tmp_sound = "sound/voice/weh.ogg"
+	var/sound_volume = 45
+	var/speech_speed = 1 // Will be random, though
+	for(var/i=0 to clamp(length_char(raw_message), 1, 50)  / 2 - 1)
+		speech_speed = rand(1,2)
+		playsound_local(speaker, tmp_sound, sound_volume, vary=TRUE)
+		sleep(speech_speed)
 
 // Tweak these defines to change the available color ranges
 #define CM_COLOR_SAT_MIN 0.6
