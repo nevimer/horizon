@@ -35,7 +35,7 @@
 /datum/outfit/job/cargo_tech
 	name = "Cargo Technician"
 	jobtype = /datum/job/cargo_technician
-
+	suit = /obj/item/clothing/suit/armor/vest/alt //Home Edit
 	belt = /obj/item/pda/cargo
 	ears = /obj/item/radio/headset/headset_cargo
 	uniform = /obj/item/clothing/under/rank/cargo/tech

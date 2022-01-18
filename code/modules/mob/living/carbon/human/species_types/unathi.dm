@@ -4,7 +4,7 @@
 	flavor_text = "A reptilian species."
 	default_color = "444"
 	species_traits = list(MUTCOLORS,EYECOLOR,LIPS,HAS_FLESH,HAS_BONE,HAIR)
-	inherent_biotypes = MOB_ORGANIC|MOB_HUMANOID
+	inherent_biotypes = MOB_ORGANIC|MOB_HUMANOID|MOB_REPTILE
 	mutant_bodyparts = list()
 	default_mutant_bodyparts = list("tail" = ACC_RANDOM, "snout" = ACC_RANDOM, "spines" = "None", "frills" = "None", "horns" = ACC_RANDOM, "body_markings" = ACC_RANDOM, "legs" = "Normal Legs")
 	attack_verb = "slash"
@@ -13,6 +13,17 @@
 	liked_food = GROSS | MEAT | FRIED
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | ERT_SPAWN | RACE_SWAP | SLIME_EXTRACT
 	limbs_id = "lizard"
+	inert_mutation = FIREBREATH
+	deathsound = 'sound/voice/lizard/deathsound.ogg'
+	scream_sounds = list(
+		NEUTER = 'sound/voice/scream_lizard.ogg'
+	)
+	wings_icons = list("Dragon")
+	species_language_holder = /datum/language_holder/lizard
+	meat = /obj/item/food/meat/slab/human/mutant/lizard
+	skinned_type = /obj/item/stack/sheet/animalhide/lizard
+	ass_image = 'icons/ass/asslizard.png'
+	limbs_icon = 'icons/mob/species/lizard_parts_greyscale.dmi'
 
 /datum/species/unathi/get_random_features()
 	var/list/returned = MANDATORY_FEATURE_LIST
