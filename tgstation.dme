@@ -2074,6 +2074,7 @@
 #include "code\modules\client\loadout\shoes.dm"
 #include "code\modules\client\loadout\suit.dm"
 #include "code\modules\client\loadout\uniform.dm"
+#include "code\modules\client\loadout\weapons.dm"
 #include "code\modules\client\loadout\donator\_donator.dm"
 #include "code\modules\client\loadout\donator\backpack.dm"
 #include "code\modules\client\loadout\donator\head.dm"
