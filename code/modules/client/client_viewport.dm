@@ -62,6 +62,11 @@
 		to_chat(usr, "xDim: [round(text2num(winsize_string) / divisor)]")
 		to_chat(usr, "yDim: [round(text2num(copytext(winsize_string,findtext(winsize_string,"x")+1,0)) / divisor)]")
 
+	verb/fix_viewport()
+		set name = "Fix Viewport Bug"
+		set category = "Debug"
+		change_view(getScreenSize(prefs.widescreenpref)) //This is kept around as a hack to fix strange darkness issues when swapping mobs.
+		SetWindowIconSize(prefs.icon_size)
 
 /datum/controller/configuration
 	var/lock_client_view_x
