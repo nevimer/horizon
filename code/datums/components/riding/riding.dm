@@ -42,7 +42,7 @@
 	COOLDOWN_DECLARE(message_cooldown)
 	/// For telling someone they can't drive
 	COOLDOWN_DECLARE(vehicle_move_cooldown)
-
+	var/del_on_unbuckle_all = FALSE
 
 /datum/component/riding/Initialize(mob/living/riding_mob, force = FALSE, buckle_mob_flags= NONE, potion_boost = FALSE)
 	if(!ismovable(parent))

@@ -123,7 +123,7 @@
 	///Time you get slept for if you get forcible ejected by the mech exploding
 	var/destruction_sleep_duration = 2 SECONDS
 	///Whether outside viewers can see the pilot inside
-	var/enclosed = TRUE
+	enclosed = TRUE
 	///In case theres a different iconstate for AI/MMI pilot(currently only used for ripley)
 	var/silicon_icon_state = null
 	///Currently ejecting, and unable to do things
