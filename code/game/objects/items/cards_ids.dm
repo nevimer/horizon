@@ -969,6 +969,14 @@
 	. = ..()
 	registered_account = SSeconomy.get_dep_account(ACCOUNT_CAR)
 
+/obj/item/card/id/advanced/debug/fret
+	name = "\improper FRET agent ID card"
+	desc = "A fast response emergency tech ID card. Complete access."
+	icon_state = "card_gold"
+	worn_icon_state = "card_gold"
+	inhand_icon_state = "gold_id"
+	trim = /datum/id_trim/admin
+
 /obj/item/card/id/advanced/prisoner
 	name = "prisoner ID card"
 	desc = "You are a number, you are not a free man."
@@ -1255,26 +1263,6 @@
 	name = "simple bot ID card"
 	desc = "An internal ID card used by the station's non-sentient bots. You should report this to a coder if you're holding it."
 	wildcard_slots = WILDCARD_LIMIT_ADMIN
-
-/obj/item/card/id/red
-	name = "Red Team identification card"
-	desc = "A card used to identify members of the red team for CTF"
-	icon_state = "ctf_red"
-
-/obj/item/card/id/blue
-	name = "Blue Team identification card"
-	desc = "A card used to identify members of the blue team for CTF"
-	icon_state = "ctf_blue"
-
-/obj/item/card/id/yellow
-	name = "Yellow Team identification card"
-	desc = "A card used to identify members of the yellow team for CTF"
-	icon_state = "ctf_yellow"
-
-/obj/item/card/id/green
-	name = "Green Team identification card"
-	desc = "A card used to identify members of the green team for CTF"
-	icon_state = "ctf_green"
 
 #undef INTERN_THRESHOLD_FALLBACK_HOURS
 #undef ID_ICON_BORDERS

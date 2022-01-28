@@ -20,7 +20,8 @@ GLOBAL_PROTECT(admin_verbs_default)
 	/client/proc/stop_sounds,
 	/client/proc/mark_datum_mapview,
 	/client/proc/debugstatpanel,
-	/client/proc/fix_air /*resets air in designated radius to its default atmos composition*/
+	/client/proc/fix_air, /*resets air in designated radius to its default atmos composition*/
+	/client/proc/jukebox_reload
 	)
 GLOBAL_LIST_INIT(admin_verbs_admin, world.AVerbsAdmin())
 GLOBAL_PROTECT(admin_verbs_admin)
@@ -77,6 +78,7 @@ GLOBAL_PROTECT(admin_verbs_admin)
 	/client/proc/colorasay,
 	/client/proc/resetasaycolor,
 	/client/proc/toggleadminhelpsound,
+	/client/proc/togglehearstoryteller,
 	/client/proc/respawn_character,
 	/datum/admins/proc/open_borgopanel
 	)
@@ -120,7 +122,6 @@ GLOBAL_PROTECT(admin_verbs_server)
 	/datum/admins/proc/end_round,
 	/datum/admins/proc/delay,
 	/datum/admins/proc/toggleaban,
-	/client/proc/everyone_random,
 	/datum/admins/proc/toggleAI,
 	/client/proc/cmd_admin_delete, /*delete an instance/object/mob/etc*/
 	/client/proc/cmd_debug_del_all,
@@ -235,7 +236,6 @@ GLOBAL_LIST_INIT(admin_verbs_hideable, list(
 	/datum/admins/proc/restart,
 	/datum/admins/proc/delay,
 	/datum/admins/proc/toggleaban,
-	/client/proc/everyone_random,
 	/datum/admins/proc/toggleAI,
 	/client/proc/restart_controller,
 	/client/proc/cmd_admin_list_open_jobs,
@@ -260,6 +260,12 @@ GLOBAL_LIST_INIT(admin_verbs_hideable, list(
 	/client/proc/spawn_pollution
 	))
 GLOBAL_PROTECT(admin_verbs_hideable)
+
+GLOBAL_LIST_INIT(admin_verbs_deadmins, list(
+	/client/proc/readmin,
+	/client/proc/deadmin_asay
+	))
+GLOBAL_PROTECT(admin_verbs_deadmins)
 
 /client/proc/add_admin_verbs()
 	if(holder)

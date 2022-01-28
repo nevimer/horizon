@@ -50,6 +50,11 @@
 		qdel(vlevel)
 	return ..()
 
+/datum/map_zone/proc/get_block()
+	. = list()
+	for(var/datum/virtual_level/vlevel as anything in virtual_levels)
+		. += vlevel.get_block()
+
 /// Clears all of what's inside the virtual levels managed by the mapzone.
 /datum/map_zone/proc/clear_reservation(immediate = FALSE)
 	for(var/datum/virtual_level/vlevel as anything in virtual_levels)
@@ -62,7 +67,7 @@
 
 /datum/map_zone/proc/set_planetary_atmos(datum/atmosphere/atmos_datum)
 	planetary_gas_string = atmos_datum.gas_string
-	SSair.register_planetary_atmos(atmos_datum)
+	SSair.register_planetary_atmos(planetary_gas_string)
 
 /datum/map_zone/proc/get_client_mobs()
 	return get_alive_client_mobs() + get_dead_client_mobs()

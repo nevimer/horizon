@@ -15,12 +15,8 @@
 		/obj/item/slimecross/recurring,
 		//This should be obvious
 		/obj/machinery/doomsday_device,
-		//Yet more templates
-		/obj/machinery/restaurant_portal,
 		//Template type
 		/obj/effect/mob_spawn,
-		//Template type
-		/obj/structure/holosign/robot_seat,
 		//Say it with me now, type template
 		/obj/effect/mapping_helpers/component_injector,
 		//template type
@@ -90,8 +86,6 @@
 	ignore += typesof(/obj/effect/sliding_puzzle)
 	//Stacks baseturfs, can't be tested here
 	ignore += typesof(/obj/effect/temp_visual/lava_warning)
-	//Stacks baseturfs, can't be tested here
-	ignore += typesof(/obj/effect/landmark/ctf)
 	//Our system doesn't support it without warning spam from unregister calls on things that never registered
 	ignore += typesof(/obj/docking_port)
 	//Asks for a shuttle that may not exist, let's leave it alone

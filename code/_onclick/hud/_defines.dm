@@ -175,7 +175,6 @@
 #define ui_ghost_reenter_corpse "BOTTOM:6,CENTER-1:24"
 #define ui_ghost_teleport "BOTTOM:6,CENTER:24"
 #define ui_ghost_pai "BOTTOM: 6, CENTER+1:24"
-#define ui_ghost_mafia "BOTTOM: 6, CENTER+2:24"
 #define ui_ghost_language_menu "BOTTOM: 22, CENTER+3:8"
 
 //Blobbernauts

@@ -22,10 +22,11 @@ SUBSYSTEM_DEF(jukebox)
 	return ..()
 
 /datum/controller/subsystem/jukebox/fire(resumed)
-	/// Safety check because clients are a HECK
 	for(var/datum/jukebox_controller/controller in controller_list)
+		/// Safety check because clients are a HECK
 		if(!controller.client)
 			qdel(controller)
+		controller.loudest_jukebox_volume = 0
 
 	for(var/datum/jukebox_playing_track/played_track in playing_tracks)
 		if(played_track.end_when <= world.time)
@@ -55,11 +56,12 @@ SUBSYSTEM_DEF(jukebox)
 		var/datum/jukebox_track/track = new()
 		track.song_path = file("[global.config.directory]/jukebox_music/sounds/[some_file]")
 		var/list/param_list = splittext(some_file,"+")
-		if(param_list.len != 3)
+		if(param_list.len != 4)
 			continue
-		track.song_name = param_list[1]
-		track.song_length = text2num(param_list[2])
-		track.song_beat = text2num(param_list[3])
+		track.song_artist = param_list[1]
+		track.song_title = param_list[2]
+		track.song_length = (text2num(param_list[3]) SECONDS)
+		track.song_beat = ((text2num(param_list[4]) / 60) SECONDS)
 		tracks += track
 
 /datum/controller/subsystem/jukebox/proc/get_free_channel()
