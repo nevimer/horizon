@@ -25,7 +25,7 @@
 
 	job_faction = FACTION_TRADERSHIP
 
-	overflow_job = /datum/job/tradership_deckhand
+	overflow_job = /datum/job/home
 
 	overmap_object_type = /datum/overmap_object/shuttle/ship/bearcat
 
