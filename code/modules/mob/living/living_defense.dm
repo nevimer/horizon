@@ -81,7 +81,13 @@
 		return
 	if(combat_mode)
 		playsound_local(src, 'sound/misc/ui_togglecombat.ogg', 25, FALSE, pressure_affected = FALSE) //Sound from interbay!
+		show_message("combat on")
+	if(a_intent == INTENT_HELP)
+		a_intent_change(INTENT_HARM)
+		show_message("help to harm")
 	else
+		a_intent_change(INTENT_HELP)
+		show_message("else to help")
 		playsound_local(src, 'sound/misc/ui_toggleoffcombat.ogg', 25, FALSE, pressure_affected = FALSE) //Slightly modified version of the above
 
 /mob/living/hitby(atom/movable/AM, skipcatch, hitpush = TRUE, blocked = FALSE, datum/thrownthing/throwingdatum)

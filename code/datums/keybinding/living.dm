@@ -89,6 +89,10 @@
 		return
 	var/mob/living/user_mob = user.mob
 	user_mob.set_combat_mode(!user_mob.combat_mode, FALSE)
+	if(user.mob.a_intent == INTENT_HELP)
+		user.mob?.a_intent_change(INTENT_HARM)
+	if(user.mob.a_intent == INTENT_HARM)
+		user.mob?.a_intent_change(INTENT_HELP)
 
 /datum/keybinding/living/enable_combat_mode
 	hotkey_keys = list("Unbound")
@@ -103,6 +107,10 @@
 		return
 	var/mob/living/user_mob = user.mob
 	user_mob.set_combat_mode(TRUE, silent = FALSE)
+	if(user.mob.a_intent == INTENT_HELP)
+		user.mob?.a_intent_change(INTENT_HARM)
+	if(user.mob.a_intent == INTENT_HARM)
+		user.mob?.a_intent_change(INTENT_HELP)
 
 /datum/keybinding/living/disable_combat_mode
 	hotkey_keys = list("Unbound")
@@ -117,3 +125,7 @@
 		return
 	var/mob/living/user_mob = user.mob
 	user_mob.set_combat_mode(FALSE, silent = FALSE)
+	if(user.mob.a_intent == INTENT_HELP)
+		user.mob?.a_intent_change(INTENT_HARM)
+	if(user.mob.a_intent == INTENT_HARM)
+		user.mob?.a_intent_change(INTENT_HELP)

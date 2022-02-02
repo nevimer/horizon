@@ -3887,4 +3887,5 @@
 #include "interface\menu.dm"
 #include "interface\stylesheet.dm"
 #include "interface\skin.dmf"
+#include "modules\intent\intent_restore_helper.dm"
 // END_INCLUDE
