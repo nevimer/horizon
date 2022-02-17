@@ -17,9 +17,27 @@
 	total_positions = 12
 	spawn_positions = 12
 	selection_color ="#d4d4d4"
+	outfit = /datum/outfit/job/miner
 
+/datum/job/home/headship/doctor
+	title = "House Doctor"
+	total_positions = 12
+	spawn_positions = 12
+	selection_color ="#d4d4d4"
+	outfit = /datum/outfit/job/home/doctor
+
+/datum/outfit/job/home/doctor
+	ears = /obj/item/radio/headset/headset_med
+	suit =  /obj/item/clothing/suit/toggle/labcoat/paramedic
+	gloves = /obj/item/clothing/gloves/color/latex/nitrile
+	belt = /obj/item/storage/belt/medical/paramedic
+	l_pocket = /obj/item/pda/medical
+	suit_store = /obj/item/flashlight/pen/paramedic
+	backpack_contents = list(/obj/item/roller=1)
+
+	pda_slot = ITEM_SLOT_LPOCKET
 /datum/job/home/headship/engineer
-	title = "Housemaint"
+	title = "House Maintainer"
 	total_positions = 12
 	spawn_positions = 12
 	selection_color ="#d4d4d4"
@@ -79,7 +97,7 @@
 	voice_of_god_power = 1.4 //Command staff has authority
 
 /obj/item/card/id/advanced/home
-	wildcard_slots = WILDCARD_NAME_ALL
+	wildcard_slots = WILDCARD_NAME_ALL // Fuck restrictions
 	icon_state = "card_black"
 	worn_icon_state = "card_black"
 
@@ -87,12 +105,15 @@
 	name = "Crewmate"
 	id = /obj/item/card/id/advanced/home
 	ears = /obj/item/radio/headset
-	backpack = /obj/item/storage/backpack
-	satchel = /obj/item/storage/backpack/satchel
-	duffelbag = /obj/item/storage/backpack/duffelbag
-	box = /obj/item/storage/box/survival/engineer
-	uniform = /obj/item/clothing/under/pants/camo
+	backpack = /obj/item/storage/backpack/explorer
+	satchel = /obj/item/storage/backpack/satchel/explorer
+	duffelbag = /obj/item/storage/backpack/duffelbag/explorer
+	shoes = /obj/item/clothing/shoes/workboots/mining
+	gloves = /obj/item/clothing/gloves/color/black
+	uniform = /obj/item/clothing/under/rank/cargo/miner/lavaland
 	id_trim = /datum/id_trim/job
+	implants = list(/obj/item/implant/deathrattle)
+	belt = /obj/item/storage/belt/utility/full/engi
 
 /datum/outfit/job/home/housemaster
 	name = "Housemaster's Outfit"
