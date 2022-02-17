@@ -27,7 +27,6 @@
 	outfit = /datum/outfit/job/home/science
 
 /datum/outfit/job/home/science
-	ears = /obj/item/radio/headset/science
 	suit =  /obj/item/clothing/suit/toggle/labcoat
 	gloves = /obj/item/clothing/gloves/color/black
 	belt = /obj/item/storage/belt/utility
@@ -45,7 +44,7 @@
 	outfit = /datum/outfit/job/home/security
 
 /datum/outfit/job/home/security
-	ears = /obj/item/radio/headset/headset_sec
+	ears = /obj/item/radio/headset/heads/captain
 	suit =  /obj/item/clothing/suit/armor/vest/alt
 	gloves = /obj/item/clothing/gloves/tackler
 	belt = /obj/item/storage/belt/military
@@ -63,7 +62,6 @@
 	outfit = /datum/outfit/job/home/doctor
 
 /datum/outfit/job/home/doctor
-	ears = /obj/item/radio/headset/headset_med
 	suit =  /obj/item/clothing/suit/toggle/labcoat/paramedic
 	gloves = /obj/item/clothing/gloves/color/latex/nitrile
 	belt = /obj/item/storage/belt/medical/paramedic
@@ -140,7 +138,7 @@
 /datum/outfit/job/home
 	name = "Crewmate"
 	id = /obj/item/card/id/advanced/home
-	ears = /obj/item/radio/headset
+	ears = /obj/item/radio/headset/heads/captain
 	backpack = /obj/item/storage/backpack/explorer
 	satchel = /obj/item/storage/backpack/satchel/explorer
 	duffelbag = /obj/item/storage/backpack/duffelbag/explorer
@@ -158,7 +156,7 @@
 	jobtype = /datum/job/home/headship/housemaster
 	uniform = /obj/item/clothing/under/pants/camo/home
 	id = /obj/item/card/id/advanced/home
-	ears = /obj/item/radio/headset
+	ears = /obj/item/radio/headset/heads/captain/alt
 	belt = /obj/item/storage/belt/military
 	shoes = /obj/item/clothing/shoes/jackboots
 	box = /obj/item/storage/box/survival/engineer
