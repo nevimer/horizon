@@ -19,6 +19,24 @@
 	selection_color ="#d4d4d4"
 	outfit = /datum/outfit/job/home
 
+/datum/job/home/headship/science
+	title = "Scientist"
+	total_positions = 6
+	spawn_positions = 6
+	selection_color ="#ff00ff"
+	outfit = /datum/outfit/job/home/science
+
+/datum/outfit/job/home/science
+	ears = /obj/item/radio/headset/science
+	suit =  /obj/item/clothing/suit/toggle/labcoat
+	gloves = /obj/item/clothing/gloves/color/black
+	belt = /obj/item/storage/belt/utility
+	l_pocket = /obj/item/pda/science
+	suit_store = /obj/item/reagent_containers/hypospray/combat
+	backpack_contents = list(/obj/item/gun/ballistic/automatic/pistol/deagle=1)
+	shoes = /obj/item/clothing/shoes/jackboots
+	pda_slot = ITEM_SLOT_LPOCKET
+
 /datum/job/home/headship/security
 	title = "House Rules Enforcer"
 	total_positions = 6
@@ -50,8 +68,8 @@
 	gloves = /obj/item/clothing/gloves/color/latex/nitrile
 	belt = /obj/item/storage/belt/medical/paramedic
 	l_pocket = /obj/item/pda/medical
-	suit_store = /obj/item/flashlight/pen/paramedic
-	backpack_contents = list(/obj/item/roller=1)
+	suit_store = /obj/item/reagent_containers/hypospray/combat
+	backpack_contents = list(/obj/item/roller=1, /obj/item/gun/ballistic/automatic/plastikov=1)
 
 	pda_slot = ITEM_SLOT_LPOCKET
 /datum/job/home/headship/engineer
@@ -133,7 +151,7 @@
 	implants = list(/obj/item/implant/deathrattle)
 	belt = /obj/item/storage/belt/utility/full/engi
 	pda_slot = ITEM_SLOT_LPOCKET
-	l_pocket = /obj/item/pda/security
+	l_pocket = /obj/item/pda
 
 /datum/outfit/job/home/housemaster
 	name = "Housemaster's Outfit"
@@ -149,9 +167,11 @@
 	satchel = /obj/item/storage/backpack/satchel/cap
 	duffelbag = /obj/item/storage/backpack/duffelbag/captain
 	id_trim = /datum/id_trim/job/captain
+	l_pocket = /obj/item/pda/captain
+	r_pocket = /obj/item/modular_computer/tablet/preset/advanced/command/engineering
 	pda_slot = ITEM_SLOT_POCKETS
 	gloves = /obj/item/clothing/gloves/color/captain
-	backpack_contents = list(/obj/item/melee/classic_baton/telescopic=1, /obj/item/station_charter=1, /obj/item/gun/energy/e_gun/mini=1, /obj/item/modular_computer/tablet/preset/advanced/command=1)
+	backpack_contents = list(/obj/item/melee/classic_baton/telescopic=1, /obj/item/station_charter=1, /obj/item/gun/energy/e_gun/mini=1, /obj/item/modular_computer/tablet/preset/advanced/command=1, /obj/item/gun/ballistic/automatic/plastikov=1)
 	skillchips = list(/obj/item/skillchip/disk_verifier, /obj/item/skillchip/wine_taster, /obj/item/skillchip/job/engineer)
 	var/special_charter
 
