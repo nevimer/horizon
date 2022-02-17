@@ -30,7 +30,7 @@
 	suit =  /obj/item/clothing/suit/toggle/labcoat
 	gloves = /obj/item/clothing/gloves/color/black
 	belt = /obj/item/storage/belt/utility
-	l_pocket = /obj/item/pda/science
+	l_pocket = /obj/item/pda
 	suit_store = /obj/item/reagent_containers/hypospray/combat
 	backpack_contents = list(/obj/item/gun/ballistic/automatic/pistol/deagle=1)
 	shoes = /obj/item/clothing/shoes/jackboots
@@ -147,9 +147,10 @@
 	uniform = /obj/item/clothing/under/rank/cargo/miner/lavaland
 	id_trim = /datum/id_trim/job
 	implants = list(/obj/item/implant/deathrattle)
-	belt = /obj/item/storage/belt/utility/full/engi
+	belt = /obj/item/storage/belt/utility
 	pda_slot = ITEM_SLOT_LPOCKET
 	l_pocket = /obj/item/pda
+	backpack_contents = list(/obj/item/gun/ballistic/automatic/pistol=1)
 
 /datum/outfit/job/home/housemaster
 	name = "Housemaster's Outfit"
