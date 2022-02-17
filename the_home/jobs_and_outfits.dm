@@ -132,6 +132,8 @@
 	id_trim = /datum/id_trim/job
 	implants = list(/obj/item/implant/deathrattle)
 	belt = /obj/item/storage/belt/utility/full/engi
+	pda_slot = ITEM_SLOT_LPOCKET
+	l_pocket = /obj/item/pda/security
 
 /datum/outfit/job/home/housemaster
 	name = "Housemaster's Outfit"
