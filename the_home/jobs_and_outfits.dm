@@ -17,13 +17,31 @@
 	total_positions = 12
 	spawn_positions = 12
 	selection_color ="#d4d4d4"
-	outfit = /datum/outfit/job/miner
+	outfit = /datum/outfit/job/home
+
+/datum/job/home/headship/security
+	title = "House Rules Enforcer"
+	total_positions = 6
+	spawn_positions = 6
+	selection_color ="#ff0000"
+	outfit = /datum/outfit/job/home/security
+
+/datum/outfit/job/home/security
+	ears = /obj/item/radio/headset/headset_sec
+	suit =  /obj/item/clothing/suit/armor/vest/alt
+	gloves = /obj/item/clothing/gloves/tackler
+	belt = /obj/item/storage/belt/military
+	l_pocket = /obj/item/pda/security
+	suit_store = /obj/item/gun/energy/kinetic_accelerator/crossbow/large
+	backpack_contents = list(/obj/item/gun/ballistic/automatic/pistol/deagle=2,/obj/item/ammo_box/magazine/m50=4)
+	shoes = /obj/item/clothing/shoes/jackboots
+	pda_slot = ITEM_SLOT_LPOCKET
 
 /datum/job/home/headship/doctor
 	title = "House Doctor"
 	total_positions = 12
 	spawn_positions = 12
-	selection_color ="#d4d4d4"
+	selection_color ="#40f0f0"
 	outfit = /datum/outfit/job/home/doctor
 
 /datum/outfit/job/home/doctor
