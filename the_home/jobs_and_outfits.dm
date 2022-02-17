@@ -150,6 +150,8 @@
 	belt = /obj/item/storage/belt/utility
 	pda_slot = ITEM_SLOT_LPOCKET
 	l_pocket = /obj/item/pda
+	mask = /obj/item/clothing/mask/gas/explorer
+	suit = /obj/item/clothing/suit/hooded/explorer
 	backpack_contents = list(/obj/item/gun/ballistic/automatic/pistol=1)
 
 /datum/outfit/job/home/housemaster
