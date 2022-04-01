@@ -47,6 +47,10 @@ map pubbystation
 	votable
 endmap
 
+map blueshift
+	votable
+endmap
+
 map runtimestation
 endmap
 
