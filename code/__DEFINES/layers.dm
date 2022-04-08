@@ -170,6 +170,8 @@
 /// Plane for balloon text (text that fades up)
 #define BALLOON_CHAT_PLANE 502
 
+#define STATUS_PLANE 503
+
 
 //-------------------- HUD ---------------------
 //HUD layer defines
