@@ -90,23 +90,3 @@
 	. = ..()
 	if(dogborg)
 		src.transform.Translate(-16, 0)
-
-/mob/living/silicon/robot/pick_model()
-	if(model.type != /obj/item/robot_model)
-		return
-
-	if(wires.is_cut(WIRE_RESET_MODEL))
-		to_chat(src, SPAN_USERDANGER("ERROR: Module installer reply timeout. Please check internal connections."))
-		return
-
-	var/list/horizonmodel = list(
-	"Departmental Modules" = "next",
-	"Horizon Service(alt skins)" = /obj/item/robot_model/service/horizon,
-	"Horizon Miner(alt skins)" = /obj/item/robot_model/miner/horizon
-	)
-	var/input_model_sk = input("Please select a module, or choose a reskin.", "Robot", null, null) as null|anything in sortList(horizonmodel)
-	if(input_model_sk == "Departmental Modules" || !input_model_sk || model.type != /obj/item/robot_model)
-		return ..()
-	else
-		model.transform_to(horizonmodel[input_model_sk])
-		return

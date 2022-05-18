@@ -378,26 +378,6 @@
 	hat_offset = 0
 	var/obj/item/t_scanner/adv_mining_scanner/cyborg/mining_scanner //built in memes.
 
-/obj/item/robot_model/miner/be_transformed_to(obj/item/robot_model/old_model)
-	var/mob/living/silicon/robot/cyborg = loc
-	var/list/miner_icons = list(
-		"Asteroid Miner" = image(icon = 'icons/mob/robots.dmi', icon_state = "minerOLD"),
-		"Spider Miner" = image(icon = 'icons/mob/robots.dmi', icon_state = "spidermin"),
-		"Lavaland Miner" = image(icon = 'icons/mob/robots.dmi', icon_state = "miner")
-		)
-	var/miner_robot_icon = show_radial_menu(cyborg, cyborg, miner_icons, custom_check = CALLBACK(src, .proc/check_menu, cyborg, old_model), radius = 38, require_near = TRUE)
-	switch(miner_robot_icon)
-		if("Asteroid Miner")
-			cyborg_base_icon = "minerOLD"
-			special_light_key = "miner"
-		if("Spider Miner")
-			cyborg_base_icon = "spidermin"
-		if("Lavaland Miner")
-			cyborg_base_icon = "miner"
-		else
-			return FALSE
-	return ..()
-
 /obj/item/robot_model/miner/rebuild_modules()
 	. = ..()
 	if(!mining_scanner)

@@ -23,6 +23,7 @@
 		"Robot" = image(icon = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi', icon_state = "robot_old"),
 		"Bootyborg" = image(icon = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi', icon_state = "bootysd"),
 		"Male Bootyborg" = image(icon = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi', icon_state = "male_bootysd"),
+		"Bird Borg" = image(icon = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi', icon_state = "bird_pk"),
 		"Protectron" = image(icon = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi', icon_state = "protectron_standard"),
 		"Miss m" = image(icon = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi', icon_state = "missm_sd")
 		)
@@ -58,6 +59,9 @@
 		if("Male Bootyborg")
 			cyborg_base_icon = "male_bootysd"
 			cyborg_icon_override = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi'
+		if("Bird Borg")
+			cyborg_base_icon = "bird_pk"
+			cyborg_icon_override = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi'
 		if("Protectron")
 			cyborg_base_icon = "protectron_standard"
 			cyborg_icon_override = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi'
@@ -88,6 +92,7 @@
 		"Heavy" = image(icon = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi', icon_state = "heavymed"),
 		"Bootyborg" = image(icon = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi', icon_state = "bootymedical"),
 		"Male Bootyborg" = image(icon = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi', icon_state = "male_bootymedical"),
+		"Bird Borg" = image(icon = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi', icon_state = "bird_med"),
 		"Protectron" = image(icon = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi', icon_state = "protectron_medical"),
 		"Miss m" = image(icon = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi', icon_state = "missm_med"),
 		"Qualified Doctor" = image(icon = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi', icon_state = "qualified_doctor"),
@@ -128,6 +133,9 @@
 			cyborg_icon_override = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi'
 		if("Male Bootyborg")
 			cyborg_base_icon = "male_bootymedical"
+			cyborg_icon_override = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi'
+		if("Bird Borg")
+			cyborg_base_icon = "bird_med"
 			cyborg_icon_override = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi'
 		if("Protectron")
 			cyborg_base_icon = "protectron_medical"
@@ -196,6 +204,7 @@
 		"Heavy" = image(icon = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi', icon_state = "heavyeng"),
 		"Bootyborg" = image(icon = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi', icon_state = "bootyeng"),
 		"Male Bootyborg" = image(icon = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi', icon_state = "male_bootyeng"),
+		"Bird Borg" = image(icon = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi', icon_state = "bird_eng"),
 		"Protectron" = image(icon = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi', icon_state = "protectron_eng"),
 		"Miss m" = image(icon = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi', icon_state = "missm_eng"),
 		"Zoomba" = image(icon = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi', icon_state = "zoomba_engi"),
@@ -245,6 +254,9 @@
 			cyborg_icon_override = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi'
 		if("Male Bootyborg")
 			cyborg_base_icon = "male_bootyeng"
+			cyborg_icon_override = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi'
+		if("Bird Borg")
+			cyborg_base_icon = "bird_eng"
 			cyborg_icon_override = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi'
 		if("Protectron")
 			cyborg_base_icon = "protectron_eng"
@@ -303,6 +315,7 @@
 		"Heavy" = image(icon = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi', icon_state = "heavysec"),
 		"Bootyborg" = image(icon = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi', icon_state = "bootysecurity"),
 		"Male Bootyborg" = image(icon = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi', icon_state = "male_bootysecurity"),
+		"Bird Borg" = image(icon = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi', icon_state = "bird_sec"),
 		"Protectron" = image(icon = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi', icon_state = "protectron_security"),
 		"Miss m" = image(icon = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi', icon_state = "missm_security"),
 		"Zoomba" = image(icon = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi', icon_state = "zoomba_sec"),
@@ -344,6 +357,9 @@
 			cyborg_icon_override = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi'
 		if("Male Bootyborg")
 			cyborg_base_icon = "male_bootysecurity"
+			cyborg_icon_override = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi'
+		if("Bird Borg")
+			cyborg_base_icon = "bird_sec"
 			cyborg_icon_override = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi'
 		if("Protectron")
 			cyborg_base_icon = "protectron_security"
@@ -400,6 +416,7 @@
 		"Marina" = image(icon = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi', icon_state = "marinapeace"),
 		"Bootyborg" = image(icon = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi', icon_state = "bootypeace"),
 		"Male Bootyborg" = image(icon = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi', icon_state = "male_bootypeace"),
+		"Bird Borg" = image(icon = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi', icon_state = "bird_pk"),
 		"Protectron" = image(icon = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi', icon_state = "protectron_peacekeeper")
 		)
 		var/list/L = list("Drake" = "drakepeacebox")
@@ -436,6 +453,9 @@
 		if("Male Bootyborg")
 			cyborg_base_icon = "male_bootypeace"
 			cyborg_icon_override = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi'
+		if("Bird Borg")
+			cyborg_base_icon = "bird_pk"
+			cyborg_icon_override = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi'
 		if("Protectron")
 			cyborg_base_icon = "protectron_peacekeeper"
 			cyborg_icon_override = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi'
@@ -461,6 +481,7 @@
 		"Can" = image(icon = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi', icon_state = "canjan"),
 		"Bootyborg" = image(icon = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi', icon_state = "bootyjanitor"),
 		"Male Bootyborg" = image(icon = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi', icon_state = "male_bootyjanitor"),
+		"Bird Borg" = image(icon = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi', icon_state = "bird_jani"),
 		"Protectron" = image(icon = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi', icon_state = "protectron_janitor"),
 		"Miss m" = image(icon = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi', icon_state = "missm_janitor"),
 		"Heavy" = image(icon = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi', icon_state = "heavyres"),
@@ -497,6 +518,9 @@
 			cyborg_icon_override = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi'
 		if("Male Bootyborg")
 			cyborg_base_icon = "male_bootyjanitor"
+			cyborg_icon_override = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi'
+		if("Bird Borg")
+			cyborg_base_icon = "bird_jani"
 			cyborg_icon_override = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi'
 		if("Protectron")
 			cyborg_base_icon = "protectron_janitor"
@@ -565,20 +589,21 @@
 	return ..()
 
 //SERVICE
-/obj/item/robot_model/service/horizon/be_transformed_to(obj/item/robot_model/old_model)
+/obj/item/robot_model/service/be_transformed_to(obj/item/robot_model/old_model)
 	var/mob/living/silicon/robot/cyborg = loc
 	var/static/list/service_icons
 	if(!service_icons)
 		service_icons = list(
-		"Waitress" = image(icon = 'icons/mob/robots.dmi', icon_state = "service_f"),
-		"Butler" = image(icon = 'icons/mob/robots.dmi', icon_state = "service_m"),
 		"Bro" = image(icon = 'icons/mob/robots.dmi', icon_state = "brobot"),
+		"Butler" = image(icon = 'icons/mob/robots.dmi', icon_state = "service_m"),
 		"Can" = image(icon = 'icons/mob/robots.dmi', icon_state = "kent"),
 		"Tophat" = image(icon = 'icons/mob/robots.dmi', icon_state = "tophat"),
+		"Waitress" = image(icon = 'icons/mob/robots.dmi', icon_state = "service_f"),
 		"Sleek" = image(icon = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi', icon_state = "sleekserv"),
 		"Heavy" = image(icon = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi', icon_state = "heavyserv"),
 		"Bootyborg" = image(icon = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi', icon_state = "bootyservice"),
 		"Male Bootyborg" = image(icon = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi', icon_state = "male_bootyservice"),
+		"Bird Borg" = image(icon = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi', icon_state = "bird_serv"),
 		"Protectron" = image(icon = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi', icon_state = "protectron_service"),
 		"Miss m" = image(icon = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi', icon_state = "missm_service"),
 		)
@@ -590,15 +615,10 @@
 		service_icons = sortList(service_icons)
 	var/service_robot_icon = show_radial_menu(cyborg, cyborg , service_icons, custom_check = CALLBACK(src, .proc/check_menu, cyborg, old_model), radius = 42, require_near = TRUE)
 	switch(service_robot_icon)
-		if("Waitress")
-			cyborg_base_icon = "service_f"
-			special_light_key = "service"
-		if("Butler")
-			cyborg_base_icon = "service_m"
-			special_light_key = "service"
 		if("Bro")
 			cyborg_base_icon = "brobot"
-			special_light_key = "service"
+		if("Butler")
+			cyborg_base_icon = "service_m"
 		if("Can")
 			cyborg_base_icon = "kent"
 			special_light_key = "medical"
@@ -606,7 +626,9 @@
 		if("Tophat")
 			cyborg_base_icon = "tophat"
 			special_light_key = null
-			hat_offset = INFINITY
+			hat_offset = INFINITY //He is already wearing a hat
+		if("Waitress")
+			cyborg_base_icon = "service_f"
 		if("Sleek")
 			cyborg_base_icon = "sleekserv"
 			cyborg_icon_override = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi'
@@ -618,6 +640,9 @@
 			cyborg_icon_override = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi'
 		if("Male Bootyborg")
 			cyborg_base_icon = "male_bootyservice"
+			cyborg_icon_override = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi'
+		if("Bird Borg")
+			cyborg_base_icon = "bird_serv"
 			cyborg_icon_override = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi'
 		if("Protectron")
 			cyborg_base_icon = "protectron_service"
@@ -648,16 +673,17 @@
 			dogborg = TRUE
 		else
 			return FALSE
-	return TRUE
+	return ..()
 
 //MINING
-/obj/item/robot_model/miner/horizon/be_transformed_to(obj/item/robot_model/old_model)
+/obj/item/robot_model/miner/be_transformed_to(obj/item/robot_model/old_model)
 	var/mob/living/silicon/robot/cyborg = loc
 	var/static/list/mining_icons
 	if(!mining_icons)
 		mining_icons = list(
-		"Lavaland" = image(icon = 'icons/mob/robots.dmi', icon_state = "miner"),
-		"Asteroid" = image(icon = 'icons/mob/robots.dmi', icon_state = "minerOLD"),
+		"Asteroid Miner" = image(icon = 'icons/mob/robots.dmi', icon_state = "minerOLD"),
+		"Spider Miner" = image(icon = 'icons/mob/robots.dmi', icon_state = "spidermin"),
+		"Lavaland Miner" = image(icon = 'icons/mob/robots.dmi', icon_state = "miner"),
 		"Droid" = image(icon = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi', icon_state = "miner"),
 		"Sleek" = image(icon = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi', icon_state = "sleekmin"),
 		"Marina" = image(icon = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi', icon_state = "marinamin"),
@@ -665,6 +691,8 @@
 		"Heavy" = image(icon = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi', icon_state = "heavymin"),
 		"Bootyborg" = image(icon = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi', icon_state = "bootyminer"),
 		"Male Bootyborg" = image(icon = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi', icon_state = "male_bootyminer"),
+		"Bird Borg Mining" = image(icon = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi', icon_state = "bird_mine"),
+		"Bird Borg Cargo" = image(icon = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi', icon_state = "bird_cargo"),
 		"Protectron" = image(icon = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi', icon_state = "protectron_miner"),
 		"Miss m" = image(icon = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi', icon_state = "missm_miner"),
 		"Zoomba" = image(icon = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi', icon_state = "zoomba_miner"),
@@ -676,13 +704,15 @@
 			wide.pixel_x = -16
 			mining_icons[a] = wide
 		mining_icons = sortList(mining_icons)
-	var/mining_borg_icon = show_radial_menu(cyborg, cyborg , mining_icons, custom_check = CALLBACK(src, .proc/check_menu, cyborg, old_model), radius = 42, require_near = TRUE)
+	var/mining_borg_icon = show_radial_menu(cyborg, cyborg, mining_icons, custom_check = CALLBACK(src, .proc/check_menu, cyborg, old_model), radius = 42, require_near = TRUE)
 	switch(mining_borg_icon)
-		if("Lavaland")
-			cyborg_base_icon = "miner"
-		if("Asteroid")
+		if("Asteroid Miner")
 			cyborg_base_icon = "minerOLD"
 			special_light_key = "miner"
+		if("Spider Miner")
+			cyborg_base_icon = "spidermin"
+		if("Lavaland Miner")
+			cyborg_base_icon = "miner"
 		if("Droid")
 			cyborg_base_icon = "miner"
 			cyborg_icon_override = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi'
@@ -707,6 +737,12 @@
 			cyborg_icon_override = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi'
 		if("Male Bootyborg")
 			cyborg_base_icon = "male_bootyminer"
+			cyborg_icon_override = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi'
+		if("Bird Borg Mining")
+			cyborg_base_icon = "bird_mine"
+			cyborg_icon_override = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi'
+		if("Bird Borg Cargo")
+			cyborg_base_icon = "bird_cargo"
 			cyborg_icon_override = 'code/modules/mob/living/silicon/robot/altborgs/icons/mob/robots.dmi'
 		if("Protectron")
 			cyborg_base_icon = "protectron_miner"
@@ -736,4 +772,4 @@
 			dogborg = TRUE
 		else
 			return FALSE
-	return TRUE
+	return ..()
