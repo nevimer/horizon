@@ -478,35 +478,6 @@
 	if(O)
 		O.reagents.add_reagent(/datum/reagent/consumable/enzyme, 2 * coeff)
 
-/obj/item/robot_model/service/be_transformed_to(obj/item/robot_model/old_model)
-	var/mob/living/silicon/robot/cyborg = loc
-	var/list/service_icons = list(
-		"Bro" = image(icon = 'icons/mob/robots.dmi', icon_state = "brobot"),
-		"Butler" = image(icon = 'icons/mob/robots.dmi', icon_state = "service_m"),
-		"Kent" = image(icon = 'icons/mob/robots.dmi', icon_state = "kent"),
-		"Tophat" = image(icon = 'icons/mob/robots.dmi', icon_state = "tophat"),
-		"Waitress" = image(icon = 'icons/mob/robots.dmi', icon_state = "service_f")
-		)
-	var/service_robot_icon = show_radial_menu(cyborg, cyborg, service_icons, custom_check = CALLBACK(src, .proc/check_menu, cyborg, old_model), radius = 38, require_near = TRUE)
-	switch(service_robot_icon)
-		if("Bro")
-			cyborg_base_icon = "brobot"
-		if("Butler")
-			cyborg_base_icon = "service_m"
-		if("Kent")
-			cyborg_base_icon = "kent"
-			special_light_key = "medical"
-			hat_offset = 3
-		if("Tophat")
-			cyborg_base_icon = "tophat"
-			special_light_key = null
-			hat_offset = INFINITY //He is already wearing a hat
-		if("Waitress")
-			cyborg_base_icon = "service_f"
-		else
-			return FALSE
-	return ..()
-
 // ------------------------------------------ Syndicate
 // --------------------- Syndicate Assault
 /obj/item/robot_model/syndicate
