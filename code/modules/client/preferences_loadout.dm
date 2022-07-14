@@ -199,6 +199,8 @@
 	return dat
 
 /datum/preferences/proc/validate_loadouts()
+	if(!length(loadouts))
+		set_loadout_slot(1, TRUE)
 	var/slot_index = 0
 	for(var/list/slot_list as anything in loadouts)
 		slot_index++
@@ -208,7 +210,7 @@
 			if(!loadout_item)
 				slot_list -= entry
 		var/points_in_slot = get_loadout_points_for_slot(slot_index)
-		if(points_in_slot <= 0)
+		if(points_in_slot < 0)
 			reset_loadout_slot(slot_index)
 
 /datum/preferences/proc/customize_loadout_entry(loadout_item_path, customization_type, mob/user, gags_index)
