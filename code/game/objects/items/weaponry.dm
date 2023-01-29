@@ -279,7 +279,7 @@ for further reading, please see: https://github.com/tgstation/tgstation/pull/301
 	. = ..()
 	if(!istype(user))
 		return
-	user.gain_trauma(/datum/brain_trauma/magic/stalker, TRAUMA_RESILIENCE_MAGIC)
+	user.gain_trauma(/datum/brain_trauma/magic/stalker, TRAUMA_RESILIENCE_LOBOTOMY)
 
 /obj/item/katana/cursed/Initialize()
 	. = ..()
@@ -558,7 +558,6 @@ for further reading, please see: https://github.com/tgstation/tgstation/pull/301
 /obj/item/statuebust/Initialize()
 	. = ..()
 	AddElement(/datum/element/art, impressiveness)
-	AddElement(/datum/element/beauty, 1000)
 
 /obj/item/statuebust/hippocratic
 	name = "hippocrates bust"

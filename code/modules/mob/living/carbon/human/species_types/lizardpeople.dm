@@ -5,13 +5,32 @@
 	flavor_text = "A generalized term used for most reptilian species. Most reptiles are unable to digest dairy, or starchy products, such as bread, potatoes, and tortillas. Cold-blooded, even the lightest jacket or change in temperature can cause them harm."
 	say_mod = "hisses"
 	default_color = "0F0"
-	species_traits = list(MUTCOLORS,EYECOLOR,LIPS,HAS_FLESH,HAS_BONE,HAIR,FACEHAIR)
+	species_traits = list(
+		MUTCOLORS,
+		EYECOLOR,
+		LIPS,
+		HAS_FLESH,
+		HAS_BONE,
+		HAIR,
+		FACEHAIR,
+	)
 	inherent_biotypes = MOB_ORGANIC|MOB_HUMANOID|MOB_REPTILE
-	default_mutant_bodyparts = list("tail" = ACC_RANDOM, "snout" = ACC_RANDOM, "spines" = ACC_RANDOM, "frills" = ACC_RANDOM, "horns" = ACC_RANDOM, "body_markings" = ACC_RANDOM, "legs" = "Digitigrade Legs", "taur" = "None", "wings" = "None", "neck" = "None")
+	default_mutant_bodyparts = list(
+		"tail" = ACC_RANDOM,
+		"snout" = ACC_RANDOM,
+		"spines" = ACC_RANDOM,
+		"frills" = ACC_RANDOM,
+		"horns" = ACC_RANDOM,
+		"body_markings" = ACC_RANDOM,
+		"legs" = "Digitigrade Legs",
+		"taur" = ACC_NONE,
+		"wings" = ACC_NONE,
+		"neck" = ACC_NONE,
+	)
 	mutanttongue = /obj/item/organ/tongue/lizard
 	coldmod = 1.5
 	heatmod = 0.67
-	payday_modifier = 0.75
+	payday_modifier = 1
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_PRIDE | MIRROR_MAGIC | RACE_SWAP | ERT_SPAWN | SLIME_EXTRACT
 	attack_verb = "slash"
 	attack_effect = ATTACK_EFFECT_CLAW
@@ -25,9 +44,11 @@
 	inert_mutation = FIREBREATH
 	deathsound = 'sound/voice/lizard/deathsound.ogg'
 	scream_sounds = list(
-		NEUTER = 'sound/voice/scream_lizard.ogg'
+		NEUTER = 'sound/voice/scream_lizard.ogg',
 	)
-	wings_icons = list("Dragon")
+	wings_icons = list(
+		"Dragon",
+	)
 	species_language_holder = /datum/language_holder/lizard
 	// Lizards are coldblooded and can stand a greater temperature range than humans
 	bodytemp_heat_damage_limit = (BODYTEMP_HEAT_DAMAGE_LIMIT + 20) // This puts lizards 10 above lavaland max heat for ash lizards.
@@ -37,7 +58,10 @@
 	limbs_icon = 'icons/mob/species/lizard_parts_greyscale.dmi'
 
 	cultures = list(CULTURES_EXOTIC, CULTURES_LIZARD, CULTURES_HUMAN)
-	learnable_languages = list(/datum/language/common, /datum/language/draconic)
+	learnable_languages = list(
+		/datum/language/common,
+		/datum/language/draconic,
+	)
 
 /// Lizards are cold blooded and do not stabilize body temperature naturally
 /datum/species/lizard/body_temperature_core(mob/living/carbon/human/humi, delta_time, times_fired)
@@ -128,7 +152,6 @@ Lizard subspecies: SILVER SCALED
 		TRAIT_HOLY,
 		TRAIT_NOBREATH,
 		TRAIT_VIRUSIMMUNE,
-		TRAIT_WINE_TASTER,
 	)
 	species_language_holder = /datum/language_holder/lizard/silver
 	mutanttongue = /obj/item/organ/tongue/lizard/silver

@@ -267,7 +267,6 @@ GLOBAL_LIST_EMPTY(PDAs)
 				dat += "<ul>"
 				dat += "<li><a href='byond://?src=[REF(src)];choice=1'>[PDAIMG(notes)]Notekeeper</a></li>"
 				dat += "<li><a href='byond://?src=[REF(src)];choice=2'>[PDAIMG(mail)]Messenger</a></li>"
-				dat += "<li><a href='byond://?src=[REF(src)];choice=6'>[PDAIMG(skills)]Skill Tracker</a></li>"
 
 				if (cartridge)
 					if (cartridge.access & CART_CLOWN)
@@ -376,34 +375,6 @@ GLOBAL_LIST_EMPTY(PDAs)
 					dat += "None detected.<br>"
 				else if(cartridge?.spam_enabled)
 					dat += "<a href='byond://?src=[REF(src)];choice=MessageAll'>Send To All</a>"
-			if(6)
-				dat += "<h4>[PDAIMG(mail)] ExperTrak® Skill Tracker V4.26.2</h4>"
-				dat += "<i>Thank you for choosing ExperTrak® brand software! ExperTrak® inc. is proud to be a Nanotrasen employee expertise and effectiveness department subsidary!</i>"
-				dat += "<br><br>This software is designed to track and monitor your skill development as a Nanotrasen employee. Your job performance across different fields has been quantified and categorized below.<br>"
-				var/datum/mind/targetmind = user.mind
-				if(targetmind)
-					for (var/type in GLOB.skill_types)
-						var/datum/skill/S = GetSkillRef(type)
-						var/lvl_num = targetmind.get_skill_level(type)
-						var/lvl_name = uppertext(targetmind.get_skill_level_name(type))
-						var/exp = targetmind.get_skill_exp(type)
-						var/xp_prog_to_level = targetmind.exp_needed_to_level_up(type)
-						var/xp_req_to_level = 0
-						if (xp_prog_to_level)//is it even possible to level up?
-							xp_req_to_level = SKILL_EXP_LIST[lvl_num+1] - SKILL_EXP_LIST[lvl_num]
-						dat += "<HR><b>[S.name]</b>"
-						dat += "<br><i>[S.desc]</i>"
-						dat += "<ul><li>EMPLOYEE SKILL LEVEL: <b>[lvl_name]</b>"
-						if (exp && xp_req_to_level)
-							var/progress_percent = (xp_req_to_level-xp_prog_to_level)/xp_req_to_level
-							var/overall_percent = exp / SKILL_EXP_LIST[length(SKILL_EXP_LIST)]
-							dat += "<br>PROGRESS TO NEXT SKILL LEVEL:"
-							dat += "<br>" + num2loadingbar(progress_percent) + "([progress_percent*100])%"
-							dat += "<br>OVERALL DEVELOPMENT PROGRESS:"
-							dat += "<br>" + num2loadingbar(overall_percent) + "([overall_percent*100])%"
-						if (lvl_num >= length(SKILL_EXP_LIST) && !(type in targetmind.skills_rewarded))
-							dat += "<br><a href='byond://?src=[REF(src)];choice=SkillReward;skill=[type]'>Contact the Professional [S.title] Association</a>"
-						dat += "</li></ul>"
 			if(21)
 				if(icon_alert && !istext(icon_alert))
 					cut_overlay(icon_alert)
@@ -674,15 +645,6 @@ GLOBAL_LIST_EMPTY(PDAs)
 						usr.put_in_hands(pai)
 						to_chat(usr, SPAN_NOTICE("You remove the pAI from the [name]."))
 
-//SKILL FUNCTIONS===================================
-
-			if("SkillReward")
-				var/type = text2path(href_list["skill"])
-				var/datum/skill/S = GetSkillRef(type)
-				var/datum/mind/mind = U.mind
-				var/new_level = mind.get_skill_level(type)
-				S.try_skill_reward(mind, new_level)
-
 //LINK FUNCTIONS===================================
 
 			else//Cartridge menu linking
@@ -819,7 +781,7 @@ GLOBAL_LIST_EMPTY(PDAs)
 			playsound(src, pick('sound/machines/twobeep_voice1.ogg', 'sound/machines/twobeep_voice2.ogg'), 50, TRUE)
 		else
 			playsound(src, 'sound/machines/twobeep_high.ogg', 50, TRUE)
-		audible_message("<span class='infoplain'>[icon2html(src, hearers(src))] *[ttone]*</span>", null, 3)
+		audible_message(SPAN_INFOPLAIN("[icon2html(src, hearers(src))] *[ttone]*"), null, 3)
 	//Search for holder of the PDA.
 	var/mob/living/L = null
 	if(loc && isliving(loc))
@@ -843,7 +805,7 @@ GLOBAL_LIST_EMPTY(PDAs)
 		if(signal.data["emojis"] == TRUE)//so will not parse emojis as such from pdas that don't send emojis
 			inbound_message = emoji_parse(inbound_message)
 
-		to_chat(L, "<span class='infoplain'>[icon2html(src)] <b>PDA message from [hrefstart][signal.data["name"]] ([signal.data["job"]])[hrefend], </b>[inbound_message] [reply]</span>")
+		to_chat(L, SPAN_INFOPLAIN("[icon2html(src)] <b>PDA message from [hrefstart][signal.data["name"]] ([signal.data["job"]])[hrefend], </b>[inbound_message] [reply]"))
 
 	update_appearance()
 	if(istext(icon_alert))
@@ -1073,6 +1035,9 @@ GLOBAL_LIST_EMPTY(PDAs)
 		var/obj/item/photo/P = C
 		picture = P.picture
 		to_chat(user, SPAN_NOTICE("You scan \the [C]."))
+	// Check to see if we have an ID inside, and a valid input for money
+	else if(id && iscash(C))
+		id.attackby(C, user) // If we do, try and put that attacking object in
 	else
 		return ..()
 
@@ -1115,11 +1080,15 @@ GLOBAL_LIST_EMPTY(PDAs)
 			A.analyzer_act(user, src)
 
 	if (!scanmode && istype(A, /obj/item/paper) && owner)
-		var/obj/item/paper/PP = A
-		if (!PP.info)
+		var/obj/item/paper/paper = A
+		if (!paper.get_info_length())
 			to_chat(user, SPAN_WARNING("Unable to scan! Paper is blank."))
 			return
-		notehtml = PP.info
+		notehtml = paper.info
+		if(paper.add_info)
+			for(var/index in 1 to length(paper.add_info))
+				var/list/style = paper.add_info_style[index]
+				notehtml += PAPER_MARK_TEXT(paper.add_info[index], style[ADD_INFO_COLOR], style[ADD_INFO_FONT])
 		note = replacetext(notehtml, "<BR>", "\[br\]")
 		note = replacetext(note, "<li>", "\[*\]")
 		note = replacetext(note, "<ul>", "\[list\]")

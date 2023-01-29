@@ -2,7 +2,7 @@
 	see_invisible = SEE_INVISIBLE_LIVING
 	sight = 0
 	see_in_dark = 2
-	hud_possible = list(HEALTH_HUD,STATUS_HUD,ANTAG_HUD,NANITE_HUD,DIAG_NANITE_FULL_HUD)
+	hud_possible = list(HEALTH_HUD,STATUS_HUD,ANTAG_HUD)
 	pressure_resistance = 10
 
 	hud_type = /datum/hud/living
@@ -130,6 +130,7 @@
 	var/stuttering = 0
 	var/slurring = 0
 	var/cultslurring = 0
+	/// Derpy speech, boolean
 	var/derpspeech = 0
 
 	var/list/implants = null
@@ -182,3 +183,7 @@
 	var/hold_onto_things = TRUE
 	/// Overlay for the typing indicator
 	var/mutable_appearance/typing_indicator_overlay
+	/// Holder for attributes and skills
+	var/datum/attribute_holder/attributes
+	/// Type of the initial attribute sheet to apply. Can be null
+	var/initial_attribute_sheet

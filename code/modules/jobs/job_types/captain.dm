@@ -20,8 +20,6 @@
 	paycheck = PAYCHECK_COMMAND
 	paycheck_department = ACCOUNT_SEC
 
-	liver_traits = list(TRAIT_ROYAL_METABOLISM)
-
 	display_order = JOB_DISPLAY_ORDER_CAPTAIN
 	departments_list = list(
 		/datum/job_department/command,
@@ -38,6 +36,10 @@
 	job_flags = JOB_ANNOUNCE_ARRIVAL | JOB_CREW_MANIFEST | JOB_EQUIP_RANK | JOB_CREW_MEMBER | JOB_NEW_PLAYER_JOINABLE | JOB_BOLD_SELECT_TEXT | JOB_REOPEN_ON_ROUNDSTART_LOSS
 
 	voice_of_god_power = 1.4 //Command staff has authority
+
+	banned_quirks = list(HEAD_RESTRICTED_QUIRKS)
+
+	required_languages = IMPORTANT_ROLE_LANGUAGE_REQUIREMENT
 
 
 /datum/job/captain/get_captaincy_announcement(mob/living/captain)
@@ -58,8 +60,6 @@
 	shoes = /obj/item/clothing/shoes/sneakers/brown
 	head = /obj/item/clothing/head/caphat
 	backpack_contents = list(/obj/item/melee/classic_baton/telescopic=1, /obj/item/station_charter=1)
-
-	skillchips = list(/obj/item/skillchip/disk_verifier)
 
 	backpack = /obj/item/storage/backpack/captain
 	satchel = /obj/item/storage/backpack/satchel/cap

@@ -46,18 +46,22 @@
 			SPAN_NOTICE("[user] successfully lobotomizes [target]!"),
 			SPAN_NOTICE("[user] completes the surgery on [target]'s brain."))
 	target.cure_all_traumas(TRAUMA_RESILIENCE_LOBOTOMY)
+
 	if(target.mind && target.mind.has_antag_datum(/datum/antagonist/brainwashed))
 		target.mind.remove_antag_datum(/datum/antagonist/brainwashed)
-	switch(rand(1,4))//Now let's see what hopefully-not-important part of the brain we cut off
-		if(1)
-			target.gain_trauma_type(BRAIN_TRAUMA_MILD, TRAUMA_RESILIENCE_MAGIC)
-		if(2)
-			if(HAS_TRAIT(target, TRAIT_SPECIAL_TRAUMA_BOOST) && prob(50))
-				target.gain_trauma_type(BRAIN_TRAUMA_SPECIAL, TRAUMA_RESILIENCE_MAGIC)
-			else
-				target.gain_trauma_type(BRAIN_TRAUMA_SEVERE, TRAUMA_RESILIENCE_MAGIC)
-		if(3)
-			target.gain_trauma_type(BRAIN_TRAUMA_SPECIAL, TRAUMA_RESILIENCE_MAGIC)
+
+	if(prob(45))
+		switch(rand(1, 3))//Now let's see what hopefully-not-important part of the brain we cut off
+			if(1)
+				target.gain_trauma_type(BRAIN_TRAUMA_MILD, TRAUMA_RESILIENCE_LOBOTOMY)
+			if(2)
+				if(HAS_TRAIT(target, TRAIT_SPECIAL_TRAUMA_BOOST) && prob(50))
+					target.gain_trauma_type(BRAIN_TRAUMA_SPECIAL, TRAUMA_RESILIENCE_LOBOTOMY)
+				else
+					target.gain_trauma_type(BRAIN_TRAUMA_SEVERE, TRAUMA_RESILIENCE_LOBOTOMY)
+			if(3)
+				target.gain_trauma_type(BRAIN_TRAUMA_SPECIAL, TRAUMA_RESILIENCE_LOBOTOMY)
+
 	return ..()
 
 /datum/surgery_step/lobotomize/failure(mob/user, mob/living/carbon/target, target_zone, obj/item/tool, datum/surgery/surgery)
@@ -67,16 +71,19 @@
 			SPAN_NOTICE("[user] successfully lobotomizes [target]!"),
 			SPAN_NOTICE("[user] completes the surgery on [target]'s brain."))
 		target_brain.applyOrganDamage(80)
-		switch(rand(1,3))
+		switch(rand(1, 3))
 			if(1)
-				target.gain_trauma_type(BRAIN_TRAUMA_MILD, TRAUMA_RESILIENCE_MAGIC)
+				target.gain_trauma_type(BRAIN_TRAUMA_MILD, TRAUMA_RESILIENCE_LOBOTOMY)
 			if(2)
 				if(HAS_TRAIT(target, TRAIT_SPECIAL_TRAUMA_BOOST) && prob(50))
-					target.gain_trauma_type(BRAIN_TRAUMA_SPECIAL, TRAUMA_RESILIENCE_MAGIC)
+					target.gain_trauma_type(BRAIN_TRAUMA_SPECIAL, TRAUMA_RESILIENCE_LOBOTOMY)
 				else
-					target.gain_trauma_type(BRAIN_TRAUMA_SEVERE, TRAUMA_RESILIENCE_MAGIC)
+					target.gain_trauma_type(BRAIN_TRAUMA_SEVERE, TRAUMA_RESILIENCE_LOBOTOMY)
 			if(3)
-				target.gain_trauma_type(BRAIN_TRAUMA_SPECIAL, TRAUMA_RESILIENCE_MAGIC)
+				target.gain_trauma_type(BRAIN_TRAUMA_SPECIAL, TRAUMA_RESILIENCE_LOBOTOMY)
 	else
-		user.visible_message(SPAN_WARNING("[user] suddenly notices that the brain [user.p_they()] [user.p_were()] working on is not there anymore."), SPAN_WARNING("You suddenly notice that the brain you were working on is not there anymore."))
+		user.visible_message(
+			SPAN_WARNING("[user] suddenly notices that the brain [user.p_they()] [user.p_were()] working on is not there anymore."),
+			SPAN_WARNING("You suddenly notice that the brain you were working on is not there anymore.")
+		)
 	return FALSE

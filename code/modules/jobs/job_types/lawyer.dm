@@ -14,9 +14,6 @@
 	paycheck = PAYCHECK_EASY
 	paycheck_department = ACCOUNT_SRV
 
-	mind_traits = list(TRAIT_DONUT_LOVER)
-	liver_traits = list(TRAIT_LAW_ENFORCEMENT_METABOLISM)
-
 	display_order = JOB_DISPLAY_ORDER_LAWYER
 	departments_list = list(
 		/datum/job_department/service,
@@ -25,6 +22,8 @@
 	family_heirlooms = list(/obj/item/gavelhammer, /obj/item/book/manual/wiki/security_space_law)
 
 	job_flags = JOB_ANNOUNCE_ARRIVAL | JOB_CREW_MANIFEST | JOB_EQUIP_RANK | JOB_CREW_MEMBER | JOB_NEW_PLAYER_JOINABLE | JOB_REOPEN_ON_ROUNDSTART_LOSS
+	
+	required_languages = IMPORTANT_ROLE_LANGUAGE_REQUIREMENT
 
 
 /datum/outfit/job/lawyer

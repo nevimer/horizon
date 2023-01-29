@@ -182,7 +182,7 @@
 /datum/controller/subsystem/ticker/proc/declare_completion()
 	set waitfor = FALSE
 
-	to_chat(world, SPAN("infoplain", "<BR><BR><BR><span class='big bold'>The round has ended.</span>"))
+	to_chat(world, SPAN_INFOPLAIN("<BR><BR><BR><span class='big bold'>The round has ended.</span>"))
 	log_game("The round has ended.")
 
 	for(var/I in round_end_events)
@@ -190,16 +190,10 @@
 		cb.InvokeAsync()
 	LAZYCLEARLIST(round_end_events)
 
-	var/speed_round = FALSE
-	if(world.time - SSticker.round_start_time <= 300 SECONDS)
-		speed_round = TRUE
-
 	for(var/client/C in GLOB.clients)
 		if(!C?.credits)
 			C?.RollCredits()
-		C?.playtitlemusic(40)
-		if(speed_round)
-			C?.give_award(/datum/award/achievement/misc/speed_round, C?.mob)
+		C?.playtitlemusic()
 
 	CHECK_TICK
 

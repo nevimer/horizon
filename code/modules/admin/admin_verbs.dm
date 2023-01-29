@@ -75,12 +75,14 @@ GLOBAL_PROTECT(admin_verbs_admin)
 	/client/proc/deadchat,
 	/client/proc/toggleprayers,
 	/client/proc/toggle_prayer_sound,
+	/client/proc/toggle_admin_looc,
 	/client/proc/colorasay,
 	/client/proc/resetasaycolor,
 	/client/proc/toggleadminhelpsound,
 	/client/proc/togglehearstoryteller,
 	/client/proc/respawn_character,
-	/datum/admins/proc/open_borgopanel
+	/datum/admins/proc/open_borgopanel,
+	/datum/admins/proc/view_all_circuits,
 	)
 GLOBAL_LIST_INIT(admin_verbs_ban, list(/client/proc/unban_panel, /client/proc/ban_panel, /client/proc/stickybanpanel))
 GLOBAL_PROTECT(admin_verbs_ban)
@@ -108,7 +110,7 @@ GLOBAL_LIST_INIT(admin_verbs_fun, list(
 	/client/proc/show_tip,
 	/client/proc/smite,
 	/client/proc/admin_away,
-	/client/proc/spawn_pollution
+	/client/proc/spawn_pollution,
 	))
 GLOBAL_PROTECT(admin_verbs_fun)
 GLOBAL_LIST_INIT(admin_verbs_spawn, list(/datum/admins/proc/spawn_atom, /datum/admins/proc/podspawn_atom, /datum/admins/proc/spawn_cargo, /datum/admins/proc/spawn_objasmob, /client/proc/respawn_character, /datum/admins/proc/beaker_panel))
@@ -129,6 +131,7 @@ GLOBAL_PROTECT(admin_verbs_server)
 	/client/proc/adminchangemap,
 	/client/proc/panicbunker,
 	/client/proc/toggle_interviews,
+	/client/proc/toggle_require_discord,
 	/client/proc/toggle_hub,
 	/client/proc/toggle_cdn
 	)
@@ -166,7 +169,6 @@ GLOBAL_PROTECT(admin_verbs_debug)
 	/client/proc/map_template_load,
 	/client/proc/map_template_upload,
 	/client/proc/jump_to_ruin,
-	/client/proc/toggle_medal_disable,
 	/client/proc/view_runtimes,
 	/client/proc/cmd_display_init_log,
 	/client/proc/cmd_display_overlay_log,
@@ -186,7 +188,8 @@ GLOBAL_PROTECT(admin_verbs_debug)
 	/client/proc/check_timer_sources,
 	/client/proc/toggle_cdn,
 	/client/proc/cmd_give_sdql_spell,
-	/client/proc/adventure_manager
+	/client/proc/adventure_manager,
+	/client/proc/load_circuit,
 	)
 GLOBAL_LIST_INIT(admin_verbs_possess, list(/proc/possess, /proc/release))
 GLOBAL_PROTECT(admin_verbs_possess)
@@ -201,7 +204,6 @@ GLOBAL_LIST_INIT(admin_verbs_hideable, list(
 	/client/proc/reset_ooc,
 	/client/proc/deadmin,
 	/datum/admins/proc/show_traitor_panel,
-	/datum/admins/proc/show_skill_panel,
 	/datum/admins/proc/toggleenter,
 	/datum/admins/proc/toggleguests,
 	/datum/admins/proc/announce,
@@ -252,6 +254,7 @@ GLOBAL_LIST_INIT(admin_verbs_hideable, list(
 	/client/proc/reload_admins,
 	/client/proc/panicbunker,
 	/client/proc/toggle_interviews,
+	/client/proc/toggle_require_discord,
 	/client/proc/admin_change_sec_level,
 	/client/proc/toggle_nuke,
 	/client/proc/cmd_display_del_log,
@@ -839,3 +842,15 @@ GLOBAL_PROTECT(admin_verbs_deadmins)
 
 	src << link("?debug=profile&type=sendmaps&window=test")
 #endif
+
+/client/proc/modify_skills(mob/living/living)
+	set category = "Admin.Fun"
+	set name = "Modify Skills"
+	set desc = "Opens a menu to modify skills."
+	if(!istype(living))
+		to_chat(src, SPAN_NOTICE("You can only modify skills to a mob of type /mob/living."), confidential = TRUE)
+		return
+	living.attributes.show_admin_edit_panel(usr)
+	SSblackbox.record_feedback("tally", "admin_verb", 1, "Modify Skills") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
+	log_admin("[key_name(usr)] opened [key_name(living)]'s skills menu.")
+	message_admins("<span class='adminnotice'>[key_name_admin(usr)] opened [key_name_admin(living)]'s skills menu.</span>")

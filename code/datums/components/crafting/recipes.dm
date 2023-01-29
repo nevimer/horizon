@@ -45,18 +45,6 @@
 /datum/crafting_recipe/proc/on_craft_completion(mob/user, atom/result)
 	return
 
-/datum/crafting_recipe/improv_explosive
-	name = "IED"
-	result = /obj/item/grenade/iedcasing
-	reqs = list(/datum/reagent/fuel = 50,
-				/obj/item/stack/cable_coil = 1,
-				/obj/item/assembly/igniter = 1,
-				/obj/item/reagent_containers/food/drinks/soda_cans = 1)
-	parts = list(/obj/item/reagent_containers/food/drinks/soda_cans = 1)
-	time = 15
-	category = CAT_WEAPONRY
-	subcategory = CAT_WEAPON
-
 /datum/crafting_recipe/lance
 	name = "Explosive Lance (Grenade)"
 	result = /obj/item/spear/explosive
@@ -187,10 +175,10 @@
 /datum/crafting_recipe/advancedegun
 	name = "Advanced Energy Gun"
 	tool_behaviors = list(TOOL_SCREWDRIVER, TOOL_WIRECUTTER)
-	result = /obj/item/gun/energy/e_gun/nuclear
+	result = /obj/item/gun/energy/e_gun/adv
 	reqs = list(/obj/item/gun/energy/e_gun = 1,
 				/obj/item/stack/cable_coil = 5,
-				/obj/item/weaponcrafting/gunkit/nuclear = 1)
+				/obj/item/weaponcrafting/gunkit/advenergy = 1)
 	time = 200
 	category = CAT_WEAPONRY
 	subcategory = CAT_WEAPON
@@ -425,19 +413,6 @@
 				/obj/item/stack/package_wrap = 8,
 				/obj/item/pipe/quaternary = 2)
 	time = 50
-	category = CAT_WEAPONRY
-	subcategory = CAT_WEAPON
-
-/datum/crafting_recipe/flamethrower
-	name = "Flamethrower"
-	result = /obj/item/flamethrower
-	reqs = list(/obj/item/weldingtool = 1,
-				/obj/item/assembly/igniter = 1,
-				/obj/item/stack/rods = 1)
-	parts = list(/obj/item/assembly/igniter = 1,
-				/obj/item/weldingtool = 1)
-	tool_behaviors = list(TOOL_SCREWDRIVER)
-	time = 10
 	category = CAT_WEAPONRY
 	subcategory = CAT_WEAPON
 
@@ -1100,33 +1075,20 @@
 	result = /obj/item/pickaxe/improvised
 	category = CAT_MISC
 
-/datum/crafting_recipe/underwater_basket
-	name = "Underwater Basket (Bamboo)"
+/datum/crafting_recipe/basket
+	name = "Basket (Bamboo)"
 	reqs = list(
 		/obj/item/stack/sheet/mineral/bamboo = 20
 	)
 	result = /obj/item/storage/basket
 	category = CAT_MISC
-	additional_req_text = " being underwater, underwater basketweaving mastery"
-
-/datum/crafting_recipe/underwater_basket/check_requirements(mob/user, list/collected_requirements)
-	. = ..()
-	if(!HAS_TRAIT(user,TRAIT_UNDERWATER_BASKETWEAVING_KNOWLEDGE))
-		return FALSE
-	var/turf/T = get_turf(user)
-	if(istype(T,/turf/open/water) || istype(T,/turf/open/floor/plating/beach/water))
-		return TRUE
-	var/obj/machinery/shower/S = locate() in T
-	if(S?.on)
-		return TRUE
 
 //Same but with wheat
-/datum/crafting_recipe/underwater_basket/wheat
-	name = "Underwater Basket (Wheat)"
+/datum/crafting_recipe/basket/wheat
+	name = "Basket (Wheat)"
 	reqs = list(
 		/obj/item/food/grown/wheat = 50
 	)
-
 
 /datum/crafting_recipe/elder_atmosian_statue
 	name = "Elder Atmosian Statue"
@@ -1135,16 +1097,6 @@
 	reqs = list(/obj/item/stack/sheet/mineral/metal_hydrogen = 20,
 				/obj/item/stack/sheet/mineral/zaukerite = 15,
 				/obj/item/stack/sheet/iron = 30,
-				)
-	category = CAT_MISC
-
-/datum/crafting_recipe/bluespace_vendor_mount
-	name = "Bluespace Vendor Wall Mount"
-	result = /obj/item/wallframe/bluespace_vendor_mount
-	time = 6 SECONDS
-	reqs = list(/obj/item/stack/sheet/iron = 15,
-				/obj/item/stack/sheet/glass = 10,
-				/obj/item/stack/cable_coil = 10,
 				)
 	category = CAT_MISC
 

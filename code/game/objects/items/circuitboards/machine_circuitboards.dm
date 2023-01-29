@@ -272,10 +272,10 @@
 	greyscale_colors = CIRCUIT_COLOR_ENGINEERING
 	build_path = /obj/machinery/rnd/production/techfab/department/engineering
 
-/obj/item/circuitboard/machine/thermomachine
-	name = "Thermomachine (Machine Board)"
+/obj/item/circuitboard/machine/heat_pump
+	name = "heat_pump (Machine Board)"
 	greyscale_colors = CIRCUIT_COLOR_ENGINEERING
-	build_path = /obj/machinery/atmospherics/components/binary/thermomachine/freezer
+	build_path = /obj/machinery/atmospherics/components/binary/heat_pump/freezer
 	var/pipe_layer = PIPING_LAYER_DEFAULT
 	req_components = list(
 		/obj/item/stock_parts/matter_bin = 2,
@@ -283,13 +283,13 @@
 		/obj/item/stack/cable_coil = 1,
 		/obj/item/stack/sheet/glass = 1)
 
-/obj/item/circuitboard/machine/thermomachine/multitool_act(mob/living/user, obj/item/multitool/I)
+/obj/item/circuitboard/machine/heat_pump/multitool_act(mob/living/user, obj/item/multitool/I)
 	. = ..()
 	if (istype(I))
 		pipe_layer = (pipe_layer >= PIPING_LAYER_MAX) ? PIPING_LAYER_MIN : (pipe_layer + 1)
 		to_chat(user, SPAN_NOTICE("You change the circuitboard to layer [pipe_layer]."))
 
-/obj/item/circuitboard/machine/thermomachine/examine()
+/obj/item/circuitboard/machine/heat_pump/examine()
 	. = ..()
 	. += SPAN_NOTICE("It is set to layer [pipe_layer].")
 
@@ -343,15 +343,6 @@
 	name = "Crystallizer (Machine Board)"
 	greyscale_colors = CIRCUIT_COLOR_ENGINEERING
 	build_path = /obj/machinery/atmospherics/components/binary/crystallizer
-	req_components = list(
-		/obj/item/stack/cable_coil = 10,
-		/obj/item/stack/sheet/glass = 10,
-		/obj/item/stack/sheet/plasteel = 5)
-
-/obj/item/circuitboard/machine/bluespace_sender
-	name = "Bluespace Sender (Machine Board)"
-	greyscale_colors = CIRCUIT_COLOR_ENGINEERING
-	build_path = /obj/machinery/atmospherics/components/unary/bluespace_sender
 	req_components = list(
 		/obj/item/stack/cable_coil = 10,
 		/obj/item/stack/sheet/glass = 10,
@@ -893,32 +884,6 @@
 		/obj/item/stock_parts/manipulator = 1)
 	needs_anchored = FALSE
 
-/obj/item/circuitboard/machine/nanite_chamber
-	name = "Nanite Chamber (Machine Board)"
-	greyscale_colors = CIRCUIT_COLOR_SCIENCE
-	build_path = /obj/machinery/nanite_chamber
-	req_components = list(
-		/obj/item/stock_parts/scanning_module = 2,
-		/obj/item/stock_parts/micro_laser = 2,
-		/obj/item/stock_parts/manipulator = 1)
-
-/obj/item/circuitboard/machine/nanite_program_hub
-	name = "Nanite Program Hub (Machine Board)"
-	greyscale_colors = CIRCUIT_COLOR_SCIENCE
-	build_path = /obj/machinery/nanite_program_hub
-	req_components = list(
-		/obj/item/stock_parts/matter_bin = 1,
-		/obj/item/stock_parts/manipulator = 1)
-
-/obj/item/circuitboard/machine/nanite_programmer
-	name = "Nanite Programmer (Machine Board)"
-	greyscale_colors = CIRCUIT_COLOR_SCIENCE
-	build_path = /obj/machinery/nanite_programmer
-	req_components = list(
-		/obj/item/stock_parts/manipulator = 2,
-		/obj/item/stock_parts/micro_laser = 2,
-		/obj/item/stock_parts/scanning_module = 1)
-
 /obj/item/circuitboard/machine/processor/slime
 	name = "Slime Processor (Machine Board)"
 	greyscale_colors = CIRCUIT_COLOR_SCIENCE
@@ -928,27 +893,6 @@
 	name = "Departmental Protolathe (Machine Board) - Science"
 	greyscale_colors = CIRCUIT_COLOR_SCIENCE
 	build_path = /obj/machinery/rnd/production/protolathe/department/science
-
-/obj/item/circuitboard/machine/public_nanite_chamber
-	name = "Public Nanite Chamber (Machine Board)"
-	greyscale_colors = CIRCUIT_COLOR_SCIENCE
-	build_path = /obj/machinery/public_nanite_chamber
-	var/cloud_id = 1
-	req_components = list(
-		/obj/item/stock_parts/micro_laser = 2,
-		/obj/item/stock_parts/manipulator = 1)
-
-/obj/item/circuitboard/machine/public_nanite_chamber/multitool_act(mob/living/user)
-	. = ..()
-	var/new_cloud = input("Set the public nanite chamber's Cloud ID (1-100).", "Cloud ID", cloud_id) as num|null
-	if(!new_cloud || (loc != user))
-		to_chat(user, SPAN_WARNING("You must hold the circuitboard to change its Cloud ID!"))
-		return
-	cloud_id = clamp(round(new_cloud, 1), 1, 100)
-
-/obj/item/circuitboard/machine/public_nanite_chamber/examine(mob/user)
-	. = ..()
-	. += "Cloud ID is currently set to [cloud_id]."
 
 /obj/item/circuitboard/machine/quantumpad
 	name = "Quantum Pad (Machine Board)"
@@ -1317,15 +1261,6 @@
 		/obj/item/stack/sheet/glass = 1)
 	def_components = list(/obj/item/stack/ore/bluespace_crystal = /obj/item/stack/ore/bluespace_crystal/artificial)
 	needs_anchored = FALSE
-
-/obj/item/circuitboard/machine/skill_station
-	name = "Skill Station (Machine Board)"
-	build_path = /obj/machinery/skill_station
-	req_components = list(
-		/obj/item/stock_parts/matter_bin = 2,
-		/obj/item/stock_parts/micro_laser = 2,
-		/obj/item/stock_parts/scanning_module = 2
-	)
 
 /obj/item/circuitboard/machine/destructive_scanner
 	name = "Experimental Destructive Scanner (Machine Board)"

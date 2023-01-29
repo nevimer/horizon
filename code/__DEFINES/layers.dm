@@ -46,13 +46,15 @@
 #define DISPOSAL_PIPE_LAYER 2.3
 #define GAS_PIPE_HIDDEN_LAYER 2.35 //layer = initial(layer) + piping_layer / 1000 in atmospherics/update_icon() to determine order of pipe overlap
 #define WIRE_LAYER 2.4
-#define WIRE_BRIDGE_LAYER 2.44
-#define WIRE_TERMINAL_LAYER 2.45
-#define GAS_SCRUBBER_LAYER 2.46
-#define CATWALK_LAYER 2.465
-#define GAS_PIPE_VISIBLE_LAYER 2.47 //layer = initial(layer) + piping_layer / 1000 in atmospherics/update_icon() to determine order of pipe overlap
+#define WIRE_BRIDGE_LAYER 2.41
+#define WIRE_TERMINAL_LAYER 2.42
+#define UNDER_CATWALK_LAYER 2.44
+#define CATWALK_LAYER 2.45
+#define GAS_PIPE_VISIBLE_LAYER 2.46 //layer = initial(layer) + piping_layer / 1000 in atmospherics/update_icon() to determine order of pipe overlap
+#define GAS_SCRUBBER_LAYER 2.47
 #define GAS_FILTER_LAYER 2.48
 #define GAS_PUMP_LAYER 2.49
+#define PLUMBING_PIPE_VISIBILE_LAYER 2.495//layer = initial(layer) + ducting_layer / 3333 in atmospherics/handle_layer() to determine order of duct overlap
 #define LOW_OBJ_LAYER 2.5
 #define LOW_SIGIL_LAYER 2.52
 #define SIGIL_LAYER 2.54
@@ -127,6 +129,9 @@
 ///Things that should render ignoring lighting
 #define ABOVE_LIGHTING_PLANE 110
 #define ABOVE_LIGHTING_RENDER_TARGET "ABOVE_LIGHTING_PLANE"
+
+#define ABOVE_LIGHTING_MOUSE_TRANSPARENT_PLANE 111
+#define ABOVE_LIGHTING_MOUSE_TRANSPARENT_RENDER_TARGET "ABOVE_LIGHTING_MOUSE_TRANSPARENT_PLANE"
 
 ///visibility + hiding of things outside of light source range
 #define BYOND_LIGHTING_PLANE 120

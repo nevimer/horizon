@@ -27,6 +27,9 @@
 
 /datum/config_entry/string/servername // server name (the name of the game window)
 
+/// Server short description
+/datum/config_entry/string/serverdesc
+
 /datum/config_entry/string/serversqlname // short form server name used for the DB
 
 /datum/config_entry/string/stationname // station name (the name of the station in-game)
@@ -218,17 +221,15 @@
 
 /datum/config_entry/string/banappeals
 
+/datum/config_entry/string/websiteurl
+
 /datum/config_entry/string/wikiurl
-	config_entry_value = "http://www.tgstation13.org/wiki"
 
 /datum/config_entry/string/forumurl
-	config_entry_value = "http://tgstation13.org/phpBB/index.php"
 
 /datum/config_entry/string/rulesurl
-	config_entry_value = "http://www.tgstation13.org/wiki/Rules"
 
-/datum/config_entry/string/githuburl
-	config_entry_value = "https://www.github.com/tgstation/tgstation"
+/datum/config_entry/string/sourcerepourl
 
 /datum/config_entry/string/discordbotcommandprefix
 	config_entry_value = "?"
@@ -327,9 +328,18 @@
 /datum/config_entry/flag/panic_bunker // prevents people the server hasn't seen before from connecting
 
 /datum/config_entry/number/panic_bunker_living // living time in minutes that a player needs to pass the panic bunker
+	min_val = -1
+	config_entry_value = -1
 
 /// Flag for requiring players who would otherwise be denied access by the panic bunker to complete a written interview
 /datum/config_entry/flag/panic_bunker_interview
+
+/// Flag to enable the whitelist, only allowing registered players to enter the server
+/datum/config_entry/flag/panic_bunker_discord_require
+
+/// String to show the user if they were denied access due to the WAS
+/datum/config_entry/string/panic_bunker_discord_register_message
+	config_entry_value = "Sorry but this server requires players to link their Discord account before playing! Please enter the following command, including the token, into this Server's Discord Guild."
 
 /datum/config_entry/string/panic_bunker_message
 	config_entry_value = "Sorry but the server is currently not accepting connections from never before seen players."

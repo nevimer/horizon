@@ -541,7 +541,7 @@
 		else
 			L1[key] = other_value
 
-/proc/assoc_list_strip_value(list/input)
+/proc/assoc_to_keys(list/input)
 	var/list/ret = list()
 	for(var/key in input)
 		ret += key
@@ -559,3 +559,43 @@
 			return FALSE
 
 	return TRUE
+
+/// Turns a color string such as "#FFFFFF#00FFFF" into a list of ("#FFFFFF", #00FFFF)
+/proc/color_string_to_list(color_string)
+	if(!color_string)
+		return null
+	. = list()
+	var/list/split_colors = splittext(color_string, "#")
+	for(var/color in 2 to length(split_colors))
+		. += "#[split_colors[color]]"
+
+/// Turns a list such as ("#FFFFFF", #00FFFF) into a color string of "#FFFFFF#00FFFF"
+/proc/color_list_to_string(list/color_list)
+	if(!islist(color_list))
+		return null
+	. = ""
+	for(var/color in color_list)
+		. += color
+
+///Returns a list with all weakrefs resolved
+/proc/recursive_list_resolve(list/list_to_resolve)
+	. = list()
+	for(var/element in list_to_resolve)
+		if(istext(element))
+			. += element
+			var/possible_assoc_value = list_to_resolve[element]
+			if(possible_assoc_value)
+				.[element] = recursive_list_resolve_element(possible_assoc_value)
+		else
+			. += list(recursive_list_resolve_element(element))
+
+///Helper for /proc/recursive_list_resolve
+/proc/recursive_list_resolve_element(element)
+	if(islist(element))
+		var/list/inner_list = element
+		return recursive_list_resolve(inner_list)
+	else if(isweakref(element))
+		var/datum/weakref/ref = element
+		return ref.resolve()
+	else
+		return element

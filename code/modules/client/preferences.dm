@@ -31,6 +31,19 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	var/buttons_locked = FALSE
 	var/hotkeys = TRUE
 
+	/// Background of the character mannequin preview
+	var/background_state = "black"
+	/// List of icon_states available for the character mannequin preview
+	var/static/list/background_state_options = list(
+		"black",
+		"grey",
+		"pure_white",
+		"plating",
+		"floor",
+		"grass0",
+		"wood",
+	)
+
 	///Runechat preference. If true, certain messages will be displayed on the map, not ust on the chat area. Boolean.
 	var/chat_on_map = TRUE
 	///Limit preference on the size of the message. Requires chat_on_map to have effect.
@@ -78,6 +91,9 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	var/jumpsuit_style = PREF_SUIT //suit/skirt
 	var/hairstyle = "Bald" //Hair type
 	var/hair_color = "000" //Hair color
+	var/hair_gradient_style = "None"
+	var/hair_gradient_color = "000"
+	var/hair_gradient_is_dye = FALSE
 	var/facial_hairstyle = "Shaved" //Face hair type
 	var/facial_hair_color = "000" //Facial hair color
 	var/skin_tone = "caucasian1" //Skin color
@@ -99,8 +115,8 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	//Job preferences 2.0 - indexed by job title , no key or value implies never
 	var/list/job_preferences = list()
 
-		// Want randomjob if preferences already filled - Donkie
-	var/joblessrole = BERANDOMJOB  //defaults to 1 for fewer assistants
+	/// What to do if the selected jobs are not available
+	var/joblessrole = RETURNTOLOBBY
 
 	// 0 = character settings, 1 = game preferences
 	var/current_tab = 0
@@ -163,11 +179,15 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 
 	///How many loadout points we've got remaining
 	var/loadout_points = LOADOUT_POINTS_MAX
-	///Loadout items, this is an associative list stored as [name] = "info". Info can be either colors or styles for the loadout items
-	var/loadout = list()
+	/// List with all loadout slots we have.
+	var/list/loadouts = list()
+	/// Currently selected loadout slot
+	var/loadout_slot = 1
+	/// Whether to only show the loadout equipped items instead of the catalogue
+	var/show_loadout_equipped_items = FALSE
 
-	var/loadout_category = ""
-	var/loadout_subcategory = ""
+	var/loadout_category
+	var/loadout_subcategory
 
 	var/preview_pref = PREVIEW_PREF_JOB
 
@@ -211,6 +231,14 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	var/hear_jukebox = TRUE
 	/// Admin pref to hear storyteller logging, because bitfield is full lol.
 	var/hear_storyteller = TRUE
+	/// Customized character attributed. In difference from the base value
+	var/list/attributes = list()
+	/// Customized character skills. In difference from the base value
+	var/list/skills = list()
+	/// Attributes that the character will end up with, accounting in for other factors
+	var/list/perceived_attributes = list()
+	/// Skills that the character will end up with, accounting in for other factors
+	var/list/perceived_skills = list()
 
 /datum/preferences/New(client/C)
 	parent = C
@@ -232,6 +260,10 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	//we couldn't load character data so just randomize the character appearance + name
 	set_new_species(/datum/species/human)
 	random_character() //let's create a random character then - rather than a fat, bald and naked man.
+	// We dont have a system for initializing complex data on new saves and it is only an issue now
+	loadouts = list()
+	validate_loadouts()
+
 	key_bindings = deepCopyList(GLOB.hotkey_keybinding_list_by_key) // give them default keybinds and update their movement keys
 	C?.set_macros()
 	real_name = pref_species.random_name(gender,1)
@@ -299,13 +331,14 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			dat += "<a href='?_src_=prefs;preference=character_tab;tab=3' [character_settings_tab == 3 ? "class='linkOn'" : ""]>Background</a>"
 			dat += "<a href='?_src_=prefs;preference=character_tab;tab=4' [character_settings_tab == 4 ? "class='linkOn'" : ""]>Loadout</a>" //If you change the index of this tab, change all the logic regarding tab
 			dat += "<a href='?_src_=prefs;preference=character_tab;tab=5' [character_settings_tab == 5 ? "class='linkOn'" : ""]>Augmentation</a>"
+			dat += "<a href='?_src_=prefs;preference=character_tab;tab=6' [character_settings_tab == 6 ? "class='linkOn'" : ""]>Attributes</a>"
 			dat += "</center>"
 
 			dat += "<HR>"
 			dat += "<center>"
 			dat += "<table width='100%'>"
 			dat += "<tr>"
-			dat += "<td width=35%>"
+			dat += "<td width=20%>"
 			dat += "Preview:"
 			dat += "<a href='?_src_=prefs;preference=character_preview;tab=[PREVIEW_PREF_JOB]' [preview_pref == PREVIEW_PREF_JOB ? "class='linkOn'" : ""]>[PREVIEW_PREF_JOB]</a>"
 			dat += "<a href='?_src_=prefs;preference=character_preview;tab=[PREVIEW_PREF_LOADOUT]' [preview_pref == PREVIEW_PREF_LOADOUT ? "class='linkOn'" : ""]>[PREVIEW_PREF_LOADOUT]</a>"
@@ -313,11 +346,22 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			dat += "</td>"
 			switch(character_settings_tab)
 				if(4) //Loadout
-					dat += "<td width=50%>"
-					dat += "<b>Remaining loadout points: [loadout_points]</b>"
+					dat += "<td width=20%>"
+					dat += "<b>Remaining points: [loadout_points]</b>"
 					dat += "</td>"
-					dat += "<td width=15%>"
-					dat += "<a href='?_src_=prefs;preference=reset_loadout'>Reset Loadout</a>"
+					dat += "<td width=25%>"
+					dat += "<b>Slot: </b>"
+					/// Put slots in here
+					var/slot_index = 0
+					for(var/slot_list in loadouts)
+						slot_index++
+						dat += "<a href='?_src_=prefs;preference=loadout_slot;slot=[slot_index]' [slot_index == loadout_slot ? "class='linkOn'" : ""]>[slot_index]</a> "
+					if(slot_index < MAX_LOADOUT_SLOTS)
+						dat += "<a href='?_src_=prefs;preference=loadout_new_slot'>+</a> "
+					dat += "</td>"
+					dat += "<td width=25%>"
+					dat += "<a href='?_src_=prefs;preference=loadout_show_equipped' [show_loadout_equipped_items ? "class='linkOn'" : ""]>Equipped</a> "
+					dat += "<a href='?_src_=prefs;preference=reset_loadout'>Reset Slot</a>"
 					dat += "</td>"
 				if(5) //Augments
 					dat += "<td width=65%>"
@@ -394,6 +438,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 						dat += "<a href='?_src_=prefs;preference=phobia;task=input'>[phobia]</a><BR>"
 
 				if(1) //Appearance
+					dat += "<b>Preview Background:</b><a href='?_src_=prefs;preference=choose_preview_background;task=input'>[background_state]</a><br/>"
 					dat += "<h2>Body</h2>"
 					dat += "<a href='?_src_=prefs;preference=all;task=random'>Random Body</A> "
 
@@ -494,6 +539,12 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 						dat += "<a href='?_src_=prefs;preference=hairstyle;task=input'>[hairstyle]</a>"
 
 						dat += "<br> <a href='?_src_=prefs;preference=hair;task=input'><span class='color_holder_box' style='background-color:#[hair_color]'></span></a>"
+
+						dat += "<br/><h3>Hair Gradient</h3>"
+
+						dat += "<a href='?_src_=prefs;preference=hair_gradient_style;task=input'>[hair_gradient_style]</a>"
+						dat += "<br/> <a href='?_src_=prefs;preference=hair_gradient_color;task=input'><span class='color_holder_box' style='background-color:#[hair_gradient_color]'></span></a>"
+						dat += "<br/> Apply as dye (non-permanent): <a href='?_src_=prefs;preference=hair_gradient_is_dye;task=input'>[hair_gradient_is_dye ? "Yes" : "No"]</a>"
 
 						dat += "<BR><h3>Facial Hairstyle</h3>"
 
@@ -790,84 +841,23 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					dat += "</tr></table>"
 				if(4) //Loadout
 					dat += "<center>"
-					for(var/category in GLOB.loadout_category_to_subcategory_to_items)
-						dat += "<a href='?_src_=prefs;preference=loadout_cat;tab=[category]' [loadout_category == category ? "class='linkOn'" : ""]>[category]</a> "
-					dat += "</center>"
-					dat += "<HR>"
-					if(loadout_category != "")
-						dat += "<center>"
-						for(var/subcategory in GLOB.loadout_category_to_subcategory_to_items[loadout_category])
-							dat += "<a href='?_src_=prefs;preference=loadout_subcat;tab=[subcategory]' [loadout_subcategory == subcategory ? "class='linkOn'" : ""]>[subcategory]</a> "
+					dat += "<b>Please customize your loadout items in a way where they will make sense.</b><HR>"
+					if(show_loadout_equipped_items)
+						dat += print_loadout_table(equipped = TRUE)
+					else
+						for(var/category in GLOB.loadout_category_to_subcategory_to_items)
+							dat += "<a href='?_src_=prefs;preference=loadout_cat;tab=[category]' [loadout_category == category ? "class='linkOn'" : ""]>[category]</a> "
 						dat += "</center>"
 						dat += "<HR>"
-						if(loadout_subcategory != "")
-							var/list/item_names = GLOB.loadout_category_to_subcategory_to_items[loadout_category][loadout_subcategory]
+						if(loadout_category)
+							dat += "<center>"
+							for(var/subcategory in GLOB.loadout_category_to_subcategory_to_items[loadout_category])
+								dat += "<a href='?_src_=prefs;preference=loadout_subcat;tab=[subcategory]' [loadout_subcategory == subcategory ? "class='linkOn'" : ""]>[subcategory]</a> "
+							dat += "</center>"
+							dat += "<HR>"
+							if(loadout_subcategory)
+								dat += print_loadout_table(category = loadout_category, subcategory = loadout_subcategory)
 
-							dat += "<table align='center'; width='100%'; height='100%'; style='background-color:#13171C'>"
-							dat += "<tr style='vertical-align:top'>"
-							dat += "<td width=18%><font size=2><b>Name</b></font></td>"
-							dat += "<td width=20%><font size=2> </font></td>"
-							dat += "<td width=40%><font size=2><b>Description</b></font></td>"
-							dat += "<td width=17%><font size=2><b>Restrictions</b></font></td>"
-							dat += "<td width=5%><font size=2><center><b>Cost</b></center></font></td>"
-							dat += "</tr>"
-							var/even = FALSE
-							for(var/path in item_names)
-								var/datum/loadout_item/LI = GLOB.loadout_items[path]
-								if(LI.ckeywhitelist && !(user.ckey in LI.ckeywhitelist))
-									continue
-								var/background_cl = "#23273C"
-								if(even)
-									background_cl = "#17191C"
-								even = !even
-								var/loadout_button_class
-								var/customization_button = ""
-								if(loadout[LI.path]) //We have this item purchased, but we can sell it
-									loadout_button_class = "href='?_src_=prefs;task=change_loadout;item=[path]' class='linkOn'"
-									var/custom_info = loadout[LI.path]
-									switch(LI.extra_info)
-										if(LOADOUT_INFO_ONE_COLOR)
-											customization_button = "<center><span style='border: 1px solid #161616; background-color: ["#[custom_info]"];'>&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;task=change_loadout_customization;item=[path]'>Change</a></center>"
-										if(LOADOUT_INFO_THREE_COLORS)
-											var/list/color_list = splittext(custom_info, "|")
-											if(length(color_list) != 3)
-												stack_trace("WARNING! Loadout item information of [LI.name] for ckey [user.ckey] has invalid amount of entries.")
-												continue
-											customization_button += "<center><span style='border: 1px solid #161616; background-color: ["#[color_list[1]]"];'>&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;task=change_loadout_customization;item=[path];color_slot=1'>Change</a></center>"
-											customization_button += "<center><span style='border: 1px solid #161616; background-color: ["#[color_list[2]]"];'>&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;task=change_loadout_customization;item=[path];color_slot=2'>Change</a></center>"
-											customization_button += "<center><span style='border: 1px solid #161616; background-color: ["#[color_list[3]]"];'>&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;task=change_loadout_customization;item=[path];color_slot=3'>Change</a></center>"
-										if(LOADOUT_INFO_STYLE)
-											customization_button = "" //TODO
-								//We check for whether the item is donator only, and if the person isn't donator, then check cost
-								else if((LI.donator_only && !GLOB.donator_list[user.ckey] && !user.client.holder) || LI.cost > loadout_points) //We cannot afford this item
-									loadout_button_class = "class='linkOff'"
-								else //We can buy it
-									loadout_button_class = "href='?_src_=prefs;task=change_loadout;item=[path]'"
-								if(!loadout[LI.path]) //Let the user know if something is colorable, so we can avoid mentioning it in the titles
-									switch(LI.extra_info)
-										if(LOADOUT_INFO_ONE_COLOR)
-											customization_button = "<i>Colorable</i>"
-										if(LOADOUT_INFO_THREE_COLORS)
-											customization_button += "<i>Polychromic</i>"
-										if(LOADOUT_INFO_STYLE)
-											customization_button = "" //TODO
-								dat += "<tr style='vertical-align:top; background-color: [background_cl];'>"
-								dat += "<td><font size=2><a [loadout_button_class]>[LI.name]</a></font></td>"
-								dat += "<td><font size=2>[customization_button]</font></td>"
-								dat += "<td><font size=2><i>[LI.description]</i></font></td>"
-								dat += "<td><font size=2><i>[LI.restricted_desc]</i></font></td>"
-								dat += "<td><font size=2><center>[LI.cost]</center></font></td>"
-								dat += "</tr>"
-
-							dat += "</table>"
-							if(loadout_subcategory == LOADOUT_SUBCATEGORY_DONATOR)
-								dat += "<HR>"
-								if(GLOB.donator_list[user.ckey])
-									dat += "<center><b>Thank you for your support!</b></center>"
-								else if (user.client.holder)
-									dat += "<center>Thank you for staffing the server! Enjoy those cool items</center>"
-								else
-									dat += "<center>You can support us on our patreon to help us run the servers, and get access to cool loadout items, and more points!</center>"
 				if(5) //Augmentations
 					if(!pref_species.can_augment)
 						dat += "Sorry, but your species doesn't support augmentations"
@@ -937,6 +927,9 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 									dat += "</tr>"
 								dat += "</table>"
 						dat += "</td></tr></table>"
+
+				if(6) //Attributes
+					dat += print_attributes_page()
 
 		if (1) // Game Preferences
 			dat += "<table><tr><td width='340px' height='300px' valign='top'>"
@@ -1124,6 +1117,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 				dat += "<b>Hide Dead Chat:</b> <a href = '?_src_=prefs;preference=toggle_dead_chat'>[(chat_toggles & CHAT_DEAD)?"Shown":"Hidden"]</a><br>"
 				dat += "<b>Hide Radio Messages:</b> <a href = '?_src_=prefs;preference=toggle_radio_chatter'>[(chat_toggles & CHAT_RADIO)?"Shown":"Hidden"]</a><br>"
 				dat += "<b>Hide Prayers:</b> <a href = '?_src_=prefs;preference=toggle_prayers'>[(chat_toggles & CHAT_PRAYER)?"Shown":"Hidden"]</a><br>"
+				dat += "<b>Hide Admin LOOC:</b> <a href='?_src_=prefs;preference=toggle_admin_looc'>[(chat_toggles & CHAT_ADMIN_LOOC) ? "Shown" : "Hidden"]</a><br/>"
 				dat += "<b>Split Admin Tabs:</b> <a href = '?_src_=prefs;preference=toggle_split_admin_tabs'>[(toggles & SPLIT_ADMIN_TABS)?"Enabled":"Disabled"]</a><br>"
 				dat += "<b>Ignore Being Summoned as Cult Ghost:</b> <a href = '?_src_=prefs;preference=toggle_ignore_cult_ghost'>[(toggles & ADMIN_IGNORE_CULT_GHOST)?"Don't Allow Being Summoned":"Allow Being Summoned"]</a><br>"
 				dat += "<b>Briefing Officer Outfit:</b> <a href = '?_src_=prefs;preference=briefoutfit;task=input'>[brief_outfit]</a><br>"
@@ -1608,6 +1602,8 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 		return TRUE
 
 	switch(href_list["task"])
+		if("attributes")
+			handle_attributes_topic(usr, href_list)
 		if("close_language")
 			user << browse(null, "window=culture_lang")
 			ShowChoices(user)
@@ -1636,45 +1632,19 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 		if("augment_slot")
 			var/slot_name = href_list["slot"]
 			chosen_augment_slot = slot_name
-		if("change_loadout_customization")
-			needs_update = TRUE
-			var/path = text2path(href_list["item"])
-			if(!loadout[path])
-				return
-			var/datum/loadout_item/LI = GLOB.loadout_items[path]
-			switch(LI.extra_info)
-				if(LOADOUT_INFO_ONE_COLOR)
-					var/new_color = input(user, "Choose your item's color:", "Character Preference","#[loadout[path]]") as color|null
-					if(new_color)
-						if(!loadout[path])
-							return
-						loadout[path] = sanitize_hexcolor(new_color)
-				if(LOADOUT_INFO_THREE_COLORS)
-					var/color_slot = text2num(href_list["color_slot"])
-					if(color_slot)
-						var/list/color_list = splittext(loadout[path], "|")
-						var/new_color = input(user, "Choose your item's color:", "Character Preference","#[color_list[color_slot]]") as color|null
-						if(new_color)
-							if(!loadout[path])
-								return
-							color_list[color_slot] = sanitize_hexcolor(new_color)
-							loadout[path] = color_list.Join("|")
-				if(LOADOUT_INFO_STYLE)
-					return
+
+		if("customize_loadout")
+			var/customization_type = text2num(href_list["customize"])
+			var/item_path = text2path(href_list["item"])
+			var/gags_index
+			if(href_list["index"])
+				gags_index = text2num(href_list["index"])
+			customize_loadout_entry(item_path, customization_type, user, gags_index)
+
 		if("change_loadout")
-			needs_update = TRUE
-			var/path = text2path(href_list["item"])
-			var/datum/loadout_item/LI = GLOB.loadout_items[path]
-			if(loadout[path]) //We sell it!
-				loadout -= path
-				loadout_points += LI.cost
-			else //We attempt to buy it
-				if(LI.cost > loadout_points)
-					return
-				if(LI.ckeywhitelist && !(user.ckey in LI.ckeywhitelist) && !user.client.holder)
-					return
-				loadout_points -= LI.cost
-				loadout[LI.path] = LI.default_customization() //As in "No extra information associated"
+			var/item_path = text2path(href_list["item"])
+			change_loadout_item(item_path)
+
 		if("change_marking")
 			needs_update = TRUE
 			switch(href_list["preference"])
@@ -2114,16 +2084,16 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 						needs_update = TRUE
 
 				if("hair")
-					needs_update = TRUE
 					var/new_hair = input(user, "Choose your character's hair colour:", "Character Preference","#"+hair_color) as color|null
 					if(new_hair)
 						hair_color = sanitize_hexcolor(new_hair)
+						needs_update = TRUE
 
 				if("hairstyle")
-					needs_update = TRUE
 					var/new_hairstyle = input(user, "Choose your character's hairstyle:", "Character Preference")  as null|anything in hairstyle_list_for_species(pref_species, null, mismatched_customization)
 					if(new_hairstyle)
 						hairstyle = new_hairstyle
+						needs_update = TRUE
 
 				if("next_hairstyle")
 					next_hairstyle()
@@ -2133,6 +2103,21 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					prev_hairstyle()
 					needs_update = TRUE
 
+				if("hair_gradient_style")
+					var/new_hair_gradient_style = input(user, "Choose your character's hair gradient style:", "Hair Dye / Gradient Style") as null|anything in GLOB.hair_gradients_list
+					if(new_hair_gradient_style)
+						hair_gradient_style = new_hair_gradient_style
+						needs_update = TRUE
+
+				if("hair_gradient_color")
+					var/new_hair_gradient_color = input(user, "Choose your character's hair gradient color:", "Hair Dye / Gradient Color", "#"+hair_gradient_color) as color|null
+					if(new_hair_gradient_color)
+						hair_gradient_color = sanitize_hexcolor(new_hair_gradient_color)
+						needs_update = TRUE
+
+				if("hair_gradient_is_dye")
+					hair_gradient_is_dye = !hair_gradient_is_dye
+
 				if("facial")
 					needs_update = TRUE
 					var/new_facial = input(user, "Choose your character's facial-hair colour:", "Character Preference","#"+facial_hair_color) as color|null
@@ -2140,10 +2125,10 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 						facial_hair_color = sanitize_hexcolor(new_facial)
 
 				if("facial_hairstyle")
-					needs_update = TRUE
 					var/new_facial_hairstyle = input(user, "Choose your character's facial-hairstyle:", "Character Preference")  as null|anything in facial_hairstyle_list_for_species(pref_species, null, mismatched_customization)
 					if(new_facial_hairstyle)
 						facial_hairstyle = new_facial_hairstyle
+						needs_update = TRUE
 
 				if("next_facehairstyle")
 					next_face_hairstyle()
@@ -2428,19 +2413,31 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					if (!isnull(desiredlength))
 						max_chat_length = clamp(desiredlength, 1, CHAT_MESSAGE_MAX_LENGTH)
 
+				if("choose_preview_background")
+					var/new_background = input(user, "Choose a background for your character preview", "Preview Background", background_state) as null|anything in background_state_options
+					if(new_background)
+						background_state = new_background
+						needs_update = TRUE
+
 		else
 			switch(href_list["preference"])
+				if("loadout_show_equipped")
+					show_loadout_equipped_items = !show_loadout_equipped_items
+				if("loadout_slot")
+					var/new_slot = text2num(href_list["slot"])
+					set_loadout_slot(new_slot)
+				if("loadout_new_slot")
+					set_loadout_slot(loadouts.len + 1)
 				if("reset_loadout")
 					var/action = tgui_alert(
 						user,
-						"Are you sure you want to reset your loadout?",
+						"Are you sure you want to reset your loadout slot?",
 						null,
 						list("Yes", "No")
 					)
 					if(action && action != "Yes")
 						return
-					loadout = list()
-					loadout_points = initial_loadout_points()
+					reset_loadout_slot()
 
 				if("mismatch")
 					mismatched_customization = !mismatched_customization
@@ -2593,6 +2590,8 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					toggles ^= SPLIT_ADMIN_TABS
 				if("toggle_prayers")
 					user.client.toggleprayers()
+				if("toggle_alooc")
+					user.client.toggle_admin_looc()
 				if("toggle_deadmin_always")
 					toggles ^= DEADMIN_ALWAYS
 				if("toggle_deadmin_antag")
@@ -2808,10 +2807,6 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 
 /// Sanitization checks to be performed before using these preferences.
 /datum/preferences/proc/sanitize_chosen_prefs()
-	if(!GLOB.roundstart_races[pref_species.id] && !(pref_species.id in (CONFIG_GET(keyed_list/roundstart_no_hard_check))))
-		pref_species = new /datum/species/human
-		save_character()
-
 	if(CONFIG_GET(flag/humans_need_surnames) && (pref_species.id == "human"))
 		var/firstspace = findtext(real_name, " ")
 		var/name_length = length(real_name)
@@ -2846,6 +2841,11 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	character.facial_hair_color = facial_hair_color
 	character.skin_tone = skin_tone
 	character.hairstyle = hairstyle
+	// By default the hair gradient style is None, but we do null checks down the road...
+	// So instead, if it is None, we set it to null. Easy.
+	character.hair_gradient_style_primary = (hair_gradient_style == "None" ? null : hair_gradient_style)
+	character.hair_gradient_color_primary = hair_gradient_color
+	character.hair_gradient_is_dye = hair_gradient_is_dye
 	character.facial_hairstyle = facial_hairstyle
 	character.underwear = underwear
 	character.underwear_color = underwear_color
@@ -2879,7 +2879,11 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			var/datum/augment_item/aug = GLOB.augment_items[augments[key]]
 			aug.apply(character, character_setup, src)
 
+	character.attributes.add_attributes(attributes)
+	character.attributes.add_skills(skills)
+
 	if(icon_updates)
+		character.icon_render_key = null //turns out if you don't set this to null update_body_parts does nothing, since it assumes the operation was cached
 		character.update_body()
 		character.update_hair()
 		character.update_body_parts()
@@ -2948,12 +2952,6 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	features["skin_color"] = sanitize_hexcolor(skintone2hex(skin_tone), 3, 0)
 	if(!allow_advanced_colors)
 		reset_colors()
-
-/datum/preferences/proc/initial_loadout_points()
-	if(GLOB.donator_list[parent.ckey])
-		return LOADOUT_POINTS_MAX_DONATOR
-	else
-		return LOADOUT_POINTS_MAX
 
 /datum/preferences/proc/CanBuyAugment(datum/augment_item/target_aug, datum/augment_item/current_aug)
 	//Check biotypes
@@ -3100,7 +3098,8 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	var/list/dat = list()
 	dat += "<center><b>Choose your languages:</b></center><br>"
 	dat += "Availability of the languages to choose from depends on your background. If you can't unlearn one, it means it is required for your background."
-	dat += "<BR><center><a href='?_src_=prefs;task=close_language'>Done</a></center>"
+	dat += "<br>A lot of jobs will require you to know the common language, you will be restricted from playing them if your character doesn't know it."
+	dat += "<br><center><a href='?_src_=prefs;task=close_language'>Done</a></center>"
 	dat += "<hr>"
 	var/current_ling_points = get_linguistic_points()
 	dat += "<b>Linguistic Points remaining: [current_ling_points]</b>"

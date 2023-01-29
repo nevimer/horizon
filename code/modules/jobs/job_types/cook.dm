@@ -17,11 +17,9 @@
 	paycheck = PAYCHECK_EASY
 	paycheck_department = ACCOUNT_SRV
 
-	liver_traits = list(TRAIT_CULINARY_METABOLISM)
-
 	display_order = JOB_DISPLAY_ORDER_COOK
 	bounty_types = CIV_JOB_CHEF
-	required_languages = null
+	required_languages = LESS_IMPORTANT_ROLE_LANGUAGE_REQUIREMENT
 	departments_list = list(
 		/datum/job_department/service,
 		)
@@ -85,7 +83,6 @@
 		/obj/item/sharpener = 1,
 		/obj/item/choice_beacon/ingredient = 1
 	)
-	skillchips = list(/obj/item/skillchip/job/chef)
 
 	id_trim = /datum/id_trim/job/cook
 

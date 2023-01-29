@@ -105,6 +105,18 @@
 /obj/machinery/atmospherics/proc/destroy_network()
 	return
 
+/obj/machinery/atmospherics/proc/set_on(active)
+	on = active
+	SEND_SIGNAL(src, COMSIG_ATMOS_MACHINE_SET_ON, on)
+
+/// This should only be called by SSair as part of the rebuild queue.
+/// Handles rebuilding pipelines after init or they've been changed.
+/obj/machinery/atmospherics/proc/rebuild_pipes()
+	var/list/targets = get_rebuild_targets()
+	rebuilding = FALSE
+	for(var/datum/pipeline/build_off as anything in targets)
+		build_off.build_pipeline(src) //This'll add to the expansion queue
+
 /**
  * Returns a list of new pipelines that need to be built up
  */
@@ -412,7 +424,7 @@
  *
  * Creates the image for the pipe underlay that all components use, called by get_pipe_underlay() in components_base.dm
  * Arguments:
- * * iconfile - path of the iconstate we are using (ex: 'icons/obj/atmospherics/components/thermomachine.dmi')
+ * * iconfile - path of the iconstate we are using (ex: 'icons/obj/atmospherics/components/heat_pump.dmi')
  * * iconstate - the image we are using inside the file
  * * direction - the direction of our device
  * * col - the color (in hex value, like #559900) that the pipe should have
@@ -505,7 +517,7 @@
  * Update the layer in which the pipe/device is in, that way pipes have consistent layer depending on piping_layer
  */
 /obj/machinery/atmospherics/proc/update_layer()
-	layer = initial(layer) + (piping_layer - PIPING_LAYER_DEFAULT) * PIPING_LAYER_LCHANGE + (GLOB.pipe_colors_ordered[pipe_color] * 0.01)
+	layer = initial(layer) + (piping_layer - PIPING_LAYER_DEFAULT) * PIPING_LAYER_LCHANGE
 
 /**
  * Called by the RPD.dm pre_attack(), overriden by pipes.dm

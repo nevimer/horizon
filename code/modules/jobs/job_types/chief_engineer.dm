@@ -25,8 +25,6 @@
 	paycheck = PAYCHECK_COMMAND
 	paycheck_department = ACCOUNT_ENG
 
-	liver_traits = list(TRAIT_ENGINEER_METABOLISM, TRAIT_ROYAL_METABOLISM)
-
 	display_order = JOB_DISPLAY_ORDER_CHIEF_ENGINEER
 	bounty_types = CIV_JOB_ENG
 
@@ -46,6 +44,8 @@
 	job_flags = JOB_ANNOUNCE_ARRIVAL | JOB_CREW_MANIFEST | JOB_EQUIP_RANK | JOB_CREW_MEMBER | JOB_NEW_PLAYER_JOINABLE | JOB_BOLD_SELECT_TEXT | JOB_REOPEN_ON_ROUNDSTART_LOSS
 
 	voice_of_god_power = 1.4 //Command staff has authority
+	
+	required_languages = IMPORTANT_ROLE_LANGUAGE_REQUIREMENT
 
 
 /datum/job/chief_engineer/get_captaincy_announcement(mob/living/captain)
@@ -72,8 +72,6 @@
 	box = /obj/item/storage/box/survival/engineer
 	pda_slot = ITEM_SLOT_LPOCKET
 	chameleon_extras = /obj/item/stamp/ce
-
-	skillchips = list(/obj/item/skillchip/job/engineer)
 
 	id_trim = /datum/id_trim/job/chief_engineer
 

@@ -36,9 +36,6 @@ Difficulty: Extremely Hard
 	wander = FALSE
 	del_on_death = TRUE
 	blood_volume = BLOOD_VOLUME_NORMAL
-	achievement_type = /datum/award/achievement/boss/demonic_miner_kill
-	crusher_achievement_type = /datum/award/achievement/boss/demonic_miner_crusher
-	score_achievement_type = /datum/award/score/demonic_miner_score
 	deathmessage = "falls to the ground, decaying into plasma particles."
 	deathsound = "bodyfall"
 	footstep_type = FOOTSTEP_MOB_HEAVY
@@ -310,7 +307,8 @@ Difficulty: Extremely Hard
 	INVOKE_ASYNC(user.dna, /datum/dna.proc/transfer_identity, clone)
 	clone.updateappearance(mutcolor_update=1)
 	var/turf/T = find_safe_turf()
-	user.forceMove(T)
+	if(T)
+		user.forceMove(T)
 	user.revive(full_heal = TRUE, admin_revive = TRUE)
 	INVOKE_ASYNC(user, /mob/living/carbon.proc/set_species, /datum/species/shadow)
 	to_chat(user, SPAN_NOTICE("You blink and find yourself in [get_area_name(T)]... feeling a bit darker."))

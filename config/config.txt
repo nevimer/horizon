@@ -1,6 +1,7 @@
 # You can use the "$include" directive to split your configs however you want
 
 $include game_options.txt
+$include client_features.txt
 $include dbconfig.txt
 $include comms.txt
 $include resources.txt
@@ -8,17 +9,20 @@ $include interviews.txt
 
 # You can use the @ character at the beginning of a config option to lock it from being edited in-game
 # Example usage:
-# @SERVERNAME tgstation
+# @SERVERNAME Unnamed Server
 # Which sets the SERVERNAME, and disallows admins from being able to change it using View Variables.
 # @LOG_TWITTER 0
 # Which explicitly disables LOG_TWITTER, as well as locking it.
 # There are various options which are hard-locked for security reasons.
 
-## Server name: This appears at the top of the screen in-game and in the BYOND hub. Uncomment and replace 'tgstation' with the name of your choice.
-# SERVERNAME tgstation
+## Server name: This appears at the top of the screen in-game and in the BYOND hub.
+# SERVERNAME Unnamed Server
+
+## Short description of the server, appears below the server name in the BYOND hub
+# SERVERDESC This server's description has not been set up yet.
 
 ## Server SQL name: This is the name used to identify the server to the SQL DB, distinct from SERVERNAME as it must be at most 32 characters.
-# SERVERSQLNAME tgstation
+# SERVERSQLNAME server1
 
 ## Station name: The name of the station as it is referred to in-game. If commented out, the game will generate a random name instead.
 STATIONNAME Space Station 13
@@ -239,17 +243,20 @@ CHECK_RANDOMIZER
 ## Don't set this to the same server, BYOND will automatically restart players to the server when it has restarted.
 # SERVER ss13.example.com:2506
 
+## website address
+# WEBSITEURL https://example.com
+
 ## forum address
-# FORUMURL http://tgstation13.org/phpBB/index.php
+# FORUMURL https://example.com/forum
 
 ## Wiki address
-# WIKIURL http://www.tgstation13.org/wiki
+# WIKIURL https://example.com/wiki
 
 ## Rules address
-# RULESURL http://www.tgstation13.org/wiki/Rules
+# RULESURL https://example.com/rules
 
-## Github address
-# GITHUBURL https://www.github.com/tgstation/tgstation
+## GitHub address
+# SOURCEREPOURL https://github.com/octocat/Hello-World
 
 ## Discord bot command prefix, if the discord bot is used
 # DISCORDBOTCOMMANDPREFIX ?
@@ -344,16 +351,23 @@ BYOND_MEMBER_BYPASS_POPCAP
 NOTIFY_NEW_PLAYER_AGE 0
 
 ## Notify admins when a player connects if their byond account was created in the last X days
-## Requires database
+##  Requires database
 NOTIFY_NEW_PLAYER_ACCOUNT_AGE 1
 
 ## Notify the irc channel when a new player makes their first connection
-##	Requres database
+##	Requires database
 #IRC_FIRST_CONNECTION_ALERT
 
 ## Deny all new connections by ckeys we haven't seen before (exempts admins and only denies the connection if the database is enabled and connected)
 ##	Requires database
 #PANIC_BUNKER
+
+## Allow accounts that are registered via other means to pass the bunker
+##  Requires database and PANIC_BUNKER
+#PANIC_BUNKER_DISCORD_REQUIRE
+
+## Custom message to show the client if they are not allowed access due to MFA
+#PANIC_BUNKER_DISCORD_REGISTER_MESSAGE Sorry but this server requires players to link their Discord account before playing! Please enter the following command, including the token, into this Server's Discord Guild.
 
 ## Uncomment to enable the interview system for players who are below the living hour requirement instead of explicitly blocking them from the server
 ## Note this requires the PANIC_BUNKER to be enabled to do anything.
@@ -419,13 +433,13 @@ AUTOADMIN_RANK Game Master
 ## These trigger for any version below (non-inclusive) the given version, so 510 triggers on 509 or lower.
 ## These messages will be followed by one stating the clients current version and the required version for clarity.
 ## If CLIENT_WARN_POPUP is uncommented a popup window with the message will be displayed instead
-#CLIENT_WARN_VERSION 511
+#CLIENT_WARN_VERSION 514
 #CLIENT_WARN_POPUP
-#CLIENT_WARN_MESSAGE Byond released 511 as the stable release. You can set the framerate your client runs at, which makes the game feel very different and cool. Shortly after its release we will end up using 511 client features and you will be forced to update.
-CLIENT_ERROR_VERSION 511
+#CLIENT_WARN_MESSAGE Please upgrade to BYOND 514 or higher as soon as possible. Your current version is not supported and you may run into issues.
+CLIENT_ERROR_VERSION 513
 CLIENT_ERROR_MESSAGE Your version of byond is not supported. Please upgrade.
 ## The minimum build needed for joining the server, if using 512, a good minimum build would be 1421 as that disables the Middle Mouse Button exploit.
-CLIENT_ERROR_BUILD 1421
+CLIENT_ERROR_BUILD 1538
 
 ## TOPIC RATE LIMITING
 ## This allows you to limit how many topic calls (clicking on an interface window) the client can do in any given game second and/or game minute.

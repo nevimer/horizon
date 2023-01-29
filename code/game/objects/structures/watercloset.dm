@@ -17,7 +17,6 @@
 	open = round(rand(0, 1))
 	update_appearance()
 
-
 /obj/structure/toilet/attack_hand(mob/living/user, list/modifiers)
 	. = ..()
 	if(.)
@@ -40,7 +39,6 @@
 				if(open)
 					GM.visible_message(SPAN_DANGER("[user] starts to give [GM] a swirlie!"), SPAN_USERDANGER("[user] starts to give you a swirlie..."))
 					swirlie = GM
-					var/was_alive = (swirlie.stat != DEAD)
 					if(do_after(user, 3 SECONDS, target = src, timed_action_flags = IGNORE_HELD_ITEM))
 						GM.visible_message(SPAN_DANGER("[user] gives [GM] a swirlie!"), SPAN_USERDANGER("[user] gives you a swirlie!"), SPAN_HEAR("You hear a toilet flushing."))
 						if(iscarbon(GM))
@@ -51,8 +49,6 @@
 						else
 							log_combat(user, GM, "swirlied (oxy)")
 							GM.adjustOxyLoss(5)
-					if(was_alive && swirlie.stat == DEAD && swirlie.client)
-						swirlie.client.give_award(/datum/award/achievement/misc/swirlie, swirlie) // just like space high school all over again!
 					swirlie = null
 				else
 					playsound(src.loc, 'sound/effects/bang.ogg', 25, TRUE)
@@ -156,6 +152,26 @@
 	anchored = TRUE
 	var/exposed = 0 // can you currently put an item inside
 	var/obj/item/hiddenitem = null // what's in the urinal
+
+/obj/structure/urinal/Initialize(mapload)
+	. = ..()
+	setDir(dir)
+
+/obj/structure/urinal/setDir(newdir)
+	. = ..()
+	switch(dir)
+		if(NORTH)
+			pixel_x = 0
+			pixel_y = -32
+		if(SOUTH)
+			pixel_x = 0
+			pixel_y = 32
+		if(EAST)
+			pixel_x = 32
+			pixel_y = 0
+		if(WEST)
+			pixel_x = -32
+			pixel_y = 0
 
 /obj/structure/urinal/directional/north
 	dir = SOUTH
@@ -285,6 +301,7 @@
 
 /obj/structure/sink/Initialize(mapload, bolt)
 	. = ..()
+	setDir(dir)
 	if(has_water_reclaimer)
 		create_reagents(100, NO_REACT)
 		reagents.add_reagent(dispensedreagent, 100)
@@ -431,6 +448,22 @@
 		drop_materials()
 	..()
 
+/obj/structure/sink/setDir(newdir)
+	. = ..()
+	switch(dir)
+		if(NORTH)
+			pixel_x = 0
+			pixel_y = -5
+		if(SOUTH)
+			pixel_x = 0
+			pixel_y = 20
+		if(EAST)
+			pixel_x = -15
+			pixel_y = 0
+		if(WEST)
+			pixel_x = 15
+			pixel_y = 0
+
 /obj/structure/sink/process(delta_time)
 	if(has_water_reclaimer && reagents.total_volume < reagents.maximum_volume)
 		reagents.add_reagent(dispensedreagent, reclaim_rate * delta_time)
@@ -450,6 +483,26 @@
 	if(!reclaiming)
 		reclaiming = TRUE
 		START_PROCESSING(SSfluids, src)
+
+/obj/structure/sink/directional/north
+	dir = NORTH
+	pixel_x = 0
+	pixel_y = -5
+
+/obj/structure/sink/directional/south
+	dir = SOUTH
+	pixel_x = 0
+	pixel_y = 20
+
+/obj/structure/sink/directional/east
+	dir = EAST
+	pixel_x = -15
+	pixel_y = 0
+
+/obj/structure/sink/directional/west
+	dir = WEST
+	pixel_x = 15
+	pixel_y = 0
 
 /obj/structure/sink/kitchen
 	name = "kitchen sink"

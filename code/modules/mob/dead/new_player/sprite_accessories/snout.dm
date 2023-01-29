@@ -54,6 +54,30 @@
 	name = "Big Beak"
 	icon_state = "bigbeak"
 
+/datum/sprite_accessory/snouts/mammal/bigbeakshort
+	name = "Big Beak Short"
+	icon_state = "bigbeakshort"
+
+/datum/sprite_accessory/snouts/mammal/slimbeak
+	name = "Slim Beak"
+	icon_state = "slimbeak"
+
+/datum/sprite_accessory/snouts/mammal/slimbeakshort
+	name = "Slim Beak Short"
+	icon_state = "slimbeakshort"
+
+/datum/sprite_accessory/snouts/mammal/slimbeakalt
+	name = "Slim Beak Alt"
+	icon_state = "slimbeakalt"
+
+/datum/sprite_accessory/snouts/mammal/hookbeak
+	name = "Hook Beak"
+	icon_state = "hookbeak"
+
+/datum/sprite_accessory/snouts/mammal/hookbeakbig
+	name = "Hook Beak Big"
+	icon_state = "hookbeakbig"
+
 /datum/sprite_accessory/snouts/mammal/bug
 	name = "Bug"
 	icon_state = "bug"
@@ -370,3 +394,20 @@
 	icon_state = "alienlizardteeth"
 	color_src = USE_ONE_COLOR
 	extra = TRUE
+
+/datum/sprite_accessory/snouts/synthanthro
+	icon = 'icons/mob/sprite_accessory/synthanthro_snouts.dmi'
+	color_src = USE_MATRIXED_COLORS
+	recommended_species = list("synthanthro")
+
+/datum/sprite_accessory/snouts/synthanthro/protogen
+	name = "Protogen"
+	icon_state = "protogen"
+
+/datum/sprite_accessory/snouts/synthanthro/protogen_frame
+	name = "Protogen (Frame)"
+	icon_state = "protogenframe"
+
+/datum/sprite_accessory/snouts/synthanthro/protogen_bolt
+	name = "Protogen (Bolt)"
+	icon_state = "protogenbolt"

@@ -37,6 +37,8 @@
 		// if there are any chasms and lava on stations in the future, woah
 		var/turf/current_turf = get_turf(dog)
 		var/turf/adventure_turf = find_safe_turf(extended_safety_checks = TRUE, dense_atoms = FALSE)
+		if(!adventure_turf)
+			return
 
 		// Poof!
 		do_smoke(location=current_turf)
@@ -52,25 +54,12 @@
 	report_message = "Something seems to be wrong with the PDAs issued to you all this shift. Nothing too bad though."
 	trait_to_give = STATION_TRAIT_PDA_GLITCHED
 
-/datum/station_trait/announcement_intern
-	name = "Announcement Intern"
-	trait_type = STATION_TRAIT_NEUTRAL
-	weight = 1
-	show_in_report = TRUE
-	report_message = "Please be nice to him."
-	blacklist = list(/datum/station_trait/announcement_medbot)
-
-/datum/station_trait/announcement_intern/New()
-	. = ..()
-	SSstation.announcer = /datum/centcom_announcer/intern
-
 /datum/station_trait/announcement_medbot
 	name = "Announcement \"System\""
 	trait_type = STATION_TRAIT_NEUTRAL
 	weight = 1
 	show_in_report = TRUE
 	report_message = "Our announcement system is under scheduled maintanance at the moment. Thankfully, we have a backup."
-	blacklist = list(/datum/station_trait/announcement_intern)
 
 /datum/station_trait/announcement_medbot/New()
 	. = ..()

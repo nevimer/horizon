@@ -2,7 +2,7 @@
 	blood_volume = BLOOD_VOLUME_NORMAL
 	gender = MALE
 	pressure_resistance = 15
-	hud_possible = list(HEALTH_HUD,STATUS_HUD,ANTAG_HUD,GLAND_HUD,NANITE_HUD,DIAG_NANITE_FULL_HUD)
+	hud_possible = list(HEALTH_HUD,STATUS_HUD,ANTAG_HUD,GLAND_HUD)
 	has_limbs = 1
 	held_items = list(null, null)
 	num_legs = 0 //Populated on init through list/bodyparts
@@ -100,9 +100,6 @@
 	/// All of the scars a carbon has afflicted throughout their limbs
 	var/list/all_scars
 
-	/// Simple modifier for whether this mob can handle greater or lesser skillchip complexity. See /datum/mutation/human/biotechcompat/ for example.
-	var/skillchip_complexity_modifier = 0
-
 	/// Can other carbons be shoved into this one to make it fall?
 	var/can_be_shoved_into = FALSE
 
@@ -110,3 +107,8 @@
 
 	/// Cooldown for the next smell
 	var/next_smell = 0
+
+	/// List of descriptors this human has. Yes this has to be on a carbon level to be compatible with species
+	var/list/descriptors = list(
+		/datum/descriptor/attribute/strength
+	)

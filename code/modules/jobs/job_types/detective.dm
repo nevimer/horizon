@@ -21,12 +21,11 @@
 	paycheck = PAYCHECK_MEDIUM
 	paycheck_department = ACCOUNT_SEC
 
-	mind_traits = list(TRAIT_DONUT_LOVER)
-	liver_traits = list(TRAIT_LAW_ENFORCEMENT_METABOLISM)
-
 	display_order = JOB_DISPLAY_ORDER_DETECTIVE
 
 	banned_quirks = list(SEC_RESTRICTED_QUIRKS)
+
+	required_languages = IMPORTANT_ROLE_LANGUAGE_REQUIREMENT
 
 	mail_goodies = list(
 		/obj/item/storage/fancy/cigarettes = 25,

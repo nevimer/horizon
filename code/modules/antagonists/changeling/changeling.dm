@@ -91,7 +91,7 @@
 	emporium_action.Grant(owner.current)
 
 /datum/antagonist/changeling/on_gain()
-	if(give_objectives)
+	if(give_objectives && !uses_ambitions)
 		forge_objectives()
 	owner.current.grant_all_languages(FALSE, FALSE, TRUE) //Grants omnitongue. We are able to transform our body after all.
 	. = ..()
@@ -296,8 +296,6 @@
 	prof.undershirt = H.undershirt
 	prof.socks = H.socks
 
-	prof.skillchips = H.clone_skillchip_list(TRUE)
-
 	for(var/i in H.all_scars)
 		var/datum/scar/iter_scar = i
 		LAZYADD(prof.stored_scars, iter_scar.format())
@@ -410,9 +408,72 @@
 	//OBJECTIVES - random traitor objectives. Unique objectives "steal brain" and "identity theft".
 	//No escape alone because changelings aren't suited for it and it'd probably just lead to rampant robusting
 	//If it seems like they'd be able to do it in play, add a 10% chance to have to escape alone
+	var/escape_objective_possible = TRUE
 
-	objectives += new /datum/objective/ambitions()
+	switch(competitive_objectives ? rand(1,3) : 1)
+		if(1)
+			var/datum/objective/absorb/absorb_objective = new
+			absorb_objective.owner = owner
+			absorb_objective.gen_amount_goal(6, 8)
+			objectives += absorb_objective
+		if(2)
+			var/datum/objective/absorb_most/ac = new
+			ac.owner = owner
+			objectives += ac
+		if(3)
+			var/datum/objective/absorb_changeling/ac = new
+			ac.owner = owner
+			objectives += ac
 
+	if(prob(60))
+		if(prob(85))
+			var/datum/objective/steal/steal_objective = new
+			steal_objective.owner = owner
+			steal_objective.find_target()
+			objectives += steal_objective
+		else
+			var/datum/objective/download/download_objective = new
+			download_objective.owner = owner
+			download_objective.gen_amount_goal()
+			objectives += download_objective
+
+	var/list/active_ais = active_ais()
+	if(active_ais.len && prob(100/GLOB.joined_player_list.len))
+		var/datum/objective/destroy/destroy_objective = new
+		destroy_objective.owner = owner
+		destroy_objective.find_target()
+		objectives += destroy_objective
+	else
+		if(prob(70))
+			var/datum/objective/assassinate/kill_objective = new
+			kill_objective.owner = owner
+			kill_objective.find_target()
+			objectives += kill_objective
+		else
+			var/datum/objective/maroon/maroon_objective = new
+			maroon_objective.owner = owner
+			maroon_objective.find_target()
+			objectives += maroon_objective
+
+			if (!(locate(/datum/objective/escape) in objectives) && escape_objective_possible)
+				var/datum/objective/escape/escape_with_identity/identity_theft = new
+				identity_theft.owner = owner
+				identity_theft.target = maroon_objective.target
+				identity_theft.update_explanation_text()
+				objectives += identity_theft
+				escape_objective_possible = FALSE
+
+	if (!(locate(/datum/objective/escape) in objectives) && escape_objective_possible)
+		if(prob(50))
+			var/datum/objective/escape/escape_objective = new
+			escape_objective.owner = owner
+			objectives += escape_objective
+		else
+			var/datum/objective/escape/escape_with_identity/identity_theft = new
+			identity_theft.owner = owner
+			identity_theft.find_target()
+			objectives += identity_theft
+		escape_objective_possible = FALSE
 
 /datum/antagonist/changeling/admin_add(datum/mind/new_owner,mob/admin)
 	. = ..()
@@ -466,39 +527,6 @@
 		var/datum/scar/iter_scar = i
 		if(iter_scar.fake)
 			qdel(iter_scar)
-
-	// Do skillchip code after DNA code.
-	// There's a mutation that increases max chip complexity available, even though we force-implant skillchips.
-
-	// Remove existing skillchips.
-	user.destroy_all_skillchips(silent = FALSE)
-
-	// Add new set of skillchips.
-	for(var/chip in chosen_prof.skillchips)
-		var/chip_type = chip["type"]
-		var/obj/item/skillchip/skillchip = new chip_type(user)
-
-		if(!istype(skillchip))
-			stack_trace("Failure to implant changeling from [chosen_prof] with skillchip [skillchip]. Tried to implant with non-skillchip type [chip_type]")
-			qdel(skillchip)
-			continue
-
-		// Try force-implanting and activating. If it doesn't work, there's nothing much we can do. There may be some
-		// incompatibility out of our hands
-		var/implant_msg = user.implant_skillchip(skillchip, TRUE)
-		if(implant_msg)
-			// Hopefully recording the error message will help debug it.
-			stack_trace("Failure to implant changeling from [chosen_prof] with skillchip [skillchip]. Error msg: [implant_msg]")
-			qdel(skillchip)
-			continue
-
-		// Time to set the metadata. This includes trying to activate the chip.
-		var/set_meta_msg = skillchip.set_metadata(chip)
-
-		if(set_meta_msg)
-			// Hopefully recording the error message will help debug it.
-			stack_trace("Failure to activate changeling skillchip from [chosen_prof] with skillchip [skillchip] using [chip] metadata. Error msg: [set_meta_msg]")
-			continue
 
 	//vars hackery. not pretty, but better than the alternative.
 	for(var/slot in slot2type)
@@ -569,7 +597,6 @@
 	var/undershirt
 	var/socks
 
-	var/list/skillchips = list()
 	/// What scars the target had when we copied them, in string form (like persistent scars)
 	var/list/stored_scars
 	/// Icon snapshot of the profile
@@ -599,7 +626,6 @@
 	newprofile.socks = socks
 	newprofile.worn_icon_list = worn_icon_list.Copy()
 	newprofile.worn_icon_state_list = worn_icon_state_list.Copy()
-	newprofile.skillchips = skillchips.Copy()
 	newprofile.stored_scars = stored_scars.Copy()
 	newprofile.profile_snapshot = profile_snapshot
 	newprofile.id_icon = id_icon

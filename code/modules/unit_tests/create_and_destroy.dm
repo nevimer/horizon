@@ -110,6 +110,8 @@
 	ignore += typesof(/atom/movable/plane_master_controller)
 	//Magic hands from the cult are managed by their spells
 	ignore += typesof(/obj/item/melee/blood_magic)
+	//Spews warnings about not causing a change as there is no wall
+	ignore += typesof(/obj/effect/mapping_helpers/paint_wall)
 
 	var/list/cached_contents = spawn_at.contents.Copy()
 
@@ -118,6 +120,8 @@
 	var/baseturf_count = length(spawn_at.baseturfs)
 
 	for(var/type_path in typesof(/atom/movable, /turf) - ignore) //No areas please
+		if(is_abstract(type_path))
+			continue
 		if(ispath(type_path, /turf))
 			spawn_at.ChangeTurf(type_path, /turf/baseturf_skipover)
 			//We change it back to prevent pain, please don't ask

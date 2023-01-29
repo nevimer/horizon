@@ -25,25 +25,22 @@
 
 /datum/computer_file/program/arcade/proc/game_check(mob/user)
 	sleep(5)
-	user?.mind?.adjust_experience(/datum/skill/gaming, 1)
 	if(boss_hp <= 0)
 		heads_up = "You have crushed [boss_name]! Rejoice!"
-		playsound(computer.loc, 'sound/arcade/win.ogg', 50)
+		playsound(computer.loc, 'sound/arcade/win.ogg', 20)
 		game_active = FALSE
 		program_icon_state = "arcade_off"
 		if(istype(computer))
 			computer.update_appearance()
 		ticket_count += 1
-		user?.mind?.adjust_experience(/datum/skill/gaming, 50)
 		sleep(10)
 	else if(player_hp <= 0 || player_mp <= 0)
 		heads_up = "You have been defeated... how will the station survive?"
-		playsound(computer.loc, 'sound/arcade/lose.ogg', 50)
+		playsound(computer.loc, 'sound/arcade/lose.ogg', 20)
 		game_active = FALSE
 		program_icon_state = "arcade_off"
 		if(istype(computer))
 			computer.update_appearance()
-		user?.mind?.adjust_experience(/datum/skill/gaming, 10)
 		sleep(10)
 
 /datum/computer_file/program/arcade/proc/enemy_check(mob/user)
@@ -58,17 +55,17 @@
 		return
 	if (boss_mp <= 5)
 		heads_up = "[boss_mpamt] magic power has been stolen from you!"
-		playsound(computer.loc, 'sound/arcade/steal.ogg', 50, TRUE)
+		playsound(computer.loc, 'sound/arcade/steal.ogg', 20, TRUE)
 		player_mp -= boss_mpamt
 		boss_mp += boss_mpamt
 	else if(boss_mp > 5 && boss_hp <12)
 		heads_up = "[boss_name] heals for [bossheal] health!"
-		playsound(computer.loc, 'sound/arcade/heal.ogg', 50, TRUE)
+		playsound(computer.loc, 'sound/arcade/heal.ogg', 20, TRUE)
 		boss_hp += bossheal
 		boss_mp -= boss_mpamt
 	else
 		heads_up = "[boss_name] attacks you for [boss_attackamt] damage!"
-		playsound(computer.loc, 'sound/arcade/hit.ogg', 50, TRUE)
+		playsound(computer.loc, 'sound/arcade/hit.ogg', 20, TRUE)
 		player_hp -= boss_attackamt
 
 	pause_state = FALSE
@@ -100,19 +97,14 @@
 	if(computer)
 		printer = computer.all_components[MC_PRINT]
 
-	var/gamerSkillLevel = 0
-	var/gamerSkill = 0
-	if(usr?.mind)
-		gamerSkillLevel = usr.mind.get_skill_level(/datum/skill/gaming)
-		gamerSkill = usr.mind.get_skill_modifier(/datum/skill/gaming, SKILL_RANDS_MODIFIER)
 	switch(action)
 		if("Attack")
 			var/attackamt = 0 //Spam prevention.
 			if(pause_state == FALSE)
-				attackamt = rand(2,6) + rand(0, gamerSkill)
+				attackamt = rand(2,6)
 			pause_state = TRUE
 			heads_up = "You attack for [attackamt] damage."
-			playsound(computer.loc, 'sound/arcade/hit.ogg', 50, TRUE)
+			playsound(computer.loc, 'sound/arcade/hit.ogg', 20, TRUE)
 			boss_hp -= attackamt
 			sleep(10)
 			game_check()
@@ -122,14 +114,12 @@
 			var/healamt = 0 //More Spam Prevention.
 			var/healcost = 0
 			if(pause_state == FALSE)
-				healamt = rand(6,8) + rand(0, gamerSkill)
+				healamt = rand(6,8)
 				var/maxPointCost = 3
-				if(gamerSkillLevel >= SKILL_LEVEL_JOURNEYMAN)
-					maxPointCost = 2
 				healcost = rand(1, maxPointCost)
 			pause_state = TRUE
 			heads_up = "You heal for [healamt] damage."
-			playsound(computer.loc, 'sound/arcade/heal.ogg', 50, TRUE)
+			playsound(computer.loc, 'sound/arcade/heal.ogg', 20, TRUE)
 			player_hp += healamt
 			player_mp -= healcost
 			sleep(10)
@@ -139,10 +129,10 @@
 		if("Recharge_Power")
 			var/rechargeamt = 0 //As above.
 			if(pause_state == FALSE)
-				rechargeamt = rand(4,7) + rand(0, gamerSkill)
+				rechargeamt = rand(4,7)
 			pause_state = TRUE
 			heads_up = "You regain [rechargeamt] magic power."
-			playsound(computer.loc, 'sound/arcade/mana.ogg', 50, TRUE)
+			playsound(computer.loc, 'sound/arcade/mana.ogg', 20, TRUE)
 			player_mp += rechargeamt
 			sleep(10)
 			game_check()

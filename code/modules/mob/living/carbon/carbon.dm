@@ -828,7 +828,7 @@
 		for(var/obj/item/restraints/R in contents) //actually remove cuffs from inventory
 			qdel(R)
 		update_handcuffed()
-	cure_all_traumas(TRAUMA_RESILIENCE_MAGIC)
+	cure_all_traumas(TRAUMA_RESILIENCE_WOUND)
 	..()
 
 /mob/living/carbon/can_be_revived()
@@ -1210,17 +1210,6 @@
 /// Returns if the carbon is wearing shock proof gloves
 /mob/living/carbon/proc/wearing_shock_proof_gloves()
 	return gloves?.siemens_coefficient == 0
-
-/// Modifies max_skillchip_count and updates active skillchips
-/mob/living/carbon/proc/adjust_skillchip_complexity_modifier(delta)
-	skillchip_complexity_modifier += delta
-
-	var/obj/item/organ/brain/brain = getorganslot(ORGAN_SLOT_BRAIN)
-
-	if(!brain)
-		return
-
-	brain.update_skillchips()
 
 
 /// Modifies the handcuffed value if a different value is passed, returning FALSE otherwise. The variable should only be changed through this proc.

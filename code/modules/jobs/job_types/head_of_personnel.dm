@@ -26,8 +26,6 @@
 	paycheck_department = ACCOUNT_SRV
 	bounty_types = CIV_JOB_RANDOM
 
-	liver_traits = list(TRAIT_ROYAL_METABOLISM)
-
 	display_order = JOB_DISPLAY_ORDER_HEAD_OF_PERSONNEL
 
 	banned_quirks = list(HEAD_RESTRICTED_QUIRKS)
@@ -42,6 +40,8 @@
 	job_flags = JOB_ANNOUNCE_ARRIVAL | JOB_CREW_MANIFEST | JOB_EQUIP_RANK | JOB_CREW_MEMBER | JOB_NEW_PLAYER_JOINABLE | JOB_BOLD_SELECT_TEXT | JOB_REOPEN_ON_ROUNDSTART_LOSS
 
 	voice_of_god_power = 1.4 //Command staff has authority
+	
+	required_languages = IMPORTANT_ROLE_LANGUAGE_REQUIREMENT
 
 
 /datum/job/head_of_personnel/get_captaincy_announcement(mob/living/captain)

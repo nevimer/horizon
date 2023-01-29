@@ -15,8 +15,6 @@
 	paycheck = PAYCHECK_MEDIUM
 	paycheck_department = ACCOUNT_CAR
 
-	liver_traits = list(TRAIT_PRETENDER_ROYAL_METABOLISM)
-
 	display_order = JOB_DISPLAY_ORDER_QUARTERMASTER
 	bounty_types = CIV_JOB_RANDOM
 	departments_list = list(
@@ -31,6 +29,8 @@
 
 
 	banned_quirks = list(HEAD_RESTRICTED_QUIRKS) //Not a head.. YET
+	
+	required_languages = IMPORTANT_ROLE_LANGUAGE_REQUIREMENT
 
 /datum/outfit/job/quartermaster
 	name = "Quartermaster"
