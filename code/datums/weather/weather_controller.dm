@@ -77,3 +77,12 @@
 							/datum/weather/snowfall = 20,
 							/datum/weather/snowfall/heavy = 20,
 							/datum/weather/hailstorm = 20)
+
+/datum/weather_controller/gaia
+		possible_weathers = list(/datum/weather/snow_storm = 50,
+							/datum/weather/snowfall = 20,
+							/datum/weather/snowfall/heavy = 20,
+							/datum/weather/hailstorm = 20,
+							/datum/weather/ash_storm = 90,
+							/datum/weather/ash_storm/emberfall = 10,
+							)

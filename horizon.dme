@@ -2556,6 +2556,7 @@
 #include "code\modules\lighting\lighting_source.dm"
 #include "code\modules\lighting\lighting_turf.dm"
 #include "code\modules\map_content\deltastation_define.dm"
+#include "code\modules\map_content\gaia_define.dm"
 #include "code\modules\map_content\icebox_define.dm"
 #include "code\modules\map_content\kilostation_define.dm"
 #include "code\modules\map_content\metastation_define.dm"
