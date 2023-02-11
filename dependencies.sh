@@ -5,14 +5,14 @@
 
 # byond version
 export BYOND_MAJOR=514
-export BYOND_MINOR=1575
+export BYOND_MINOR=1589
 
 #rust_g git tag
 export RUST_G_VERSION=0.5.0
 
 #node version
-export NODE_VERSION=12
-export NODE_VERSION_PRECISE=12.22.4
+export NODE_VERSION=18
+export NODE_VERSION_PRECISE=18.14.0
 
 # SpacemanDMM git tag
 export SPACEMAN_DMM_VERSION=suite-1.7.1
