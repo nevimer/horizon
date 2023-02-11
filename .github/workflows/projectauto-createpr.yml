@@ -4,11 +4,11 @@
 # Creates a new card in the project in the correct column based on draft status
 name: ProjectAuto ¦ Create Project card
 
-# Controls when the action will run. 
+# Controls when the action will run.
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
   pull_request:
-    branches: [ main ]
+    branches: [ spacebar ]
     types: [ opened ]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel

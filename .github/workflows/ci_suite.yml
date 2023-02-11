@@ -2,7 +2,7 @@ name: CI Suite
 on:
   push:
     branches:
-      - main
+      - spacebar
     paths:
       - '**.dll'
       - '**.dm'
@@ -19,7 +19,7 @@ on:
       - 'tools/ci/**'
   pull_request:
     branches:
-      - main
+      - spacebar
     paths:
       - '**.dll'
       - '**.dm'

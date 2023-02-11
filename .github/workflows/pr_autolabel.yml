@@ -7,7 +7,7 @@ on:
       - synchronize
       - edited
     branches:
-      - main
+      - spacebar
 
 jobs:
   label_new_pulls:
