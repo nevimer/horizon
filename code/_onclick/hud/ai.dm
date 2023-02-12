@@ -86,6 +86,16 @@
 	var/mob/living/silicon/ai/AI = usr
 	AI.announcement()
 
+/atom/movable/screen/ai/rcd //ESB EDIT ADDITION
+	name = "Toggle RCD"
+	icon_state = "botcall"
+
+/atom/movable/screen/ai/rcd/Click()
+	if(..())
+		return
+	var/mob/living/silicon/ai/AI = usr
+	AI.ai_toggle_rcd(button = src)
+// ESB EDIT END
 /atom/movable/screen/ai/call_shuttle
 	name = "Call Emergency Shuttle"
 	icon_state = "call_shuttle"
@@ -243,6 +253,12 @@
 	using.hud = src
 	static_inventory += using
 
+//RCD - ESB EDIT ADDITION
+	using = new /atom/movable/screen/ai/rcd()
+	using.screen_loc = ui_ai_rcd
+	using.hud = src
+	static_inventory += using
+//ESB EDIT END
 //Shuttle
 	using = new /atom/movable/screen/ai/call_shuttle()
 	using.screen_loc = ui_ai_shuttle

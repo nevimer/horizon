@@ -236,3 +236,5 @@
 	var/typing_indicator = FALSE
 	/// Time at which the next emote can be played
 	var/next_emote_time = 1
+
+	var/mob/teleop = null //? This is mainly used for adghosts to hear things from their actual body.

@@ -16,7 +16,7 @@
 	var/static_visibility_range = 16
 	var/ai_detector_visible = TRUE
 	var/ai_detector_color = COLOR_RED
-
+	var/image/guiholder
 /mob/camera/ai_eye/Initialize()
 	. = ..()
 	GLOB.aiEyes += src

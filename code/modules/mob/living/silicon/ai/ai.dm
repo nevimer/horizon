@@ -101,12 +101,15 @@
 	var/cam_prev
 
 	var/datum/robot_control/robot_control
+	var/obj/item/construction/rcd/arcd/ai/ai_rcd
+	var/toggle_rcd = FALSE
 
 /mob/living/silicon/ai/Initialize(mapload, datum/ai_laws/L, mob/target_ai)
 	. = ..()
 	if(!target_ai) //If there is no player/brain inside.
 		new/obj/structure/ai_core/deactivated(loc) //New empty terminal.
 		return INITIALIZE_HINT_QDEL //Delete AI.
+	ai_rcd = new /obj/item/construction/rcd/arcd/ai(src)
 
 	ADD_TRAIT(src, TRAIT_NO_TELEPORT, AI_ANCHOR_TRAIT)
 	if(L && istype(L, /datum/ai_laws))
@@ -319,6 +322,33 @@
 
 	viewalerts = 1
 	src << browse(dat, "window=aialerts&can_close=0")
+
+/mob/living/silicon/ai/proc/ai_toggle_rcd(button)
+	var/atom/movable/hudbutton = button
+	switch(toggle_rcd)
+		if(FALSE)
+			toggle_rcd = TRUE
+		if(TRUE)
+			toggle_rcd = FALSE
+	. = toggle_rcd
+	if(toggle_rcd)
+		to_chat(src, SPAN_NOTICE("You turn on your [ai_rcd]."))
+		hudbutton.maptext = MAPTEXT("ON")
+		animate(hudbutton, 1 SECONDS, pixel_y = 32, easing = BOUNCE_EASING, maptext_y = 16)
+		ai_use_rcd(hudbutton)
+	else
+		hudbutton.maptext = MAPTEXT("")
+		animate(hudbutton, 1 SECONDS, pixel_y = initial(pixel_y), easing = BOUNCE_EASING, maptext_y = 0)
+		to_chat(src, SPAN_NOTICE("You turn off your [ai_rcd]."))
+		ai_use_rcd(hudbutton)
+
+/mob/living/silicon/ai/proc/ai_use_rcd()
+	if(control_disabled)
+		to_chat(usr, SPAN_WARNING("Wireless control is disabled!"))
+		return
+
+	ai_rcd.attack_self(parent)
+
 
 /mob/living/silicon/ai/proc/ai_call_shuttle()
 	if(control_disabled)

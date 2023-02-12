@@ -869,7 +869,17 @@ GLOBAL_VAR_INIT(icon_holographic_window, init_holographic_window())
 
 
 // Ranged RCD
-
+/obj/item/construction/rcd/arcd/ai // ESB EDIT BEGIN
+	max_matter = INFINITY
+	matter = INFINITY
+	upgrade = RCD_UPGRADE_FRAMES | RCD_UPGRADE_SIMPLE_CIRCUITS | RCD_UPGRADE_FURNISHING
+/obj/item/construction/rcd/arcd/ai/afterattack(atom/A, mob/user)
+	pre_attack(A, user)
+	. = ..() // may run twice
+/obj/item/construction/rcd/arcd/ai/afterattack_secondary(atom/target, mob/user, proximity_flag, click_parameters)
+	pre_attack_secondary(target, user)
+	return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
+// ESB EDIT END
 
 /obj/item/construction/rcd/arcd
 	name = "advanced rapid-construction-device (ARCD)"

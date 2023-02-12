@@ -127,6 +127,7 @@
 #define ui_alien_language_menu "EAST-4:20,SOUTH:5"
 
 //AI
+#define ui_ai_rcd "SOUTH+1:6,WEST" // ESB EDIT ADDITION
 #define ui_ai_core "SOUTH:6,WEST"
 #define ui_ai_camera_list "SOUTH:6,WEST+1"
 #define ui_ai_track_with_camera "SOUTH:6,WEST+2"

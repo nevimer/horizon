@@ -85,7 +85,14 @@
 		waypoint_mode = 0
 		set_waypoint(A)
 		return
-
+	if(toggle_rcd)
+		var/area/AIarea = get_area(src)
+		var/obj/machinery/power/apc/theAPC
+		for(var/obj/machinery/power/apc/APC in AIarea)
+			if(!(APC.machine_stat & BROKEN))
+				theAPC = APC
+		if(theAPC.directly_use_power(400))
+			ai_rcd?.pre_attack(A, src, params)
 	A.attack_ai(src)
 
 /*
