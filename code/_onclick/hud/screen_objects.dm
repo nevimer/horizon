@@ -50,9 +50,9 @@
 	icon = null
 	icon_state = null
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
-	screen_loc = "CENTER-7,CENTER-7"
-	maptext_height = 480
-	maptext_width = 480
+	screen_loc = "TOP,CENTER-1"
+	maptext_height = 128
+	maptext_width = 128
 
 /atom/movable/screen/swap_hand
 	plane = HUD_PLANE
@@ -439,7 +439,7 @@
 /atom/movable/screen/storage
 	name = "storage"
 	icon_state = "block"
-	screen_loc = "7,7 to 10,8"
+	screen_loc = "LEFT,BOTTOM to RIGHT,TOP"
 	plane = HUD_PLANE
 
 /atom/movable/screen/storage/Initialize(mapload, new_master)
@@ -668,7 +668,7 @@
 /atom/movable/screen/splash
 	icon = 'icons/blank_title.png'
 	icon_state = ""
-	screen_loc = "1,1"
+	screen_loc = "CENTER-7,CENTER-7"
 	plane = SPLASHSCREEN_PLANE
 	var/client/holder
 

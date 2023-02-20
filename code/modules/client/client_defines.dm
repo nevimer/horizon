@@ -215,3 +215,6 @@
 	var/datum/jukebox_controller/jukebox_controller
 	/// Datum holding the UI states and logic for slapcraft handbook.
 	var/datum/slapcraft_handbook/slapcraft_book
+	/// Holder variables for viewport scaling.
+	var/last_view_x_dim = 7
+	var/last_view_y_dim = 7

@@ -268,7 +268,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	itemoutline_pref = sanitize_integer(itemoutline_pref, FALSE, TRUE, initial(itemoutline_pref))
 	auto_fit_viewport	= sanitize_integer(auto_fit_viewport, FALSE, TRUE, initial(auto_fit_viewport))
 	widescreenpref  = sanitize_integer(widescreenpref, FALSE, TRUE, initial(widescreenpref))
-	pixel_size = sanitize_float(pixel_size, PIXEL_SCALING_AUTO, PIXEL_SCALING_3X, 0.5, initial(pixel_size))
+	pixel_size = sanitize_float(pixel_size, 16, 256, 2, initial(pixel_size))
 	scaling_method  = sanitize_text(scaling_method, initial(scaling_method))
 	ghost_form = sanitize_inlist(ghost_form, GLOB.ghost_forms, initial(ghost_form))
 	ghost_orbit = sanitize_inlist(ghost_orbit, GLOB.ghost_orbits, initial(ghost_orbit))
