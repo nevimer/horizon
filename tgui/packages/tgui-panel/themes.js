@@ -22,7 +22,7 @@ let setClientThemeTimer = null;
  * There's no way round it. We're essentially changing the skin by hand.
  * It's painful but it works, and is the way Lummox suggested.
  */
-export const setClientTheme = name => {
+export const setClientTheme = (name) => {
   // Transmit once for fast updates and again in a little while in case we won
   // the race against statbrowser init.
   clearInterval(setClientThemeTimer);
@@ -51,10 +51,10 @@ export const setClientTheme = name => {
       'rules.text-color': '#000000',
       'wiki.background-color': 'none',
       'wiki.text-color': '#000000',
-      'community.background-color': 'none',
-      'community.text-color': '#000000',
-      'sourcecode.background-color': 'none',
-      'sourcecode.text-color': '#000000',
+      'forum.background-color': 'none',
+      'forum.text-color': '#000000',
+      'github.background-color': 'none',
+      'github.text-color': '#000000',
       'report-issue.background-color': 'none',
       'report-issue.text-color': '#000000',
       // Status and verb tabs
@@ -79,6 +79,8 @@ export const setClientTheme = name => {
       'asset_cache_browser.text-color': '#000000',
       'tooltip.background-color': 'none',
       'tooltip.text-color': '#000000',
+      'input.background-color': '#FFFFFF',
+      'input.text-color': '#000000',
     });
   }
   if (name === 'dark') {
@@ -101,10 +103,10 @@ export const setClientTheme = name => {
       'rules.text-color': COLOR_DARK_TEXT,
       'wiki.background-color': '#494949',
       'wiki.text-color': COLOR_DARK_TEXT,
-      'community.background-color': '#494949',
-      'community.text-color': COLOR_DARK_TEXT,
-      'sourcecode.background-color': '#3a3a3a',
-      'sourcecode.text-color': COLOR_DARK_TEXT,
+      'forum.background-color': '#494949',
+      'forum.text-color': COLOR_DARK_TEXT,
+      'github.background-color': '#3a3a3a',
+      'github.text-color': COLOR_DARK_TEXT,
       'report-issue.background-color': '#492020',
       'report-issue.text-color': COLOR_DARK_TEXT,
       // Status and verb tabs
@@ -129,6 +131,8 @@ export const setClientTheme = name => {
       'asset_cache_browser.text-color': COLOR_DARK_TEXT,
       'tooltip.background-color': COLOR_DARK_BG,
       'tooltip.text-color': COLOR_DARK_TEXT,
+      'input.background-color': COLOR_DARK_BG_DARKER,
+      'input.text-color': COLOR_DARK_TEXT,
     });
   }
 };
