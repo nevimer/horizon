@@ -20,7 +20,7 @@ OldPWD="$PWD"
 cd "$Bootstrap/../.."
 . ./dependencies.sh  # sets PYTHON_VERSION
 cd "$OldPWD"
-PythonVersion="3.19.6" # Just use it aaaa....
+PythonVersion="$PYTHON_VERSION"
 PythonDir="$Cache/python-$PythonVersion"
 PythonExe="$PythonDir/python.exe"
 Log="$Cache/last-command.log"
