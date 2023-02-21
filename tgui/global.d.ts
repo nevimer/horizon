@@ -21,13 +21,6 @@ declare module '*.svg' {
   export default content;
 }
 
-namespace JSX {
-  interface IntrinsicElements {
-    marquee: any;
-    blink: any;
-  }
-}
-
 type TguiMessage = {
   type: string;
   payload?: any;
