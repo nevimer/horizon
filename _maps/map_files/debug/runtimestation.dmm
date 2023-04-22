@@ -1472,6 +1472,10 @@
 	},
 /turf/open/floor/plating,
 /area/cargo/storage)
+"fd" = (
+/obj/structure/sign/departments/nanites,
+/turf/closed/wall/r_wall,
+/area/construction)
 "fe" = (
 /obj/machinery/computer/cargo{
 	dir = 8
@@ -2049,9 +2053,11 @@
 /turf/open/floor/iron,
 /area/hallway/primary/central)
 "kp" = (
-/obj/structure/server,
+/obj/machinery/computer/rdconsole{
+	dir = 1
+	},
 /turf/open/floor/iron/dark,
-/area/science/misc_lab)
+/area/science/nanite)
 "kQ" = (
 /obj/effect/mapping_helpers/smart_pipe/manifold4w/supply/hidden{
 	dir = 8
@@ -2086,7 +2092,7 @@
 	dir = 8
 	},
 /turf/open/floor/iron/dark,
-/area/science/misc_lab)
+/area/science/nanite)
 "nq" = (
 /obj/effect/turf_decal/stripes/corner{
 	dir = 8
@@ -2130,6 +2136,12 @@
 /obj/machinery/door/airlock,
 /turf/open/floor/plating,
 /area/engineering/atmos)
+"qd" = (
+/obj/machinery/airalarm/unlocked{
+	pixel_y = 23
+	},
+/turf/open/floor/iron/dark,
+/area/science/nanite)
 "qQ" = (
 /turf/open/floor/engine,
 /area/cargo/miningoffice)
@@ -2152,9 +2164,10 @@
 /turf/open/floor/iron,
 /area/hallway/primary/central)
 "sr" = (
-/obj/machinery/door/airlock/shell,
-/turf/open/floor/iron/dark,
-/area/construction)
+/obj/machinery/public_nanite_chamber,
+/obj/effect/turf_decal/stripes/box,
+/turf/open/floor/iron,
+/area/hallway/secondary/entry)
 "sE" = (
 /obj/machinery/power/rtg/advanced,
 /obj/structure/cable,
@@ -2165,10 +2178,6 @@
 /obj/item/storage/box/shipping,
 /turf/open/floor/iron,
 /area/commons/storage/primary)
-"tE" = (
-/obj/machinery/door/airlock/research,
-/turf/open/floor/iron/dark,
-/area/construction)
 "tG" = (
 /obj/docking_port/stationary/random{
 	id = "pod_lavaland";
@@ -2176,10 +2185,6 @@
 	},
 /turf/open/space/basic,
 /area/space)
-"tV" = (
-/obj/structure/bot,
-/turf/open/floor/iron/dark,
-/area/science/misc_lab)
 "uf" = (
 /obj/structure/fans/tiny/invisible,
 /obj/effect/turf_decal/stripes/line{
@@ -2207,25 +2212,14 @@
 /turf/open/floor/iron,
 /area/commons/storage/primary)
 "uQ" = (
+/obj/machinery/nanite_programmer,
 /obj/machinery/light/directional/west,
-/obj/structure/table,
-/obj/item/compact_remote,
-/obj/item/compact_remote,
-/obj/item/compact_remote{
-	pixel_x = -5
-	},
-/obj/item/controller{
-	pixel_x = 5
-	},
-/obj/item/controller{
-	pixel_x = 5
-	},
 /turf/open/floor/iron/dark,
-/area/science/misc_lab)
+/area/science/nanite)
 "vm" = (
-/mob/living/circuit_drone,
+/obj/machinery/computer/nanite_cloud_controller,
 /turf/open/floor/iron/dark,
-/area/science/misc_lab)
+/area/science/nanite)
 "vv" = (
 /obj/machinery/door/airlock,
 /turf/open/floor/plating,
@@ -2278,7 +2272,7 @@
 /area/hallway/primary/central)
 "wU" = (
 /turf/closed/wall/r_wall,
-/area/science/misc_lab)
+/area/science/nanite)
 "yK" = (
 /obj/structure/fans/tiny/invisible,
 /obj/effect/turf_decal/stripes/line{
@@ -2292,11 +2286,9 @@
 /turf/open/floor/iron,
 /area/engineering/atmos)
 "AE" = (
-/obj/machinery/airalarm/unlocked{
-	pixel_y = 23
-	},
+/obj/item/disk/tech_disk/debug,
 /turf/open/floor/iron/dark,
-/area/science/misc_lab)
+/area/science/nanite)
 "AP" = (
 /obj/effect/mapping_helpers/smart_pipe/manifold4w/supply/hidden{
 	dir = 8
@@ -2334,9 +2326,11 @@
 /turf/open/floor/iron,
 /area/cargo/miningoffice)
 "CT" = (
-/obj/machinery/component_printer,
+/obj/machinery/computer/nanite_chamber_control{
+	dir = 8
+	},
 /turf/open/floor/iron/dark,
-/area/science/misc_lab)
+/area/science/nanite)
 "CV" = (
 /obj/effect/mapping_helpers/smart_pipe/manifold4w/supply/hidden,
 /obj/structure/cable,
@@ -2344,11 +2338,9 @@
 /area/medical/chemistry)
 "Df" = (
 /obj/machinery/light/directional/east,
-/obj/item/integrated_circuit/loaded/hello_world,
-/obj/item/integrated_circuit/loaded/speech_relay,
-/obj/structure/rack,
+/mob/living/carbon/human,
 /turf/open/floor/iron/dark,
-/area/science/misc_lab)
+/area/science/nanite)
 "DW" = (
 /obj/effect/turf_decal/tile/blue{
 	dir = 8
@@ -2405,7 +2397,7 @@
 "Ir" = (
 /obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating,
-/area/science/misc_lab)
+/area/science/nanite)
 "Iy" = (
 /obj/structure/closet/secure_closet/research_director{
 	locked = 0
@@ -2452,13 +2444,13 @@
 /turf/open/floor/iron/dark,
 /area/medical/chemistry)
 "LH" = (
+/obj/machinery/door/airlock,
 /obj/structure/cable,
 /obj/effect/mapping_helpers/smart_pipe/manifold4w/supply/hidden{
 	dir = 4
 	},
-/obj/machinery/door/airlock/research,
-/turf/open/floor/iron/dark,
-/area/science/misc_lab)
+/turf/open/floor/plating,
+/area/science/nanite)
 "LW" = (
 /obj/effect/turf_decal/stripes/line,
 /turf/open/floor/iron,
@@ -2479,9 +2471,9 @@
 /turf/open/floor/iron,
 /area/engineering/atmos)
 "Nb" = (
-/obj/machinery/bci_implanter,
+/obj/machinery/nanite_chamber,
 /turf/open/floor/iron/dark,
-/area/science/misc_lab)
+/area/science/nanite)
 "Nc" = (
 /obj/machinery/chem_recipe_debug,
 /turf/open/floor/iron,
@@ -2496,13 +2488,9 @@
 /turf/open/floor/iron,
 /area/science)
 "Ov" = (
-/obj/structure/table,
-/obj/machinery/cell_charger,
-/obj/item/stock_parts/cell/bluespace,
-/obj/item/stock_parts/cell/bluespace,
-/obj/item/stock_parts/cell/bluespace,
+/obj/machinery/nanite_program_hub,
 /turf/open/floor/iron/dark,
-/area/science/misc_lab)
+/area/science/nanite)
 "OU" = (
 /obj/item/disk/tech_disk/debug,
 /turf/open/floor/iron,
@@ -2586,7 +2574,7 @@
 	dir = 4
 	},
 /turf/open/floor/iron/dark,
-/area/science/misc_lab)
+/area/science/nanite)
 "Vy" = (
 /obj/structure/cable,
 /turf/open/floor/iron,
@@ -2617,10 +2605,6 @@
 /obj/structure/cable,
 /turf/open/floor/iron,
 /area/engineering/gravity_generator)
-"WK" = (
-/obj/structure/money_bot,
-/turf/open/floor/iron/dark,
-/area/science/misc_lab)
 "WT" = (
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 8
@@ -2650,17 +2634,16 @@
 /area/science)
 "XN" = (
 /obj/structure/table,
-/obj/item/organ/cyberimp/bci{
-	pixel_y = 5
+/obj/item/nanite_remote{
+	pixel_x = -4;
+	pixel_y = 4
 	},
-/obj/item/organ/cyberimp/bci{
-	pixel_y = 5
-	},
-/obj/item/organ/cyberimp/bci{
-	pixel_y = 5
+/obj/item/nanite_scanner{
+	pixel_x = 4;
+	pixel_y = -4
 	},
 /turf/open/floor/iron/dark,
-/area/science/misc_lab)
+/area/science/nanite)
 "XR" = (
 /obj/effect/mapping_helpers/smart_pipe/manifold4w/supply/hidden{
 	dir = 9
@@ -2678,15 +2661,9 @@
 /area/commons/storage/primary)
 "Ym" = (
 /obj/structure/table,
-/obj/item/storage/toolbox/electrical,
-/obj/item/multitool/circuit{
-	pixel_x = -4
-	},
-/obj/item/multitool{
-	pixel_x = 4
-	},
+/obj/item/storage/box/disks_nanite,
 /turf/open/floor/iron/dark,
-/area/science/misc_lab)
+/area/science/nanite)
 "Yy" = (
 /obj/machinery/light/directional/north,
 /obj/machinery/rnd/production/circuit_imprinter/department,
@@ -2700,7 +2677,7 @@
 /area/engineering/atmos)
 "ZP" = (
 /turf/open/floor/iron/dark,
-/area/science/misc_lab)
+/area/science/nanite)
 
 (1,1,1) = {"
 aa
@@ -5874,7 +5851,7 @@ eh
 eh
 eh
 rn
-eh
+sr
 eh
 ge
 aa
@@ -6148,11 +6125,11 @@ dn
 dn
 dn
 dL
-sr
+ef
 nn
 ZP
 ZP
-WK
+ZP
 Ir
 aa
 aa
@@ -6240,7 +6217,7 @@ dn
 dn
 dn
 dL
-cN
+ef
 AE
 kp
 XN
@@ -6332,11 +6309,11 @@ dn
 dn
 dn
 dL
-tE
+cN
+qd
 ZP
 ZP
 ZP
-tV
 Ir
 aa
 aa
@@ -6424,7 +6401,7 @@ dn
 dn
 dn
 dL
-cN
+fd
 ZP
 Df
 Nb
